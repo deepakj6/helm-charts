@@ -1,0 +1,29 @@
+coursename: {{ .Values.course.name }} 
+coursename: {{ quote .Values.course.name }} - quote function
+coursename: {{ .Values.course.name | quote }} - pipe with quote
+coursename: {{ .Values.course.name | upper | quote }} - multiple functions
+coursename: {{ .Values.course.name | upper}}{{ .Values.course.punct | repeat 3 }} - repeat function
+coursename: {{ .Values.course.name | default "K8s" | upper }} - default value (hint: remove course.name from values.yaml)
+
+Date functions
+--------------
+
+creationDate: {{ now | date "02-01-2006" }}
+creationDate: {{ dateInZone "2006-01-02" (now) "IST" }}
+
+
+Lookup function:
+----------------
+
+course-info.properties: |
+    coursename: {{ .Values.course.name | default "K8s" | upper }}
+    
+    creationDate: {{ dateInZone "2006-01-02" (now) "IST" }}
+  configMapName: {{ range $index, $configmap := (lookup "v1" "ConfigMap" "dev" "").items }}
+    {{ $configmap }}
+{{ end }}
+
+
+  credentials: {{ htpasswd "admin" "password@123" }}
+  password: {{ sha256sum "password@123"}}
+  createdAt: {{ ago .createdAt }}

@@ -1,0 +1,432 @@
+= Refactoring Charts - Best practices
+:stylesheet: boot-flatly.css
+:nofooter:
+:data-uri:
+:icons: font
+:linkattrs:
+
+The DevOps team wants to refactor the umbrella chart so that it is better re-usable and can be shared with other teams as well.
+Currently, the database connection string needs to be provided in values file. A better approach would be to build the string by using go templates, with the help of functions.
+Also, the name of the kubernetes service, deployment & other objects can be constructed using functions.
+
+== Learning Outcomes
+After completing the lab, you will be able to understand
+
+• Functions
+• Scope with “with”
+• Controlling Whitespaces & Indentations
+• Logical Operators, Flow Control (conditions & loops)
+• Variables
+• Helper Functions and Sub Templates
+
+=== Template file
+
+. Create template files for both the `api` and `mysql` charts
+
++
+`pages/charts/api/templates/_helpers.tpl` & `pages/charts/mysql/templates/_helpers.tpl`
++
+[source, shell script]
+-------------
+touch ~/workspace/helm-charts/pages/charts/api/templates/_helpers.tpl
+touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl
+-------------
+
+. Define `api.fullname` and `api.getdbserviceurl` functions inside `api` chart
++
+`pages/charts/api/templates/_helpers.tpl`
++
+[source, yaml]
+-------------
+{{- define "api.fullname" -}}
+{{- if .Values.fullnameOverride -}}
+{{- .Values.fullnameOverride -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "api.getdbserviceurl" -}}
+{{- list "jdbc:mysql://" .Values.mysql_svc_name "/" .Values.dbname | join "" | quote -}}
+{{- end -}}
+-------------
+
+. Define `mysql.fullname` and `mysql.getdbserviceurl` functions inside `mysql` chart
++
+`pages/charts/mysql/templates/_helpers.tpl`
++
+[source, yaml]
+-------------
+{{- define "mysql.fullname" -}}
+{{- if .Values.fullnameOverride -}}
+{{- .Values.fullnameOverride -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "mysql.getdbserviceurl" -}}
+{{- list "jdbc:mysql://" .Values.mysql_svc_name "/" .Values.env.MYSQL_DATABASE | join "" | quote -}}
+{{- end -}}
+-------------
+
+== Template and helper functions
+
+=== Update the manifest files for pages api service
+
+. Config map remains the same for pages api, since we want to ensure the configmap name to be the same as chart name, which is needed by the application.
++
+`pages/api/templates/config.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: v1
+data:
+  PAGE_CONTENT: {{ .Values.config.PAGE_CONTENT}}
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+------------------
++
+. Patch the name field for `pages/api/templates/secret.yaml`
++
+
+[source, yaml]
+------------------
+name: {{ include "api.fullname" . }}
+------------------
++
+. Update `pages/api/templates/service.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ include "api.fullname" . }}
+  name: {{ include "api.fullname" . }}
+spec:
+  ports:
+  - port: {{ .Values.service.port }}
+    protocol: {{ .Values.service.protocol }}
+    targetPort: {{ .Values.service.targetPort }}
+  selector:
+    app: {{ include "api.fullname" . }}
+  type: {{ .Values.service.type }}
+------------------
+
++
+. Update `pages/api/templates/deployment.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ include "api.fullname" . }}
+  name: {{ include "api.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "api.fullname" . }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: {{ include "api.fullname" . }}
+    spec:
+      containers:
+        - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          name: {{ .Chart.Name }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.deployment.containerPort }}
+          env:
+            - name: PAGE_CONTENT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Chart.Name }}
+                  key: PAGE_CONTENT
+            - name: SPRING_DATASOURCE_URL
+              value: {{ include "api.getdbserviceurl" . }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.env.SPRING_DATASOURCE_USERNAME | quote}}
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.fullname" . }}
+                  key: password
+            - name: DEBUG
+              value: {{ .Values.env.DEBUG | quote}}
+            - name: LOGGING_FILE_NAME
+              value: {{ .Values.env.LOGGING_FILE_NAME | quote}}
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
+              value: {{ .Values.env.LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB }}
+            - name: LOGGING_LEVEL_ROOT
+              value: {{ .Values.env.LOGGING_LEVEL_ROOT }}
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "*"
+          volumeMounts:
+            - name: node-dir
+              mountPath: /{{ .Release.Namespace }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.readinessProbe.tcpSocket.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.livenessProbe.httpGet.path }}
+              port: {{ .Values.livenessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+      volumes:
+        - name: node-dir
+          hostPath:
+            path: /{{ .Release.Namespace }}
+------------------
+
+=== Update the manifest files for mysql
+
+
+. Patch the name field for `pages/mysql/templates/config.yaml`
++
+
+[source, yaml]
+------------------
+name: {{ include "mysql.fullname" . }}
+------------------
+
+
+. Patch the name field for `pages/mysql/templates/secret.yaml`
++
+
+[source, yaml]
+------------------
+name: {{ include "mysql.fullname" . }}
+------------------
+
+. Update `pages/mysql/templates/service.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mysql_svc_name }}
+  labels:
+    app: {{ include "mysql.fullname" . }}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+  selector:
+    app: {{ include "mysql.fullname" . }}
+  type: {{ .Values.service.type }}
+------------------
+
+. Patch the name field for `pages/mysql/templates/storage-class.yaml`
+
++
+[source, yaml]
+------------------
+name: {{ include "mysql.fullname" . }}
+------------------
+
+
+. Update `pages/mysql/templates/pv.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "mysql.fullname" . }}-{{ .Release.Namespace }}
+  labels:
+    type: local
+spec:
+  storageClassName: {{ include "mysql.fullname" . }}
+  capacity:
+    storage: {{ .Values.pv.capacity.storage }}
+  accessModes:
+    - {{ .Values.pv.accessMode }}
+  hostPath:
+    path: {{ .Values.pv.hostPath.path }}
+
+------------------
+
++
+. Update `pages/mysql/templates/pvc.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "mysql.fullname" . }}
+spec:
+  storageClassName: {{ include "mysql.fullname" . }}
+  accessModes:
+    - {{ .Values.pv.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.resources.requests.storage }}
+------------------
+
++
+. Update `pages/mysql/templates/flyway-job.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "mysql.fullname" . }}
+  labels:
+    app: {{ include "mysql.fullname" . }}
+spec:
+  template:
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}
+          args:
+            - info
+            - migrate
+            - info
+          env:
+            - name: FLYWAY_URL
+              value: {{ include "mysql.getdbserviceurl" . }}
+            - name: FLYWAY_USER
+              value: {{ .Values.job.env.FLYWAY_USER }}
+            - name: FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mysql.fullname" . }}
+                  key: password
+            - name: FLYWAY_PLACEHOLDER_REPLACEMENT
+              value: {{ .Values.job.env.FLYWAY_PLACEHOLDER_REPLACEMENT | quote}}
+            - name: FLYWAY_PLACEHOLDERS_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "mysql.fullname" . }}
+                  key: spring.datasource.username
+            - name: FLYWAY_PLACEHOLDERS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mysql.fullname" . }}
+                  key: password
+          volumeMounts:
+            - mountPath: /flyway/sql
+              name: sql
+      volumes:
+        - name: sql
+          configMap:
+            name: {{ include "mysql.fullname" . }}
+      restartPolicy: Never
+------------------
+
+
+. Update `pages/mysql/templates/deployment.yaml`
++
+
+[source, yaml]
+------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mysql.fullname" . }}
+  labels:
+    app: {{ include "mysql.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "mysql.fullname" . }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ include "mysql.fullname" . }}
+    spec:
+      containers:
+        - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          name: {{ .Chart.Name }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mysql.fullname" . }}
+                  key: password
+            - name: MYSQL_SERVICE_HOST
+              value: {{ .Values.env.MYSQL_SERVICE_HOST | quote }}
+            - name: MYSQL_SERVICE_PORT
+              value: {{ .Values.env.MYSQL_SERVICE_PORT | quote }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.env.MYSQL_DATABASE | quote }}
+          ports:
+            - containerPort: {{ .Values.deployment.containerPort }}
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: {{ .Values.volumeMounts.mountPath }}
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: {{ include "mysql.fullname" . }}
+------------------
+
+=== Deploy using helm chart
+
+. Before installing the helm chart check if your namespace exists and set the kubectl context to point to the right namespace.
+
++
+[source, shell script]
+------------------
+kubectl get  ns
+kubectl config get-contexts
+kubectl config set-context --current --namespace [name-of-your-team]-dev
+------------------
+
+. Uninstall the previous app as we cannot upgrade
+
+. Install the umbrella chart for pages app
++
+[source, shell script]
+------------------
+helm template pages
+helm uninstall pagesapp
+helm install pagesapp pages --dry-run --debug
+helm install pagesapp pages -n [name-of-your-team]-dev
+------------------
+
+. Verify the installation and deployment
++
+[source, shell script]
+------------------
+helm list
+kubectl get deploy pagesapp-api
+kubectl get svc pagesapp-api
+------------------
+
+. Port forward to connect to pages service running inside K8s from the local machine
++
+[source, shell script]
+------------------
+kubectl port-forward svc/pagesapp-api 8080:8080
+------------------
+
+. Test the pages application by performing CRUD operations using curl/postman.
+Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Pages Curl Guide>> for testing.
+
+=== Task Accomplished
+
+Devops team was successful in refactoring the helm chart to be simple and reusable.

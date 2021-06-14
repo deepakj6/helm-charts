@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<title>Refactoring Charts - Best practices</title>
+  <script src="clipboard.min.js"></script>
+  <script src="jquery-3.5.1.min.js"></script>
+  <script src="clipboard.min.js"></script>
+  <script src="velocity.min.js"></script>
+  <link rel="stylesheet" href="font-awesome.min.css" />
+<style>
+/* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
+@import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
+
+/* document body (contains all content) */
+body {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.42857143;
+  color: #2c3e50;
+  background-color: #ffffff;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+/* document header (contains title etc) */
+#header {
+  width: 100%;
+}
+#header>h1 {
+  border-bottom: 1px solid #ddddd8;
+  padding-bottom: 8px;
+}
+
+/* headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.1;
+  color: inherit;
+}
+h1,
+h2,
+h3 {
+  margin-top: 21px;
+  margin-bottom: 10.5px;
+}
+h4,
+h5,
+h6 {
+  margin-top: 10.5px;
+  margin-bottom: 10.5px;
+}
+h1 {
+  font-size: 3em; 
+/*   font-size: 39px;  */
+}
+h2 {
+  font-size: 32px;
+}
+h3 {
+  font-size: 26px;
+}
+h4 {
+  font-size: 19px;
+}
+h5 {
+  font-size: 15px;
+}
+h6 {
+  font-size: 13px;
+}
+
+/* plain paragraph text */
+.paragraph {
+/*   font-family: sans-serif; */
+  margin: 0 0 10.5px;
+}
+p {
+/*   font-family: sans-serif; */
+  margin: 0 0 10.5px;
+}
+
+/* blockquote text */
+.quoteblock {
+  font-style: italic;
+}
+blockquote {
+  padding: 10.5px 21px;
+  margin: 0 0 21px;
+  font-size: 18.75px;
+  border-left: 5px solid #ecf0f1;
+}
+blockquote p:last-child,
+blockquote ul:last-child,
+blockquote ol:last-child {
+  margin-bottom: 0;
+}
+.blockquote-reverse,
+blockquote.pull-right {
+  padding-right: 15px;
+  padding-left: 0;
+  border-right: 5px solid #ecf0f1;
+  border-left: 0;
+  text-align: right;
+}
+.blockquote-reverse footer:before,
+blockquote.pull-right footer:before,
+.blockquote-reverse small:before,
+blockquote.pull-right small:before,
+.blockquote-reverse .small:before,
+blockquote.pull-right .small:before {
+  content: '';
+}
+.blockquote-reverse footer:after,
+blockquote.pull-right footer:after,
+.blockquote-reverse small:after,
+blockquote.pull-right small:after,
+.blockquote-reverse .small:after,
+blockquote.pull-right .small:after {
+  content: '\00A0 \2014';
+}
+
+/* blockquote attribution text */
+.attribution,
+.cite,
+blockquote footer,
+blockquote small,
+blockquote .small {
+  display: block;
+  font-size: 80%;
+  line-height: 1.42857143;
+  color: #b4bcc2;
+}
+.attribution:before,
+blockquote footer:before,
+blockquote small:before,
+blockquote .small:before {
+  content: '\2014 \00A0';
+}
+
+/* unordered list */
+ul, ol {
+  margin-top: 0;
+  margin-bottom: 10.5px;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+  margin-bottom: 0;
+}
+
+
+/* links */
+a {
+  color: #18bc9c;
+  background-color: transparent;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #18bc9c;
+  text-decoration: underline;
+}
+a:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+/* horizontal rules */
+hr {
+  margin-top: 21px;
+  margin-bottom: 21px;
+  border: 0;
+  border-top: 1px solid #ecf0f1;
+}
+
+/* table */
+table {
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 21px;
+  border-collapse: collapse;
+}
+table col[class*="col-"] {
+  position: static;
+  float: none;
+  display: table-column;
+}
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  float: none;
+  display: table-cell;
+}
+
+/* table caption */
+caption {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  color: #b4bcc2;
+  text-align: left;
+}
+
+/* table header row */
+thead {
+  border-bottom: 2px solid #ecf0f1;
+}
+
+/* table header cell */
+th {
+  text-align: left;
+  padding-left: 8px;
+}
+
+/* table footer */
+tfoot {
+  color: #807F81;
+  border-top: 1px solid #ecf0f1;
+}
+
+/* table cell */
+td {
+  border-top: 1px solid #ecf0f1;
+}
+td p {
+  margin: auto;
+  padding: 8px;
+}
+
+/* table body */
+tbody > tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+tbody > tr:hover {
+  background-color: #ecf0f1;
+}
+
+/* inline code */
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;  
+}
+kbd {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #ffffff;
+  background-color: #333333;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+kbd kbd {
+  padding: 0;
+  font-size: 100%;
+  font-weight: bold;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+pre {
+  display: block;
+  padding: 10.5px;
+  margin: 0 0 10.5px;
+  font-size: 15px;
+  line-height: 1.42857143;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #333333;
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* image */
+img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+/* footer section */
+#footer {
+  margin-top: 22px;
+  padding: 14px 16px;
+  color: white;
+  background-color: #2c3e50;
+}
+
+/* responsiveness fixes */
+video {
+  max-width: 100%;
+}
+
+/* table of Contents sidebar */
+#toctitle {
+  color: #ffffff;
+}
+
+#toc ul {
+  display: inline;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#toc li {
+  display: block;
+}
+
+#toc a {
+  background-color: #2c3e50;
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#toc li a:hover {
+  background-color: #1a242f;
+  text-decoration: none;
+}
+
+#toc:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+@media all and (max-width: 600px) {
+table {
+  width: 55vw!important;
+  font-size: 3vw;
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="article">
+<div id="header">
+<h1>Refactoring Charts - Best practices</h1>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The DevOps team wants to refactor the umbrella chart so that it is better re-usable and can be shared with other teams as well.
+Currently, the database connection string needs to be provided in values file. A better approach would be to build the string by using go templates, with the help of functions.
+Also, the name of the kubernetes service, deployment &amp; other objects can be constructed using functions.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_learning_outcomes">Learning Outcomes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After completing the lab, you will be able to understand</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Functions</p>
+</li>
+<li>
+<p>Scope with “with”</p>
+</li>
+<li>
+<p>Controlling Whitespaces &amp; Indentations</p>
+</li>
+<li>
+<p>Logical Operators, Flow Control (conditions &amp; loops)</p>
+</li>
+<li>
+<p>Variables</p>
+</li>
+<li>
+<p>Helper Functions and Sub Templates</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_template_file">Template file</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create template files for both the <code>api</code> and <code>mysql</code> charts</p>
+<div class="paragraph">
+<p><code>pages/charts/api/templates/_helpers.tpl</code> &amp; <code>pages/charts/mysql/templates/_helpers.tpl</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">touch ~/workspace/helm-charts/pages/charts/api/templates/_helpers.tpl
+touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Define <code>api.fullname</code> and <code>api.getdbserviceurl</code> functions inside <code>api</code> chart</p>
+<div class="paragraph">
+<p><code>pages/charts/api/templates/_helpers.tpl</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">define &quot;api.fullname&quot; -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">if .Values.fullnameOverride -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">.Values.fullnameOverride -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">else -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">printf &quot;%s-%s&quot; .Release.Name .Chart.Name | trunc 63 | trimSuffix &quot;-&quot; -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end -}}</span></span>
+
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">define &quot;api.getdbserviceurl&quot; -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">list &quot;jdbc:mysql://&quot; .Values.mysql_svc_name &quot;/&quot; .Values.dbname | join &quot;&quot; | quote -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end -}}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Define <code>mysql.fullname</code> and <code>mysql.getdbserviceurl</code> functions inside <code>mysql</code> chart</p>
+<div class="paragraph">
+<p><code>pages/charts/mysql/templates/_helpers.tpl</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml">{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">define &quot;mysql.fullname&quot; -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">if .Values.fullnameOverride -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">.Values.fullnameOverride -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">else -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">printf &quot;%s-%s&quot; .Release.Name .Chart.Name | trunc 63 | trimSuffix &quot;-&quot; -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end -}}</span></span>
+
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">define &quot;mysql.getdbserviceurl&quot; -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">list &quot;jdbc:mysql://&quot; .Values.mysql_svc_name &quot;/&quot; .Values.env.MYSQL_DATABASE | join &quot;&quot; | quote -}}</span></span>
+{{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end -}}</span></span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_template_and_helper_functions">Template and helper functions</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_update_the_manifest_files_for_pages_api_service">Update the manifest files for pages api service</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Config map remains the same for pages api, since we want to ensure the configmap name to be the same as chart name, which is needed by the application.</p>
+<div class="paragraph">
+<p><code>pages/api/templates/config.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">data</span>:
+  <span style="color:#606">PAGE_CONTENT</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.config.PAGE_CONTENT}}</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ConfigMap</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Patch the name field for <code>pages/api/templates/secret.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/api/templates/service.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Service</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">ports</span>:
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">port: {{ .Values.service.port }}</span></span>
+    <span style="color:#606">protocol</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.service.protocol }}</span></span>
+    <span style="color:#606">targetPort</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.service.targetPort }}</span></span>
+  <span style="color:#606">selector</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+  <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.service.type }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/api/templates/deployment.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">apps/v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Deployment</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">replicas</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1</span></span>
+  <span style="color:#606">selector</span>:
+    <span style="color:#606">matchLabels</span>:
+      <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+  <span style="color:#606">strategy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{}</span></span>
+  <span style="color:#606">template</span>:
+    <span style="color:#606">metadata</span>:
+      <span style="color:#606">labels</span>:
+        <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+    <span style="color:#606">spec</span>:
+      <span style="color:#606">containers</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: {{ .Values.image.repository }}:{{ .Values.image.tag }}</span></span>
+          <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.imagePullPolicy }}</span></span>
+          <span style="color:#606">ports</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">containerPort: {{ .Values.deployment.containerPort }}</span></span>
+          <span style="color:#606">env</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
+              <span style="color:#606">valueFrom</span>:
+                <span style="color:#606">configMapKeyRef</span>:
+                  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span>
+                  <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">PAGE_CONTENT</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: SPRING_DATASOURCE_URL</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.getdbserviceurl&quot; . }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: SPRING_DATASOURCE_USERNAME</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.SPRING_DATASOURCE_USERNAME | quote}}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: SPRING_DATASOURCE_PASSWORD</span></span>
+              <span style="color:#606">valueFrom</span>:
+                <span style="color:#606">secretKeyRef</span>:
+                  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
+                  <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">password</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: DEBUG</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.DEBUG | quote}}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: LOGGING_FILE_NAME</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.LOGGING_FILE_NAME | quote}}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: LOGGING_LEVEL_ROOT</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.LOGGING_LEVEL_ROOT }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">*</span><span style="color:#710">&quot;</span></span>
+          <span style="color:#606">volumeMounts</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: node-dir</span></span>
+              <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/{{ .Release.Namespace }}</span></span>
+          <span style="color:#606">readinessProbe</span>:
+            <span style="color:#606">tcpSocket</span>:
+              <span style="color:#606">port</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.readinessProbe.tcpSocket.port }}</span></span>
+            <span style="color:#606">initialDelaySeconds</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.readinessProbe.initialDelaySeconds }}</span></span>
+            <span style="color:#606">periodSeconds</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.readinessProbe.periodSeconds }}</span></span>
+          <span style="color:#606">livenessProbe</span>:
+            <span style="color:#606">httpGet</span>:
+              <span style="color:#606">path</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.livenessProbe.httpGet.path }}</span></span>
+              <span style="color:#606">port</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.livenessProbe.httpGet.port }}</span></span>
+            <span style="color:#606">initialDelaySeconds</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.livenessProbe.initialDelaySeconds }}</span></span>
+            <span style="color:#606">periodSeconds</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.livenessProbe.periodSeconds }}</span></span>
+      <span style="color:#606">volumes</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: node-dir</span></span>
+          <span style="color:#606">hostPath</span>:
+            <span style="color:#606">path</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/{{ .Release.Namespace }}</span></span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_the_manifest_files_for_mysql">Update the manifest files for mysql</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Patch the name field for <code>pages/mysql/templates/config.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Patch the name field for <code>pages/mysql/templates/secret.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/mysql/templates/service.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Service</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.mysql_svc_name }}</span></span>
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">ports</span>:
+    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">port: {{ .Values.service.port }}</span></span>
+  <span style="color:#606">selector</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.service.type }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Patch the name field for <code>pages/mysql/templates/storage-class.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/mysql/templates/pv.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">PersistentVolume</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}-{{ .Release.Namespace }}</span></span>
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">local</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">capacity</span>:
+    <span style="color:#606">storage</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.capacity.storage }}</span></span>
+  <span style="color:#606">accessModes</span>:
+    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.accessMode }}</span></span>
+  <span style="color:#606">hostPath</span>:
+    <span style="color:#606">path</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.hostPath.path }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/mysql/templates/pvc.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">PersistentVolumeClaim</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">accessModes</span>:
+    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.accessMode }}</span></span>
+  <span style="color:#606">resources</span>:
+    <span style="color:#606">requests</span>:
+      <span style="color:#606">storage</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pvc.resources.requests.storage }}</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/mysql/templates/flyway-job.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">batch/v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Job</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">template</span>:
+    <span style="color:#606">spec</span>:
+      <span style="color:#606">containers</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: {{ .Chart.Name }}</span></span>
+          <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}</span></span>
+          <span style="color:#606">args</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">info</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">migrate</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">info</span></span>
+          <span style="color:#606">env</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: FLYWAY_URL</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.getdbserviceurl&quot; . }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: FLYWAY_USER</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.job.env.FLYWAY_USER }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: FLYWAY_PASSWORD</span></span>
+              <span style="color:#606">valueFrom</span>:
+                <span style="color:#606">secretKeyRef</span>:
+                  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+                  <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">password</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: FLYWAY_PLACEHOLDER_REPLACEMENT</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.job.env.FLYWAY_PLACEHOLDER_REPLACEMENT | quote}}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: FLYWAY_PLACEHOLDERS_USERNAME</span></span>
+              <span style="color:#606">valueFrom</span>:
+                <span style="color:#606">configMapKeyRef</span>:
+                  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+                  <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">spring.datasource.username</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: FLYWAY_PLACEHOLDERS_PASSWORD</span></span>
+              <span style="color:#606">valueFrom</span>:
+                <span style="color:#606">secretKeyRef</span>:
+                  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+                  <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">password</span></span>
+          <span style="color:#606">volumeMounts</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mountPath: /flyway/sql</span></span>
+              <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">sql</span></span>
+      <span style="color:#606">volumes</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: sql</span></span>
+          <span style="color:#606">configMap</span>:
+            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+      <span style="color:#606">restartPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Never</span></span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Update <code>pages/mysql/templates/deployment.yaml</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">apps/v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Deployment</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">selector</span>:
+    <span style="color:#606">matchLabels</span>:
+      <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">strategy</span>:
+    <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Recreate</span></span>
+  <span style="color:#606">template</span>:
+    <span style="color:#606">metadata</span>:
+      <span style="color:#606">labels</span>:
+        <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+    <span style="color:#606">spec</span>:
+      <span style="color:#606">containers</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: {{ .Values.image.repository }}:{{ .Values.image.tag }}</span></span>
+          <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span>
+          <span style="color:#606">env</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_ROOT_PASSWORD</span></span>
+              <span style="color:#606">valueFrom</span>:
+                <span style="color:#606">secretKeyRef</span>:
+                  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+                  <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">password</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_SERVICE_HOST</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.MYSQL_SERVICE_HOST | quote }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_SERVICE_PORT</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.MYSQL_SERVICE_PORT | quote }}</span></span>
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_DATABASE</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.MYSQL_DATABASE | quote }}</span></span>
+          <span style="color:#606">ports</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">containerPort: {{ .Values.deployment.containerPort }}</span></span>
+          <span style="color:#606">volumeMounts</span>:
+            - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: mysql-persistent-storage</span></span>
+              <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.volumeMounts.mountPath }}</span></span>
+      <span style="color:#606">volumes</span>:
+        - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: mysql-persistent-storage</span></span>
+          <span style="color:#606">persistentVolumeClaim</span>:
+            <span style="color:#606">claimName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_using_helm_chart">Deploy using helm chart</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Before installing the helm chart check if your namespace exists and set the kubectl context to point to the right namespace.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get  ns
+kubectl config get-contexts
+kubectl config set-context --current --namespace [name-of-your-team]-dev</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Uninstall the previous app as we cannot upgrade</p>
+</li>
+<li>
+<p>Install the umbrella chart for pages app</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">helm template pages
+helm uninstall pagesapp
+helm install pagesapp pages --dry-run --debug
+helm install pagesapp pages -n [name-of-your-team]-dev</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify the installation and deployment</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">helm list
+kubectl get deploy pagesapp-api
+kubectl get svc pagesapp-api</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Port forward to connect to pages service running inside K8s from the local machine</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl port-forward svc/pagesapp-api 8080:8080</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Test the pages application by performing CRUD operations using curl/postman.
+Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Pages Curl Guide</a> for testing.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_accomplished">Task Accomplished</h3>
+<div class="paragraph">
+<p>Devops team was successful in refactoring the helm chart to be simple and reusable.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="jquery-3.5.1.min.js"></script>
+<script src="copy.js"></script>
+</body>
+</html>

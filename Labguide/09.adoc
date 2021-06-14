@@ -18,6 +18,12 @@ After completing the lab, you will be able to understand
 
 === Creating helm directory structure
 
+. Create the directory structure as below
+
++
+
+image::lab9-tree.png[]
+
 . Create `helm-charts` directory
 . Verify helm is installed
 . Create `templates` directory and `Chart.yaml` file.
@@ -33,7 +39,7 @@ mkdir pages/templates
 touch pages/Chart.yaml
 ------------------
 
-. Update `pages/Chart.yaml` containing the name of the chart with a short description, chart verion and application version
+. Update `pages/Chart.yaml` containing the name of the chart with a short description, chart version and application version
 
 
 +
@@ -78,7 +84,7 @@ spec:
         app: pages
     spec:
       containers:
-        - image: dellcloud/pages:1.0
+        - image: [image-from-Lab 01 - Dockerize an Application]/pages:1.0
           name: pages
           ports:
             - containerPort: 8080

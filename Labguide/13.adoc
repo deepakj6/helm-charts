@@ -1,0 +1,156 @@
+= Sharing Chart data
+:stylesheet: boot-flatly.css
+:nofooter:
+:data-uri:
+:icons: font
+:linkattrs:
+
+The DevOps team wants to make use of global variables and share data between charts.
+
+== Learning Outcomes
+After completing the lab, you will be able to understand
+
+• Global variables
+• Sharing Data between charts
+
+=== Define Chart dependencies
+
+. Update the parent `Chart.yaml`
+
++
+`pages/Chart.yaml`
+
++
+[source, yaml]
+-------------
+apiVersion: v2
+name: pages
+description: A Helm chart for Pages Application
+type: application
+version: 1.0.0
+appVersion: "1.0"
+dependencies:
+  - name: pages-api
+    version: 1.x.x # version: ~1.0.0
+    repository: http://localhost:8080
+  - name: mysql
+    version: 1.x.x # version: ^1.0.0
+    repository: http://localhost:8080
+-------------
+
+=== Update versioning
+
+. Update the chart version for both `mysql` and `api`
+
++
+`pages/charts/mysql/Chart.yaml`
++
+[source, yaml]
+-------------
+apiVersion: v2
+name: mysql
+description: A Helm chart for MYSQL database
+type: application
+version: 1.0.0
+appVersion: "1.0"
+-------------
+
++
+`pages/charts/api/Chart.yaml`
++
+[source, yaml]
+-------------
+apiVersion: v2
+name: pages-api
+description: A Helm chart for Pages API backend service
+type: application
+version: 1.0.0
+appVersion: "1.0"
+-------------
+
+=== Adding global data
+
+. Remove `mysql_svc_name` key-value pair from `api/values.yaml` and `mysql/values.yaml`
+
+. Add global data to `pages/values.yaml` parent chart
++
+[source, yaml]
+-------------
+global:
+mysql_svc_name: pages-mysql
+-------------
+
+. Update the function `getdbserviceurl` defined in `api` chart -  `api/templates/_helpers.tpl`
+
++
+[source, yaml]
+------------
+{{- define "api.getdbserviceurl" -}}
+{{- list "jdbc:mysql://" .Values.global.mysql_svc_name "/" .Values.dbname | join "" | quote -}}
+{{- end -}}
+------------
+
+. Update function `getdbserviceurl` to use the global value and create a new function `getdbservicename` which returns the service name in `mysql/templates/_helpers.tpl`
++
+[source, yaml]
+-------------
+{{- define "mysql.getdbservicename" -}}
+{{- .Values.global.mysql_svc_name -}}
+{{- end -}}
+
+
+{{- define "mysql.getdbserviceurl" -}}
+{{- list "jdbc:mysql://" .Values.global.mysql_svc_name "/" .Values.env.MYSQL_DATABASE | join "" | quote -}}
+{{- end -}}
+-------------
+
+. Update mysql service name in `mysql/templates/service.yaml` which gets evaluated from the function `getdbservicename`
+
++
+[source, yaml]
+-------------
+name: {{ include "mysql.getdbservicename" . }}
+-------------
+
+=== Deploy using helm chart
+
+. Before installing the helm chart check if your namespace exists and set the kubectl context to point to the right namespace.
+
++
+[source, shell script]
+------------------
+kubectl get  ns
+kubectl config get-contexts
+kubectl config set-context --current --namespace [name-of-your-team]-dev
+------------------
+
+. Uninstall the previous app as we cannot upgrade
+
+. Install the umbrella chart for pages app
++
+[source, shell script]
+------------------
+helm template pages
+helm uninstall pagesapp
+helm install pagesapp pages --dry-run --debug
+helm install pagesapp pages -n [name-of-your-team]-dev
+------------------
+
+. Verify the installation and deployment
++
+[source, shell script]
+------------------
+helm list
+kubectl get deploy pagesapp-api
+kubectl get svc pagesapp-api
+------------------
+
+. Port forward to connect to pages service running inside K8s from the local machine
++
+[source, shell script]
+------------------
+kubectl port-forward svc/pagesapp-api 8080:8080
+------------------
+
+. Test the pages application by performing CRUD operations using curl/postman.
+Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Pages Curl Guide>> for testing.
