@@ -1,0 +1,96 @@
+= Publishing Helm Charts
+:stylesheet: boot-flatly.css
+:nofooter:
+:data-uri:
+:icons: font
+:linkattrs:
+
+The DevOps team wants to
+
+
+.. Package the helm charts to an archive
+.. Create a repository using `ChartMuseum`
+.. Publish the helm charts to `ChartMuseum`
+.. Add dependencies to the parent & child charts in the umbrella chart
+
+== Learning Outcomes
+After completing the lab, you will be able to understand
+
+• Packaging helm chart
+• Publishing to helm chart repository
+• Defining dependencies
+• Tags and conditions
+
+=== Install ChartMuseum
+. ChartMuseum is an open-source `Helm Chart Repository server`.
+We will install the `ChartMuseum` locally. However, this can also be accomplished for a production environment with additional configurations.
++
+[source, shell script]
+--------------
+curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
+chmod u+x chartmuseum
+sudo mv chartmuseum /usr/local/bin
+mkdir ~/helm
+mkdir ~/helm/repo
+chartmuseum --storage="local" --storage-local-rootdir=/home/student/helm/repo
+cp *.tgz  ~/helm/repo
+curl https://localhost:8080/api/charts | jq .
+--------------
+
+===  Refactoring the directory structure
+. We need to move the charts to be archived
+
++
+[source, shell script]
+--------------
+cd ~/workspace/helm-charts
+mv pages/charts dist
+cd dist
+ls
+helm package api mysql
+helm repo index .
+vi index.yaml
+--------------
+
+=== Configure Helm to use ChartMuseum repository
+. Helm has to be configured to use `ChartMuseum`
+
++
+[source, shell script]
+--------------
+helm repo add chartmuseum http://localhost:8080
+helm repo list
+helm repo update - get the latest repository updates
+helm search repo chartmuseum/
+--------------
+
+. Update the dependencies section in parent Chart.yaml
+
++
+`pages/Chart.yaml`
+
++
+[source, yaml]
+--------------
+dependencies:
+  - name: api
+    version: ~1.0.0
+    repository: https://localhost:8080
+  - name: mysql
+    version: ^1.0.0
+    repository: https://localhost:8080
+  - name: mongodb
+    version: 7.8.x
+    repository: https://kubernetes-charts.storage.googleapis.com
+--------------
+
+
+. Downloading charts into charts from the repo
+
++
+[source, shell script]
+--------------
+helm dependency update pages
+helm dependency list pages
+helm depencency build pages
+--------------

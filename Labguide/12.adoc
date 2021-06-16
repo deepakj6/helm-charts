@@ -72,22 +72,31 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl
 
 == Template and helper functions
 
+
+. Update `values.yaml` for both charts to externalize service and database names
+
++
+`pages/charts/api/values.yaml`
++
+[source, yaml]
+-------------
+mysql_svc_name: mysql
+dbname: pages
+-------------
+
++
+`pages/charts/mysql/values.yaml`
++
+[source, yaml]
+-------------
+mysql_svc_name: mysql
+-------------
+
+
 === Update the manifest files for pages api service
 
 . Config map remains the same for pages api, since we want to ensure the configmap name to be the same as chart name, which is needed by the application.
-+
-`pages/api/templates/config.yaml`
-+
 
-[source, yaml]
-------------------
-apiVersion: v1
-data:
-  PAGE_CONTENT: {{ .Values.config.PAGE_CONTENT}}
-kind: ConfigMap
-metadata:
-  name: {{ .Chart.Name }}
-------------------
 +
 . Patch the name field for `pages/api/templates/secret.yaml`
 +

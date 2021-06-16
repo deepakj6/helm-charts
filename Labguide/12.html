@@ -473,25 +473,36 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <div class="sect1">
 <h2 id="_template_and_helper_functions">Template and helper functions</h2>
 <div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update <code>values.yaml</code> for both charts to externalize service and database names</p>
+<div class="paragraph">
+<p><code>pages/charts/api/values.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">mysql_svc_name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql</span></span>
+<span style="color:#606">dbname</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>pages/charts/mysql/values.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">mysql_svc_name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql</span></span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
 <div class="sect2">
 <h3 id="_update_the_manifest_files_for_pages_api_service">Update the manifest files for pages api service</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
 <p>Config map remains the same for pages api, since we want to ensure the configmap name to be the same as chart name, which is needed by the application.</p>
-<div class="paragraph">
-<p><code>pages/api/templates/config.yaml</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
-<span style="color:#606">data</span>:
-  <span style="color:#606">PAGE_CONTENT</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.config.PAGE_CONTENT}}</span></span>
-<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ConfigMap</span></span>
-<span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span></code></pre>
-</div>
-</div>
 </li>
 <li>
 <p>Patch the name field for <code>pages/api/templates/secret.yaml</code></p>

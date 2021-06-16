@@ -512,9 +512,21 @@ echo &quot;----------------------Completed Installation of  pages---------------
 </div>
 </div>
 <div class="sect2">
-<h3 id="_pipeline_configuration">Pipeline configuration</h3>
+<h3 id="_set_up_github_actions">Set-up Github Actions</h3>
 <div class="olist arabic">
 <ol class="arabic">
+<li>
+<p>Create the following secrets in github</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_REGION
+STAGING_NAMESPACE
+RELEASE_NAME</code></pre>
+</div>
+</div>
+</li>
 <li>
 <p>Configure the pipeline</p>
 <div class="paragraph">
@@ -531,7 +543,6 @@ echo &quot;----------------------Completed Installation of  pages---------------
 <span style="color:#606">jobs</span>:
   <span style="color:#606">deploy-to-staging</span>:
     <span style="color:#606">runs-on</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ubuntu-latest</span></span>
-    <span style="color:#606">needs</span>:  <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">deploy-to-kind</span></span>
     <span style="color:#606">steps</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">uses: actions/checkout@v2</span></span>
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: AWS Credentials</span></span>

@@ -26,9 +26,9 @@ After completing the lab, you will be able to understand
 +
 [source, shell script]
 -------------
-touch ~/workspace/helm-charts/charts/api/templates/test-api-contracts.yaml
-touch ~/workspace/helm-charts/charts/api/templates/test-dbconnect-positive.yaml
-touch ~/workspace/helm-charts/charts/api/templates/test-message-get.yaml
+touch ~/workspace/helm-charts/pages/charts/api/templates/test-api-contracts.yaml
+touch ~/workspace/helm-charts/pages/charts/api/templates/test-dbconnect-positive.yaml
+touch ~/workspace/helm-charts/pages/charts/api/templates/test-message-get.yaml
 -------------
 . Write the test cases
 +
