@@ -21,21 +21,6 @@ After completing the lab, you will be able to understand
 • Defining dependencies
 • Tags and conditions
 
-=== Install ChartMuseum
-. ChartMuseum is an open-source `Helm Chart Repository server`.
-We will install the `ChartMuseum` locally. However, this can also be accomplished for a production environment with additional configurations.
-+
-[source, shell script]
---------------
-curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
-chmod u+x chartmuseum
-sudo mv chartmuseum /usr/local/bin
-mkdir ~/helm
-mkdir ~/helm/repo
-chartmuseum --storage="local" --storage-local-rootdir=/home/student/helm/repo
-cp *.tgz  ~/helm/repo
-curl https://localhost:8080/api/charts | jq .
---------------
 
 ===  Refactoring the directory structure
 . We need to move the charts to be archived
@@ -49,18 +34,44 @@ cd dist
 ls
 helm package api mysql
 helm repo index .
-vi index.yaml
+cat index.yaml
 --------------
 
-=== Configure Helm to use ChartMuseum repository
-. Helm has to be configured to use `ChartMuseum`
+=== Install ChartMuseum
+. ChartMuseum is an open-source `Helm Chart Repository server`.
+We will install the `ChartMuseum` locally. However, this can also be accomplished for a production environment with additional configurations.
++
+[source, shell script]
+--------------
+curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
+chmod u+x chartmuseum
+sudo mv chartmuseum /usr/local/bin
+mkdir ~/helm
+mkdir ~/helm/repo
+chartmuseum --storage="local" --storage-local-rootdir=/home/student/helm/repo
+--------------
+
+=== Publish
+
+. Let's publish the chart archives to the ChartMuseum repository server
+
++
+[source, shell script]
+-------------
+cp *.tgz  ~/helm/repo
+curl http://localhost:8080/api/charts | jq .
+-------------
+
+
+=== Fetching the published charts from ChartMuseum
+. Configure Helm to use ChartMuseum repository
 
 +
 [source, shell script]
 --------------
 helm repo add chartmuseum http://localhost:8080
 helm repo list
-helm repo update - get the latest repository updates
+helm repo update
 helm search repo chartmuseum/
 --------------
 
@@ -92,5 +103,5 @@ dependencies:
 --------------
 helm dependency update pages
 helm dependency list pages
-helm depencency build pages
+helm dependency build pages
 --------------

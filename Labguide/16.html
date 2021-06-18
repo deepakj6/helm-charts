@@ -6,11 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <title>Publishing Helm Charts</title>
-  <script src="clipboard.min.js"></script>
-  <script src="jquery-3.5.1.min.js"></script>
-  <script src="clipboard.min.js"></script>
-  <script src="velocity.min.js"></script>
-  <link rel="stylesheet" href="font-awesome.min.css" />
 <style>
 /* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
 @import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
@@ -416,29 +411,6 @@ table {
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_install_chartmuseum">Install ChartMuseum</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>ChartMuseum is an open-source <code>Helm Chart Repository server</code>.
-We will install the <code>ChartMuseum</code> locally. However, this can also be accomplished for a production environment with additional configurations.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
-chmod u+x chartmuseum
-sudo mv chartmuseum /usr/local/bin
-mkdir ~/helm
-mkdir ~/helm/repo
-chartmuseum --storage=&quot;local&quot; --storage-local-rootdir=/home/student/helm/repo
-cp *.tgz  ~/helm/repo
-curl https://localhost:8080/api/charts | jq .</code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_refactoring_the_directory_structure">Refactoring the directory structure</h3>
 <div class="olist arabic">
 <ol class="arabic">
@@ -452,7 +424,7 @@ cd dist
 ls
 helm package api mysql
 helm repo index .
-vi index.yaml</code></pre>
+cat index.yaml</code></pre>
 </div>
 </div>
 </li>
@@ -460,16 +432,53 @@ vi index.yaml</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_helm_to_use_chartmuseum_repository">Configure Helm to use ChartMuseum repository</h3>
+<h3 id="_install_chartmuseum">Install ChartMuseum</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Helm has to be configured to use <code>ChartMuseum</code></p>
+<p>ChartMuseum is an open-source <code>Helm Chart Repository server</code>.
+We will install the <code>ChartMuseum</code> locally. However, this can also be accomplished for a production environment with additional configurations.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
+chmod u+x chartmuseum
+sudo mv chartmuseum /usr/local/bin
+mkdir ~/helm
+mkdir ~/helm/repo
+chartmuseum --storage=&quot;local&quot; --storage-local-rootdir=/home/student/helm/repo</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_publish">Publish</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Let&#8217;s publish the chart archives to the ChartMuseum repository server</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">cp *.tgz  ~/helm/repo
+curl http://localhost:8080/api/charts | jq .</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fetching_the_published_charts_from_chartmuseum">Fetching the published charts from ChartMuseum</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Configure Helm to use ChartMuseum repository</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">helm repo add chartmuseum http://localhost:8080
 helm repo list
-helm repo update - get the latest repository updates
+helm repo update
 helm search repo chartmuseum/</code></pre>
 </div>
 </div>
@@ -500,7 +509,7 @@ helm search repo chartmuseum/</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">helm dependency update pages
 helm dependency list pages
-helm depencency build pages</code></pre>
+helm dependency build pages</code></pre>
 </div>
 </div>
 </li>
@@ -510,7 +519,5 @@ helm depencency build pages</code></pre>
 </div>
 </div>
 </div>
-<script src="jquery-3.5.1.min.js"></script>
-<script src="copy.js"></script>
 </body>
 </html>
