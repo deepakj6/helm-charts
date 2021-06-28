@@ -483,7 +483,11 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">mysql_svc_name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql</span></span>
-<span style="color:#606">dbname</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span></code></pre>
+<span style="color:#606">dbname</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+
+<span style="color:#606">deployment</span>:
+  <span style="color:#606">containerPort</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">8080</span></span>
+  <span style="color:#606">replicaCount</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -544,11 +548,19 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
     <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">replicas</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1</span></span>
+  <span style="color:#606">replicas</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.deployment.replicaCount}}</span></span>
   <span style="color:#606">selector</span>:
     <span style="color:#606">matchLabels</span>:
       <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
-  <span style="color:#606">strategy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{}</span></span>
+  <span style="color:#606">strategy</span>:
+    <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">RollingUpdate</span></span>
+    <span style="color:#606">rollingUpdate</span>:
+      <span style="color:#606">maxSurge</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">2</span></span>
+     {{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">if ge .Values.deployment.replicaCount 5.0 }}</span></span>
+      <span style="color:#606">maxUnavailable</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">2</span></span>
+     {{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">else }}</span></span>
+      <span style="color:#606">maxUnavailable</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">0</span></span>
+     {{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end }}</span></span>
   <span style="color:#606">template</span>:
     <span style="color:#606">metadata</span>:
       <span style="color:#606">labels</span>:
@@ -575,14 +587,16 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
                 <span style="color:#606">secretKeyRef</span>:
                   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span>
                   <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">password</span></span>
+            {{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">with .Values.env }}</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: DEBUG</span></span>
-              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.DEBUG | quote}}</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .DEBUG | quote}}</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: LOGGING_FILE_NAME</span></span>
-              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.LOGGING_FILE_NAME | quote}}</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .LOGGING_FILE_NAME | quote}}</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB</span></span>
-              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB }}</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB }}</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: LOGGING_LEVEL_ROOT</span></span>
-              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.env.LOGGING_LEVEL_ROOT }}</span></span>
+              <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .LOGGING_LEVEL_ROOT }}</span></span>
+            {{- <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">end }}</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE</span></span>
               <span style="color:#606">value</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">*</span><span style="color:#710">&quot;</span></span>
           <span style="color:#606">volumeMounts</span>:

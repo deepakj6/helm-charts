@@ -1,0 +1,142 @@
+= Publishing Helm Charts
+:stylesheet: boot-flatly.css
+:nofooter:
+:data-uri:
+:icons: font
+:linkattrs:
+
+The DevOps team wants to
+
+
+.. Package the helm charts to an archive
+.. Create a repository in `GitHub Pages`
+.. Publish the helm charts to `ArtifactHub`
+
+== Learning Outcomes
+After completing the lab, you will be able to understand
+
+• Packaging helm chart
+• Publishing to helm chart repository
+• Difference between archives and repositories
+• Different types of Helm repositories
+
+== Setting up GitHub Pages for storing Helm Charts
+
+. Create a new public repository in github with naming convention for the repo being `yourgituserid.github.io`
+. Create a new directory on your local machine pointing to the github repo
+
++
+[source, shell script]
+--------------
+mkdir ~/workspace/yourgituserid.github.io
+--------------
+
++
+[source, shell script]
+--------------
+cd ~/workspace/yourgituserid.github.io
+--------------
+
++
+[source, shell script]
+--------------
+git clone https://github.com/yourgituserid/yourgituserid.github.io
+--------------
+
+
+NOTE:: Replace yourgituserid with your github user name or id. This is not the same as your email address.
+
+. Copy the pages directory inside helm-charts to directory created in the above step
+
++
+[source, shell script]
+--------------
+cp ~/workspace/helm-charts/pages ~/workspace/yourgituserid.github.io
+cd ~/workspace/yourgituserid.github.io
+--------------
+
+. Delete `index.yaml` and any compressed files, if you already have it
++
+[source, shell script]
+--------------
+rm index.yaml
+rm *.tgz
+--------------
+
+
+===  Package the helm charts to be published
+
+. Package the pages umbrella chart and create index file
+
++
+[source, shell script]
+--------------
+helm package pages
+helm repo index .
+cat index.yaml
+--------------
+
+=== Publishing to ArtifactHub through Github Pages
+
+. You will need the `Github Pages` URL which acts as a server for the helm charts to be accessed from `artifacthub`
+
+. Go to github repo and select settings menu and then the Pages menu from the left navigation menu.
+You will see the message similar to `GitHub Pages is currently disabled. Select a source below to enable GitHub Pages for this repository.`
+Change the branch from `None` to `master` and click on `Save`. This will render the content using GitHub Pages.
+You will get the message similar to ` Your site is ready to be published at https://yourgithubuserid.github.io/
+
+. We now have to edit the `index.yaml` file and update the url to point to the published url. Ensure that it uses `https` instead of `http`
+
+. Push the changes to Git so that `ArtifactHub` can access it
+
++
+[source, shell script]
+-------------
+git add .
+git commit -m "Initial Commit"
+git push -u origin master
+-------------
+
+. Go to `artifacthub.io` and login using your `github` credentials.
+
+. Click on `Add a repository` and fill in the kind, name, displayname, url properties
+Let the `Kind` be `Helm Charts`, `Name` & `Display Name` be `pages` and the `URL` should be your published Github Pages URL similar to `https://yourgithubuserid.github.io`
+
+
+=== Accessing/Installing the published charts from ArtifactHub
+
+. Configure Helm to use ArtifactHub repository
+
++
+[source, shell script]
+--------------
+helm repo add artifacthub https://yourgithubuserid.github.io
+--------------
+
++
+[source, shell script]
+--------------
+helm repo list
+helm repo update
+--------------
+
+. Clean the earlier installation if already installed
++
+[source, shell script]
+--------------
+helm uninstall pagesapp
+--------------
+
+
+. Install the pages chart
+
++
+[source, shell script]
+--------------
+helm search repo pages
+helm install pagesapp artifacthub/pages -n [name-of-your-team]-dev
+--------------
+
+. Test the pages application by performing CRUD operations using curl/postman.
+Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Pages Curl Guide>> for testing.
+

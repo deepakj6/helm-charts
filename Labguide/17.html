@@ -6,11 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <title>Publishing Helm Charts</title>
-  <script src="clipboard.min.js"></script>
-  <script src="jquery-3.5.1.min.js"></script>
-  <script src="clipboard.min.js"></script>
-  <script src="velocity.min.js"></script>
-  <link rel="stylesheet" href="font-awesome.min.css" />
+    <script src="clipboard.min.js"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="clipboard.min.js"></script>
+    <script src="velocity.min.js"></script>
+    <link rel="stylesheet" href="font-awesome.min.css" />
 <style>
 /* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
 @import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
@@ -381,13 +381,10 @@ table {
 <p>Package the helm charts to an archive</p>
 </li>
 <li>
-<p>Create a repository using <code>ChartMuseum</code></p>
+<p>Create a repository in <code>GitHub Pages</code></p>
 </li>
 <li>
-<p>Publish the helm charts to <code>ChartMuseum</code></p>
-</li>
-<li>
-<p>Add dependencies to the parent &amp; child charts in the umbrella chart</p>
+<p>Publish the helm charts to <code>ArtifactHub</code></p>
 </li>
 </ol>
 </div>
@@ -408,23 +405,78 @@ table {
 <p>Publishing to helm chart repository</p>
 </li>
 <li>
-<p>Defining dependencies</p>
+<p>Difference between archives and repositories</p>
 </li>
 <li>
-<p>Tags and conditions</p>
+<p>Different types of Helm repositories</p>
 </li>
 </ul>
 </div>
-<div class="sect2">
-<h3 id="_refactoring_the_directory_structure">Refactoring the directory structure</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setting_up_github_pages_for_storing_helm_charts">Setting up GitHub Pages for storing Helm Charts</h2>
+<div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>We need to move the charts to be archived</p>
+<p>Create a new public repository in github with naming convention for the repo being <code>yourgituserid.github.io</code></p>
+</li>
+<li>
+<p>Create a new directory on your local machine pointing to the github repo</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/helm-charts
-helm package pages
+<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/workspace/yourgituserid.github.io</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/yourgituserid.github.io</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">git clone https://github.com/yourgituserid/yourgituserid.github.io</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NOTE</dt>
+<dd>
+<p>Replace yourgituserid with your github user name or id. This is not the same as your email address.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>Copy the pages directory inside helm-charts to directory created in the above step</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">cp ~/workspace/helm-charts/pages ~/workspace/yourgituserid.github.io
+cd ~/workspace/yourgituserid.github.io</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Delete <code>index.yaml</code> and any compressed files, if you already have it</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">rm index.yaml
+rm *.tgz</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_package_the_helm_charts_to_be_published">Package the helm charts to be published</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Package the pages umbrella chart and create index file</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">helm package pages
 helm repo index .
 cat index.yaml</code></pre>
 </div>
@@ -434,98 +486,79 @@ cat index.yaml</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_install_chartmuseum">Install ChartMuseum</h3>
+<h3 id="_publishing_to_artifacthub_through_github_pages">Publishing to ArtifactHub through Github Pages</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>ChartMuseum is an open-source <code>Helm Chart Repository server</code>.
-We will install the <code>ChartMuseum</code> locally. However, this can also be accomplished for a production environment with additional configurations.</p>
+<p>You will need the <code>Github Pages</code> URL which acts as a server for the helm charts to be accessed from <code>artifacthub</code></p>
+</li>
+<li>
+<p>Go to github repo and select settings menu and then the Pages menu from the left navigation menu.
+You will see the message similar to <code>GitHub Pages is currently disabled. Select a source below to enable GitHub Pages for this repository.</code>
+Change the branch from <code>None</code> to <code>master</code> and click on <code>Save</code>. This will render the content using GitHub Pages.
+You will get the message similar to ` Your site is ready to be published at <a href="https://yourgithubuserid.github.io/" class="bare">https://yourgithubuserid.github.io/</a></p>
+</li>
+<li>
+<p>We now have to edit the <code>index.yaml</code> file and update the url to point to the published url. Ensure that it uses <code>https</code> instead of <code>http</code></p>
+</li>
+<li>
+<p>Push the changes to Git so that <code>ArtifactHub</code> can access it</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
-chmod u+x chartmuseum
-sudo mv chartmuseum /usr/local/bin</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">git add .
+git commit -m &quot;Initial Commit&quot;
+git push -u origin master</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/helm
-mkdir ~/helm/repo
-chartmuseum --storage=&quot;local&quot; --storage-local-rootdir=/home/student/helm/repo</code></pre>
-</div>
-</div>
+</li>
+<li>
+<p>Go to <code>artifacthub.io</code> and login using your <code>github</code> credentials.</p>
+</li>
+<li>
+<p>Click on <code>Add a repository</code> and fill in the kind, name, displayname, url properties
+Let the <code>Kind</code> be <code>Helm Charts</code>, <code>Name</code> &amp; <code>Display Name</code> be <code>pages</code> and the <code>URL</code> should be your published Github Pages URL similar to <code><a href="https://yourgithubuserid.github.io" class="bare">https://yourgithubuserid.github.io</a></code></p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_publish">Publish</h3>
+<h3 id="_accessinginstalling_the_published_charts_from_artifacthub">Accessing/Installing the published charts from ArtifactHub</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Let&#8217;s publish the chart archives to the ChartMuseum repository server</p>
+<p>Configure Helm to use ArtifactHub repository</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">cp *.tgz  ~/helm/repo
-curl http://localhost:8080/api/charts | jq .</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">helm repo add artifacthub https://yourgithubuserid.github.io</code></pre>
 </div>
 </div>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_fetching_the_published_charts_from_chartmuseum">Fetching the published charts from ChartMuseum</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Configure Helm to use ChartMuseum repository</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">helm repo add chartmuseum http://localhost:8080
-helm repo list
-helm repo update
-helm search repo chartmuseum/</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">helm repo list
+helm repo update</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Create a new directory and Chart.yaml to test the published chart</p>
+<p>Clean the earlier installation if already installed</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/workspace/helm-charts/pages-package
-cd ~/workspace/helm-charts/pages-package
-touch Chart.yaml</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>pages-package/Chart.yaml</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v2</span></span>
-<span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-<span style="color:#606">description</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">A Helm chart for Pages Application</span></span>
-<span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">application</span></span>
-<span style="color:#606">version</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1.0.0</span></span>
-<span style="color:#606">appVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">1.0</span><span style="color:#710">&quot;</span></span>
-<span style="color:#606">dependencies</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: pages</span></span>
-    <span style="color:#606">version</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1.0.0</span></span>
-    <span style="color:#606">repository</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">http://localhost:8080</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">helm uninstall pagesapp</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Downloading published charts from the repo</p>
+<p>Install the pages chart</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">helm dependency update pages
-ls
-helm dependency list pages
-helm dependency build pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">helm search repo pages
+helm install pagesapp artifacthub/pages -n [name-of-your-team]-dev</code></pre>
 </div>
 </div>
+</li>
+<li>
+<p>Test the pages application by performing CRUD operations using curl/postman.
+Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Pages Curl Guide</a> for testing.</p>
 </li>
 </ol>
 </div>

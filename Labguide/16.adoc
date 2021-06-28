@@ -29,10 +29,7 @@ After completing the lab, you will be able to understand
 [source, shell script]
 --------------
 cd ~/workspace/helm-charts
-mv pages/charts dist
-cd dist
-ls
-helm package api mysql
+helm package pages
 helm repo index .
 cat index.yaml
 --------------
@@ -46,6 +43,11 @@ We will install the `ChartMuseum` locally. However, this can also be accomplishe
 curl -LO https://s3.amazonaws.com/chartmuseum/release/latest/bin/linux/amd64/chartmuseum
 chmod u+x chartmuseum
 sudo mv chartmuseum /usr/local/bin
+--------------
+
++
+[source, shell script]
+--------------
 mkdir ~/helm
 mkdir ~/helm/repo
 chartmuseum --storage="local" --storage-local-rootdir=/home/student/helm/repo
@@ -75,33 +77,45 @@ helm repo update
 helm search repo chartmuseum/
 --------------
 
-. Update the dependencies section in parent Chart.yaml
+. Create a new directory and Chart.yaml to test the published chart
 
 +
-`pages/Chart.yaml`
+[source, shell script]
+--------------
+mkdir ~/workspace/helm-charts/pages-package
+cd ~/workspace/helm-charts/pages-package
+touch Chart.yaml
+--------------
+
++
+`pages-package/Chart.yaml`
 
 +
 [source, yaml]
 --------------
+apiVersion: v2
+name: pages
+description: A Helm chart for Pages Application
+type: application
+version: 1.0.0
+appVersion: "1.0"
 dependencies:
-  - name: api
-    version: ~1.0.0
-    repository: https://localhost:8080
-  - name: mysql
-    version: ^1.0.0
-    repository: https://localhost:8080
-  - name: mongodb
-    version: 7.8.x
-    repository: https://kubernetes-charts.storage.googleapis.com
+  - name: pages
+    version: 1.0.0
+    repository: http://localhost:8080
 --------------
 
 
-. Downloading charts into charts from the repo
+. Downloading published charts from the repo
 
 +
 [source, shell script]
 --------------
 helm dependency update pages
+ls
 helm dependency list pages
 helm dependency build pages
 --------------
+
+
+

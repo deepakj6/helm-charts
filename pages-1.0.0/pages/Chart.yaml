@@ -1,0 +1,13 @@
+apiVersion: v2
+appVersion: "1.0"
+dependencies:
+- name: pages-api
+  repository: http://localhost:8080
+  version: 1.x.x
+- name: mysql
+  repository: http://localhost:8080
+  version: 1.x.x
+description: A Helm chart for Pages Application
+name: pages
+type: application
+version: 1.0.0

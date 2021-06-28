@@ -82,6 +82,10 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl
 -------------
 mysql_svc_name: mysql
 dbname: pages
+
+deployment:
+  containerPort: 8080
+  replicaCount: 1
 -------------
 
 +
@@ -140,11 +144,19 @@ metadata:
     app: {{ include "api.fullname" . }}
   name: {{ include "api.fullname" . }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.deployment.replicaCount}}
   selector:
     matchLabels:
       app: {{ include "api.fullname" . }}
-  strategy: {}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+     {{- if ge .Values.deployment.replicaCount 5.0 }}
+      maxUnavailable: 2
+     {{- else }}
+      maxUnavailable: 0
+     {{- end }}
   template:
     metadata:
       labels:
@@ -171,14 +183,16 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.fullname" . }}
                   key: password
+            {{- with .Values.env }}
             - name: DEBUG
-              value: {{ .Values.env.DEBUG | quote}}
+              value: {{ .DEBUG | quote}}
             - name: LOGGING_FILE_NAME
-              value: {{ .Values.env.LOGGING_FILE_NAME | quote}}
+              value: {{ .LOGGING_FILE_NAME | quote}}
             - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB
-              value: {{ .Values.env.LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB }}
+              value: {{ .LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB }}
             - name: LOGGING_LEVEL_ROOT
-              value: {{ .Values.env.LOGGING_LEVEL_ROOT }}
+              value: {{ .LOGGING_LEVEL_ROOT }}
+            {{- end }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
               value: "*"
           volumeMounts:
