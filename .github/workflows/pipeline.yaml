@@ -9,19 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: AWS Credentials
+      - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Configure EKS
+      - name: EKS Login
         run: |
           aws eks --region ap-south-1 update-kubeconfig --name dees-cloud
 
       - name: Install Kubectl
-        uses: actions/checkout@v2
-      - name: Check kubectl
+      #   uses: actions/checkout@v2
+      # - name: Check kubectl
         run: |
           ls
           bash ./scripts/install-kubectl.sh
