@@ -12,12 +12,13 @@ understand the core competencies of Kubernetes & DevOps through well
 designed lectures and hands-on lab exercises.
 
 The program starts with the basics of containers and gradually deep-dives into the integral
-concepts of Kubernetes. You will be learning the various competency
+concepts of Kubernetes.You will be learning the various competency
 domains of Kubernetes, gearing up with the right toolkit to solve complex production use-cases.
 
 When the instructor kicks off a particular lab, you can use the below links to navigate to the corresponding lab to complete the hands-on exercise.
 
 == Labs
+
 . link:01.html#["Dockerize an application", window="_blank"]
 . link:02.html#["Kubernetes - Deploy Application workloads", window="_blank"]
 . link:03.html#["Pods", window="_blank"]
@@ -30,6 +31,7 @@ When the instructor kicks off a particular lab, you can use the below links to n
 .. link:08.1-Assignment.html#["Pages Microservice", window="_blank"]
 .. link:08.2-Assignment.html#["Category Microservice", window="_blank"]
 . link:09.html#["Helmify", window="_blank"]
+
 . link:10.html#["Helmify 2 tier microservice application", window="_blank"]
 . link:11.html#["Reusable Helm Charts using Helm Templates", window="_blank"]
 . link:12.html#["Refactoring - Best practices ", window="_blank"]
