@@ -5,11 +5,31 @@ metadata:
     app: {{ include "api.fullname" . }}    
     access: external
   name: {{ include "api.fullname" . }}
+
+
 spec:
-  ports:
-  - port: {{ .Values.service.port }}
-    protocol: {{ .Values.service.protocol }}
-    targetPort: {{ .Values.service.targetPort }}
   selector:
     app: {{ include "api.fullname" . }}
   type: {{ .Values.service.type }}
+  ports:
+  - port: {{ .Values.service.port }}  
+{{- range .Values.serviceConf }}
+  {{ .name | indent 2 }}: {{ .value  }}
+{{ end -}}
+
+
+
+
+
+
+
+
+
+# spec:
+#   ports:
+#   - port: {{ .Values.service.port }}
+#     protocol: {{ .Values.service.protocol }}
+#     targetPort: {{ .Values.service.targetPort }}
+#   selector:
+#     app: {{ include "api.fullname" . }}
+#   type: {{ .Values.service.type }}

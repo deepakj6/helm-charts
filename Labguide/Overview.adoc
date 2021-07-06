@@ -36,7 +36,8 @@ When the instructor kicks off a particular lab, you can use the below links to n
 . link:13.html#["Sharing Chart Data", window="_blank"]
 . link:14.html#["Automated Deployments", window="_blank"]
 . link:15.html#["Automated Testing", window="_blank"]
-. link:16.html#["Publish Helm Charts", window="_blank"]
+. link:16.html#["Publish Helm Charts to Local Chart Repository", window="_blank"]
+. link:17.html#["Publish Helm Charts to Public Chart Repository", window="_blank"]
 
 
 
