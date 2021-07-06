@@ -19,27 +19,38 @@ When the instructor kicks off a particular lab, you can use the below links to n
 
 == Labs
 
-. link:01.html#["Dockerize an application", window="_blank"]
-. link:02.html#["Kubernetes - Deploy Application workloads", window="_blank"]
-. link:03.html#["Pods", window="_blank"]
-. link:04.html#["Multi Container Pods", window="_blank"]
-. link:05.html#["Pod Design", window="_blank"]
-. link:06.html#["Configmaps & Secrets", window="_blank"]
-. link:07.html#["Jobs & CronJobs", window="_blank"]
-. link:08.html#["Resource Quotas", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/01.html#["Dockerize an application", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/02.html#["Kubernetes - Deploy Application workloads", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/03.html#["Pods", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/04.html#["Multi Container Pods", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/05.html#["Pod Design", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/06.html#["Configmaps & Secrets", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/07.html#["Jobs & CronJobs", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/08.html#["Resource Quotas", window="_blank"]
 . Design your deployment
-.. link:08.1-Assignment.html#["Pages Microservice", window="_blank"]
-.. link:08.2-Assignment.html#["Category Microservice", window="_blank"]
-. link:09.html#["Helmify", window="_blank"]
+.. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/08.1-Assignment.html#["Pages Microservice", window="_blank"]
+.. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/08.2-Assignment.html#["Category Microservice", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/09.html#["Helmify", window="_blank"]
 
-. link:10.html#["Helmify 2 tier microservice application", window="_blank"]
-. link:11.html#["Reusable Helm Charts using Helm Templates", window="_blank"]
-. link:12.html#["Refactoring - Best practices ", window="_blank"]
-. link:13.html#["Sharing Chart Data", window="_blank"]
-. link:14.html#["Automated Deployments", window="_blank"]
-. link:15.html#["Automated Testing", window="_blank"]
-. link:16.html#["Publish Helm Charts to Local Chart Repository", window="_blank"]
-. link:17.html#["Publish Helm Charts to Public Chart Repository", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/10.html#["Helmify 2 tier microservice application", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/11.html#["Reusable Helm Charts using Helm Templates", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/12.html#["Refactoring - Best practices ", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/13.html#["Sharing Chart Data", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/14.html#["Automated Deployments", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/15.html#["Automated Testing", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/16.html#["Publish Helm Charts to Local Chart Repository", window="_blank"]
+. link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/brainy/17.html#["Publish Helm Charts to Public Chart Repository", window="_blank"]
+
+
+
+
+
+
+
+
+
+
+
 
 
 
