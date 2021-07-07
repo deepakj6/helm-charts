@@ -123,7 +123,7 @@ kubectl get resourcequota
 
 [source, shell script]
 ------------------
-kubectl delete rs resource-quota
+kubectl delete quota resource-quota
 ------------------
 ====
 
