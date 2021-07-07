@@ -81,7 +81,9 @@ kubectl delete po alpine
 . Create a pod that defines an application container which writes the process to a file every five seconds. Create a adapter container that stores the top 3 processes consuming maximum memory in a report file.
 
 +
-HINT: `ps aux --sort=-pmem` . The output format may slightly vary based on the OS kernel. However, focus on VSZ (virtual memory) or %MEM column
+HINT: `ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem` . The output format may slightly vary based on the OS kernel.
+
++
 Sample Output
 
 +
@@ -116,14 +118,14 @@ spec:
     - image: ubuntu
       name: ubuntu
       command: ["/bin/sh"]
-      args: ["-c", "while true; do ps aux --sort=-pmem > /logs/output.txt; sleep 10; done"]
+      args: ["-c", "while true; do ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem > /logs/output.txt; sleep 10; done"]
       volumeMounts:
         - name: shared-vol
           mountPath: /logs
     - image: alpine
       name: alpine
       command: ["/bin/sh"]
-      args: ["-c", "while true; do cat /logs/output.txt | head -4 > /logs/report.txt;  sleep 10; done"]
+      args: ["-c", "while true; do cat output.txt | head -1 && cat output.txt | tail -3 > /logs/report.txt; sleep 10; done"]
       volumeMounts:
         - name: shared-vol
           mountPath: /logs

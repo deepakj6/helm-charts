@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Multi Container Pods</title>
-  <script src="clipboard.min.js"></script>
+<title>Multi Container Pods</title> <script src="clipboard.min.js"></script>
   <script src="jquery-3.5.1.min.js"></script>
   <script src="clipboard.min.js"></script>
   <script src="velocity.min.js"></script>
@@ -479,8 +478,10 @@ the most commonly used kubernetes commands and concepts to understand <code>mult
 <li>
 <p>Create a pod that defines an application container which writes the process to a file every five seconds. Create a adapter container that stores the top 3 processes consuming maximum memory in a report file.</p>
 <div class="paragraph">
-<p>HINT: <code>ps aux --sort=-pmem</code> . The output format may slightly vary based on the OS kernel. However, focus on VSZ (virtual memory) or %MEM column
-Sample Output</p>
+<p>HINT: <code>ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem</code> . The output format may slightly vary based on the OS kernel.</p>
+</div>
+<div class="paragraph">
+<p>Sample Output</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -512,14 +513,14 @@ student  chrome          14101  1.3  1.1  2512  596  13:09:55 00:17:56</code></p
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: ubuntu</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ubuntu</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
-      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do ps aux --sort=-pmem &gt; /logs/output.txt; sleep 10; done&quot;]</span></span>
+      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do ps -ao &quot;user,comm,pid,pcpu,pmem,start,time&quot; --sort=pmem &gt; /logs/output.txt; sleep 10; done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: shared-vol</span></span>
           <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/logs</span></span>
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: alpine</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">alpine</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
-      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do cat /logs/output.txt | head -4 &gt; /logs/report.txt;  sleep 10; done&quot;]</span></span>
+      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do cat output.txt | head -1 &amp;&amp; cat output.txt | tail -3 &gt; /logs/report.txt; sleep 10; done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: shared-vol</span></span>
           <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/logs</span></span></code></pre>
