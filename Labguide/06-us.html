@@ -427,17 +427,18 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a ConfigMap <code>pages-config</code> from literal values with key=<code>PAGE_CONTENT</code> and value=<code>Hello from pages environment</code> imperatively. Create environment variables for pages aplication with key=<code>PAGE_CONTENT</code> and value to be read from the configmap</p>
+<p>Create a ConfigMap <code>course-config</code> from literal values with key=<code>course</code> and value=<code>k8s</code> imperatively. Create environment variables for nginx pod with key=<code>course</code> and value to be read from the configmap.
+Hint: <code>configMapKeyRef</code></p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create configmap pages-config --from-literal=PAGE_CONTENT=&quot;Hello from pages environment&quot;</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create configmap course-config --from-literal=course=k8s</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-3.yaml</code></p>
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-1.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -445,64 +446,65 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
 <span style="color:#606">metadata</span>:
   <span style="color:#606">labels</span>:
-    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
     <span style="color:#606">env</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: course</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">configMapKeyRef</span>:
-            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
-            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">PAGE_CONTENT</span></span></code></pre>
+            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-config</span></span>
+            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-3.yaml</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-1.yaml</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get cm pages-config</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get cm course-config</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po pages
-kubectl exec -it pages -- env</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx
+kubectl exec -it nginx -- env</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
 </div>
 </div>
 </div>
 </details>
 </li>
 <li>
-<p>Create the above ConfigMap using yaml. Create a nginx pod and read the environment variables key and value from ConfigMap</p>
+<p>Create the above ConfigMap using yaml. Create a nginx pod and read the environment variables key and value from ConfigMap
+Hint: <code>configMapRef</code></p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/cm-4.yaml</code></p>
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/cm-2.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
 <span style="color:#606">data</span>:
-  <span style="color:#606">PAGE_CONTENT</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Hello from pages environment</span></span>
+  <span style="color:#606">course</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">k8s</span></span>
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ConfigMap</span></span>
 <span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span></code></pre>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-config</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-4.yaml</code></p>
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-1.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -510,76 +512,66 @@ kubectl exec -it pages -- env</code></pre>
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
 <span style="color:#606">metadata</span>:
   <span style="color:#606">labels</span>:
-    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
     <span style="color:#606">env</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: course</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">configMapKeyRef</span>:
-            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
-            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">PAGE_CONTENT</span></span></code></pre>
+            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-config</span></span>
+            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/cm-4.yaml
-kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-4.yaml</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/cm-2.yaml
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-1.yaml</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get cm pages-config</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get cm course-config</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po pages
-kubectl exec -it pages -- env</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx
+kubectl exec -it nginx -- env</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
 </div>
 </div>
 </div>
 </details>
 </li>
 <li>
-<p>Create a configMap called <code>pages-config</code> from the configuration file called <code>application.properties</code> that will be used by Pages application.
-Mount this configmap as a volume while creating pod for <code>pages</code> application.
-<strong>Get the container image to be used from the instructors</strong></p>
-<div class="paragraph">
-<p><code>application.properties</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="textmate">page.content=Hello from pages environment</code></pre>
-</div>
-</div>
+<p>Create a ConfigMap from a properties file with key=<code>course</code> and value=<code>k8s</code>. Create a nginx pod and mount the configmap as a volume.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/cm-6.yaml</code></p>
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/cm-5.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ConfigMap</span></span>
 <span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-config</span></span>
 <span style="color:#606">data</span>:
-  <span style="color:#606">application.properties</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">|</span><span style="color:#D20">
-    PAGE_CONTENT: Hello from pages environment</span></span></code></pre>
+  <span style="color:#606">course-info.properties</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">|</span><span style="color:#D20">
+    course: k8s</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-6.yaml</code></p>
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-5.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -587,16 +579,16 @@ Mount this configmap as a volume while creating pod for <code>pages</code> appli
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
 <span style="color:#606">metadata</span>:
   <span style="color:#606">labels</span>:
-    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">volumes</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: config-vol</span></span>
       <span style="color:#606">configMap</span>:
-        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-config</span></span>
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
     <span style="color:#606">volumeMounts</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: config-vol</span></span>
         <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/etc/config</span></span></code></pre>
@@ -604,44 +596,44 @@ Mount this configmap as a volume while creating pod for <code>pages</code> appli
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/cm-6.yaml
-kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-6.yaml</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/cm-5.yaml
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-5.yaml</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get cm pages-config</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get cm course-config</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po pages
-kubectl exec -it pages -- ls /etc/config
-kubectl exec -it pages -- cat /etc/config/application.properties</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx
+kubectl exec -it nginx -- ls /etc/config
+kubectl exec -it nginx -- cat /etc/config/course-info.properties</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
 </div>
 </div>
 </div>
 </details>
 </li>
 <li>
-<p>Create a secret <code>pages-secret</code> from literal values with key=<code>password</code> and value,  <code>base 64</code> encoded <code>admin@123</code> imperatively. Create environment variable for Pages application with key=<code>password</code> and value to be read from the secret.
-Use the <code>pages image</code> same as that in the previous exercise.</p>
+<p>Create a secret <code>course-secret</code> from literal value with key=<code>auth-token</code> and value=base 64 encoded value of <code>token-e8ujdekdjueke</code> imperatively. Create environment variable for nginx pod with key=<code>auth-token</code> and value to be read from the secret.
+Hint: <code>secretMapKeyRef</code></p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create secret generic pages-secret --from-literal=password=admin@123
-kubectl get secret pages-secret</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create secret generic course-secret --from-literal=auth-token=token-e8ujdekdjueke
+kubectl get secret course-secret</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-9.yaml</code></p>
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-7.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -649,34 +641,101 @@ kubectl get secret pages-secret</code></pre>
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
 <span style="color:#606">metadata</span>:
   <span style="color:#606">labels</span>:
-    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
     <span style="color:#606">env</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: password</span></span>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: auth-token</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">secretKeyRef</span>:
-            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>
-            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">password</span></span></code></pre>
+            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-secret</span></span>
+            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">auth-token</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-9.yaml</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-7.yaml</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po pages
-kubectl exec -it pages -- env</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx
+kubectl exec -it nginx -- env</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
+</div>
+</div>
+</div>
+</details>
+</li>
+<li>
+<p>Create a secret <code>course-secret</code> from literal value with key=<code>auth-token</code> and value=base 64 encoded value of <code>token-e8ujdekdjueke</code> using manifest files. Create environment variable for nginx pod with key=<code>auth-token</code> and value to be read from the secret.
+Hint: <code>secretMapKeyRef</code></p>
+<details>
+<summary class="title">Click to see solution</summary>
+<div class="content">
+<div class="paragraph">
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/secret-8.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Secret</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-secret</span></span>
+<span style="color:#606">data</span>:
+  <span style="color:#606">auth-token</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">dG9rZW4tZTh1amRla2RqdWVrZQ==</span></span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-8.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">containers</span>:
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+    <span style="color:#606">env</span>:
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: auth-token</span></span>
+        <span style="color:#606">valueFrom</span>:
+          <span style="color:#606">secretKeyRef</span>:
+            <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">course-secret</span></span>
+            <span style="color:#606">key</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">auth-token</span></span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/secret-8.yaml
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-8.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get secret course-secret</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx
+kubectl exec -it nginx -- env</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
 </div>
 </div>
 </div>
@@ -733,69 +792,6 @@ kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po pages
 kubectl exec -it pages -- env</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po pages</code></pre>
-</div>
-</div>
-</div>
-</details>
-</li>
-<li>
-<p>Create the above secret from a properties file with key=<code>password</code> and value=base 64 encoded value of <code>admin@123</code>. Mount this secret as a volume while creating an nginx pod.</p>
-<details>
-<summary class="title">Click to see solution</summary>
-<div class="content">
-<div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/secret-11.yaml</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
-<span style="color:#606">data</span>:
-  <span style="color:#606">application.properties</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">cGFzc3dvcmQ9YWRtaW5AMTIzCg==</span></span>
-<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Secret</span></span>
-<span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/configuration/pod-11.yaml</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
-<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
-<span style="color:#606">metadata</span>:
-  <span style="color:#606">labels</span>:
-    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-<span style="color:#606">spec</span>:
-  <span style="color:#606">volumes</span>:
-    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: secret-vol</span></span>
-      <span style="color:#606">secret</span>:
-        <span style="color:#606">secretName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>
-  <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-    <span style="color:#606">volumeMounts</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: secret-vol</span></span>
-        <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/etc/config</span></span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/secret-11.yaml
-kubectl apply -f ~/workspace/kubernetes-manifests/competencies/configuration/pod-11.yaml</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get secret pages-secret
-kubectl get po pages
-kubectl exec -it pages -- cat /etc/config/application.properties</code></pre>
 </div>
 </div>
 <div class="listingblock">
