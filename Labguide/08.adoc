@@ -31,6 +31,9 @@ Create all manifest resources in the directory `~/workspace/kubernetes-manifests
 ====
 === Namespaces & ResourceQuotas
 
+
+**All the exercises in this section has to be completed in minikube & not on production cluster**
+
 . Create a namespace called alpha imperatively
 
 +
