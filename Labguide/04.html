@@ -477,19 +477,17 @@ the most commonly used kubernetes commands and concepts to understand <code>mult
 </details>
 </li>
 <li>
-<p>Create a pod that defines an application container which writes the proccess to a file every five seconds. Create a adapter container that display the top 3 processes consuming maximum memory.</p>
+<p>Create a pod that defines an application container which writes the process to a file every five seconds. Create a adapter container that display the top 3 processes consuming maximum memory.</p>
 <div class="paragraph">
-<p>HINT: <code>ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem</code></p>
-</div>
-<div class="paragraph">
-<p>Sample Output</p>
+<p>HINT: <code>ps aux --sort=pmem</code> . The output format may slightly vary based on the OS kernel. However, focus on VSZ (virtual memory) or %MEM column
+Sample Output</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="textmate">USER     COMMAND           PID %CPU %MEM  STARTED     TIME
-student  java            16213  2.7  3.7 07:34:42 00:06:47
-student  gnome-shell      2373 21.7  1.7   Feb 22 2-04:02:42
-student  chrome          14101  1.3  1.1 13:09:55 00:17:56</code></pre>
+<pre class="CodeRay highlight"><code data-lang="textmate">USER     COMMAND           PID %CPU %MEM  VSZ   RSS   STARTED     TIME
+student  java            16213  2.7  3.7  5900  2976  07:34:42 00:06:47
+student  gnome-shell      2373 21.7  1.7  2612  1565  Feb 22 2-04:02:42
+student  chrome          14101  1.3  1.1  2512  596  13:09:55 00:17:56</code></pre>
 </div>
 </div>
 <details>
@@ -514,14 +512,14 @@ student  chrome          14101  1.3  1.1 13:09:55 00:17:56</code></pre>
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: ubuntu</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ubuntu</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
-      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do date &gt; /logs/output.txt; free -tw --giga &gt;&gt; /logs/output.txt; sleep 10; done&quot;]</span></span>
+      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do  ps aux --sort=pmem &gt;&gt; /logs/output.txt; sleep 10; done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: shared-vol</span></span>
           <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/logs</span></span>
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: alpine</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">alpine</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
-      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do echo  'Date: ' $(cat /logs/output.txt |  head -1) &gt; /logs/report.txt; echo 'Total Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 2) GB &gt;&gt; /logs/report.txt; echo 'Free Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 3) GB &gt;&gt; /logs/report.txt; sleep 10; done&quot;]</span></span>
+      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do echo  $(cat /logs/output.txt |  head -4) &gt; /logs/report.txt;  sleep 10; done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: shared-vol</span></span>
           <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/logs</span></span></code></pre>

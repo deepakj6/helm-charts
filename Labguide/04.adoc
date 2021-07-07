@@ -78,20 +78,19 @@ kubectl delete po alpine
 ====
 
 
-. Create a pod that defines an application container which writes the proccess to a file every five seconds. Create a adapter container that display the top 3 processes consuming maximum memory.
+. Create a pod that defines an application container which writes the process to a file every five seconds. Create a adapter container that display the top 3 processes consuming maximum memory.
 
 +
-HINT: `ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem`
-+
+HINT: `ps aux --sort=pmem` . The output format may slightly vary based on the OS kernel. However, focus on VSZ (virtual memory) or %MEM column
 Sample Output
 
 +
 [source, textmate]
 -------------
-USER     COMMAND           PID %CPU %MEM  STARTED     TIME
-student  java            16213  2.7  3.7 07:34:42 00:06:47
-student  gnome-shell      2373 21.7  1.7   Feb 22 2-04:02:42
-student  chrome          14101  1.3  1.1 13:09:55 00:17:56
+USER     COMMAND           PID %CPU %MEM  VSZ   RSS   STARTED     TIME
+student  java            16213  2.7  3.7  5900  2976  07:34:42 00:06:47
+student  gnome-shell      2373 21.7  1.7  2612  1565  Feb 22 2-04:02:42
+student  chrome          14101  1.3  1.1  2512  596  13:09:55 00:17:56
 -------------
 
 
@@ -117,14 +116,14 @@ spec:
     - image: ubuntu
       name: ubuntu
       command: ["/bin/sh"]
-      args: ["-c", "while true; do date > /logs/output.txt; free -tw --giga >> /logs/output.txt; sleep 10; done"]
+      args: ["-c", "while true; do  ps aux --sort=pmem >> /logs/output.txt; sleep 10; done"]
       volumeMounts:
         - name: shared-vol
           mountPath: /logs
     - image: alpine
       name: alpine
       command: ["/bin/sh"]
-      args: ["-c", "while true; do echo  'Date: ' $(cat /logs/output.txt |  head -1) > /logs/report.txt; echo 'Total Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 2) GB >> /logs/report.txt; echo 'Free Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 3) GB >> /logs/report.txt; sleep 10; done"]
+      args: ["-c", "while true; do echo  $(cat /logs/output.txt |  head -4) > /logs/report.txt;  sleep 10; done"]
       volumeMounts:
         - name: shared-vol
           mountPath: /logs
