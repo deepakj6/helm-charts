@@ -159,9 +159,9 @@ docker run -p 5000:5000 pages
 ---------------------------------------------------------------------
 
 +
-In the run command, we have specified that the port 8080 on the container should be mapped to the port 8080 on the Host OS.
+In the run command, we have specified that the port 5000 on the container should be mapped to the port 5000 on the Host OS.
 +
-Once the application is started, you should be able to access it at link:http://localhost:8080["http://localhost:8080", window="_blank"]
+Once the application is started, you should be able to access it at link:http://localhost:5000["http://localhost:5000", window="_blank"]
 +
 The container runs in the foreground. You can run the  container in the background using -d option.
 +
