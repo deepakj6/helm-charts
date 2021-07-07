@@ -431,11 +431,6 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 </table>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_pods">Pods</h2>
-<div class="sectionbody">
 <div class="sect2">
 <h3 id="_advanced_configuration_custom_commands">Advanced Configuration &amp; Custom Commands</h3>
 <div class="olist arabic">
@@ -467,6 +462,11 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pods/1.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl logs busybox -f</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -520,7 +520,7 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 </details>
 </li>
 <li>
-<p>Create an nginx pod and test it in the browser  - Instructions</p>
+<p>Create an nginx pod and test it in the browser</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -606,7 +606,7 @@ kubectl port-forward pod/nginx 8080:80</code></pre>
 </details>
 </li>
 <li>
-<p>Create a busybox pod which prints the <code>current date</code> on the console  - Instructions</p>
+<p>Create a busybox pod which prints the <code>current date</code> on the console</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -633,7 +633,7 @@ kubectl port-forward pod/nginx 8080:80</code></pre>
 </details>
 </li>
 <li>
-<p>Create a busybox pod which prints <code>current date</code> on the console, for every 10 seconds infinitely  - Instructions</p>
+<p>Create a busybox pod which prints <code>current date</code> on the console, for every 10 seconds infinitely</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -714,7 +714,7 @@ Verify the environment variables are set properly</p>
 </li>
 <li>
 <p>Create environment variables for pages application with key=<code>PAGE_CONTENT</code> and value=<code>Hello from pages environment</code>
-Verify the environment variables are set properly  - Instructions</p>
+Verify the environment variables are set properly</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -763,10 +763,6 @@ Verify the environment variables are set properly  - Instructions</p>
 <h3 id="_probes_and_observability">Probes and Observability:</h3>
 <div class="olist arabic">
 <ol class="arabic">
-<li>
-<p>Create a simple web server that starts serving traffic after some delay while the application starts up. If we didn&#8217;t configure our
-readiness probe, Kubernetes would either start sending traffic to the container before we&#8217;re ready, or it would mark the pod as unhealthy and never send it traffic. Use the image <code>python:2.7-alpine</code></p>
-</li>
 <li>
 <p>Create a pod that runs a web server. Configure readiness probe within the pod so that Kubernetes sends the
 first request after 5 seconds and check if port 80 is accessible. Hint: use nginx image</p>
@@ -863,7 +859,7 @@ first request after 5 seconds and check if port 80 is accessible. Hint: use ngin
 </details>
 </li>
 <li>
-<p>Configure liveness and readiness probe for pages to check if the application is accessible at port 8080 - Instructions</p>
+<p>Configure liveness and readiness probe for pages to check if the application is accessible at port 8080</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -971,7 +967,7 @@ first request after 5 seconds and check if port 80 is accessible. Hint: use ngin
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl exec -it busybox-1 -- cat /var/out/log.txt</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl exec -it busybox-1 -- cat /var/output/log.txt</code></pre>
 </div>
 </div>
 </div>
@@ -1010,7 +1006,7 @@ first request after 5 seconds and check if port 80 is accessible. Hint: use ngin
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: busybox</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">busybox-2</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
-      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;,&quot;while true; do date &gt; /var/output/log.txt; sleep 5;done&quot;]</span></span>
+      <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;,&quot;while true; do date &gt;&gt; /var/output/log.txt; sleep 5;done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: log-volume</span></span>
           <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/var/output</span></span></code></pre>
@@ -1028,11 +1024,19 @@ first request after 5 seconds and check if port 80 is accessible. Hint: use ngin
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl exec -it busybox-2 -- cat /var/out/log.txt
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl exec -it busybox-2 -- cat /var/output/log.txt
 kubectl delete po busybox-1
-kubectl delete po busybox-2
-minikube ssh
-cat /var/out/log.txt</code></pre>
+kubectl delete po busybox-2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>+
+Check the content of <code>log.txt</code>. If working in minikube you can use <code>minikube ssh</code> to connect into the node.
+If working in production cluster on eks, ssh might be disabled.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">cat /var/output/log.txt</code></pre>
 </div>
 </div>
 </div>

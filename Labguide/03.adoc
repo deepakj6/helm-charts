@@ -65,6 +65,10 @@ kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pods/1.yaml
 ------------------
 [source, shell script]
 ------------------
+kubectl logs busybox -f
+------------------
+[source, shell script]
+------------------
 kubectl delete po busybox
 ------------------
 ====
@@ -104,7 +108,7 @@ kubectl logs busybox -f
 kubectl delete po busybox
 ------------------
 ====
-. Create an nginx pod and test it in the browser  - Instructions
+. Create an nginx pod and test it in the browser
 +
 .Click to see solution
 [%collapsible]
@@ -179,7 +183,7 @@ curl localhost:8080
 kubectl delete po nginx
 ------------------
 ====
-. Create a busybox pod which prints the `current date` on the console  - Instructions
+. Create a busybox pod which prints the `current date` on the console
 +
 .Click to see solution
 [%collapsible]
@@ -201,7 +205,7 @@ spec:
       args: ["-c","date"]
 ------------------
 ====
-. Create a busybox pod which prints `current date` on the console, for every 10 seconds infinitely  - Instructions
+. Create a busybox pod which prints `current date` on the console, for every 10 seconds infinitely
 +
 .Click to see solution
 [%collapsible]
@@ -271,7 +275,7 @@ kubectl delete po busybox
 
 
 . Create environment variables for pages application with key=`PAGE_CONTENT` and value=`Hello from pages environment`
-    Verify the environment variables are set properly  - Instructions
+    Verify the environment variables are set properly
 
 +
 .Click to see solution
@@ -312,10 +316,6 @@ kubectl delete po pages
 
 
 === Probes and Observability:
-
-
-. Create a simple web server that starts serving traffic after some delay while the application starts up. If we didn't configure our
-readiness probe, Kubernetes would either start sending traffic to the container before we're ready, or it would mark the pod as unhealthy and never send it traffic. Use the image `python:2.7-alpine`
 
 . Create a pod that runs a web server. Configure readiness probe within the pod so that Kubernetes sends the
 first request after 5 seconds and check if port 80 is accessible. Hint: use nginx image
@@ -401,7 +401,7 @@ kubectl get po nginx -w
 kubectl delete po nginx
 ------------------
 ====
-. Configure liveness and readiness probe for pages to check if the application is accessible at port 8080 - Instructions
+. Configure liveness and readiness probe for pages to check if the application is accessible at port 8080
 
 +
 .Click to see solution
@@ -489,7 +489,7 @@ kubectl get po -w
 ------------------
 [source, shell script]
 ------------------
-kubectl exec -it busybox-1 -- cat /var/out/log.txt
+kubectl exec -it busybox-1 -- cat /var/output/log.txt
 ------------------
 
 ====
@@ -521,7 +521,7 @@ spec:
     - image: busybox
       name: busybox-2
       command: ["/bin/sh"]
-      args: ["-c","while true; do date > /var/output/log.txt; sleep 5;done"]
+      args: ["-c","while true; do date >> /var/output/log.txt; sleep 5;done"]
       volumeMounts:
         - name: log-volume
           mountPath: /var/output
@@ -538,11 +538,18 @@ kubectl get po -w
 ------------------
 [source, shell script]
 ------------------
-kubectl exec -it busybox-2 -- cat /var/out/log.txt
+kubectl exec -it busybox-2 -- cat /var/output/log.txt
 kubectl delete po busybox-1
 kubectl delete po busybox-2
-minikube ssh
-cat /var/out/log.txt
+------------------
++
+Check the content of `log.txt`. If working in minikube you can use `minikube ssh` to connect into the node.
+If working in production cluster on eks, ssh might be disabled.
+
+
+[source, shell script]
+------------------
+cat /var/output/log.txt
 ------------------
 
 ====
