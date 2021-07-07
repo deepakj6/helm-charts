@@ -1,0 +1,106 @@
+= Jobs & CronJobs
+:stylesheet: boot-flatly.css
+:nofooter:
+:data-uri:
+:icons: font
+:linkattrs:
+
+=== Jobs and CronJobs
+
+. Create a job to calculate the value of pi upto 1000 digits and print the output in command line. Use Perl to calculate.
+
++
+
+.Click to see solution
+[%collapsible]
+====
+
+`~/workspace/kubernetes-manifests/competencies/jobs/job-2.yaml`
+[source, yaml]
+------------------
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    run: perl
+  name: perl
+spec:
+  template:
+    spec:
+      containers:
+      - image: perl
+        name: perl
+        command: ["perl","-Mbignum=bpi", "-wle", "print bpi(1000)"]
+      restartPolicy: Never
+------------------
+
+[source, shell script]
+------------------
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/jobs/job-2.yaml
+kubectl get job perl
+kubectl get pods
+kubectl logs <job-pod-name>
+------------------
+[source, shell script]
+------------------
+kubectl delete job perl
+------------------
+====
+
+. Create a CronJob that will ping Github every minute and check that their site hasn't gone down. You can use alpine image.
+
++
+
+`image: busybox`
+
++
+
+`command: ["/bin/sh"]`
++
+`args: ["-c", "ping -w 1 github.com"]`
+
++
+
+.Click to see solution
+[%collapsible]
+====
+
+`~/workspace/kubernetes-manifests/competencies/jobs/job-4.yaml`
+[source, yaml]
+------------------
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: job-4
+spec:
+  jobTemplate:
+    metadata:
+      name: job-4
+    spec:
+      template:
+        metadata:
+        spec:
+          containers:
+          - image: busybox
+            name: job-4
+            command: ["/bin/sh"]
+            args: ["-c", "ping -w 1 github.com"]
+          restartPolicy: OnFailure
+  schedule: '*/1 * * * *'
+------------------
+
+[source, shell script]
+------------------
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/jobs/job-4.yaml
+kubectl get cronjob job-4
+kubectl get pods
+------------------
+[source, shell script]
+------------------
+kubectl logs <pod-name>
+------------------
+[source, shell script]
+------------------
+kubectl delete cronjob job-4
+------------------
+====
