@@ -17,18 +17,25 @@ After completing the lab, you will be able to understand
 == Develop the pages microservice
 
 .  Docker image of pages microservice is available in the image registry. We will be focusing on designing the deployment architecture.
-.  It is necessary to understand the configuration requirements and dependecies, if any, in order for the application to work properly once deployed.
+.  It is necessary to understand the configuration requirements and dependencies, if any, in order for the application to work properly once deployed.
 . Let us examine the deployment architecture. The microservice is composed of a 2 tier architecture.
  In order to complete the design:
 .. We will have to design the db tier and service tier
-.. Look at the dependecies and figure out a way to connect the database tier with the service tier
+.. Look at the dependencies and figure out a way to connect the database tier with the service tier
 
 == Designing the architecture
 
 image::deployment-architecture-with-storage.png[]
 
-== Deploying to minikube
 
+
+. Delete the contents of `~/workspace/kubernetes-manifests` directory
+. Download link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/J21/tailorlabguide/pages.zip[pages microservice manifest files, window="_blank"] and extract to `~/workspace/kubernetes-manifests/pages`
+. Download link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/J21/tailorlabguide/mysql.zip[mysql manifest files, window="_blank"] and extract to `~/workspace/kubernetes-manifests/mysql`
+. Walkthrough the manifest files & understand the solution to the deployment architecture.
+. Before we start deploying, replace `[student-name]` with your namespace in all the manifest files.
+
+== Deploying to K8s
 
 .  Create storage related objects in minikube
 +
