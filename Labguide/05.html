@@ -748,11 +748,6 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete deploy pages</code></pre>
-</div>
-</div>
 </div>
 </details>
 </li>
@@ -813,6 +808,11 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl scale deployment pages --replicas=1</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete deploy pages</code></pre>
 </div>
 </div>
 </div>
@@ -1059,7 +1059,8 @@ docker push [docker-username]/nginx:green</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/kubernetes-manifests/competencies/services/blue</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/workspace/kubernetes-manifests/competencies/services/blue
+cd ~/workspace/kubernetes-manifests/competencies/services/blue</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1123,6 +1124,10 @@ kubectl get all</code></pre>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get svc nginx</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p><strong>The next set of instructions are provided for minikube. But if you want to run it on production cluster
+you will have to provide appropriate security policies for inbound access on the node port</strong></p>
 </div>
 <div class="paragraph">
 <p><strong>Copy the 5 digit NODEPORT under the column PORT(S)</strong></p>
@@ -1363,13 +1368,13 @@ kubectl delete pv log-pv-[student-name]</code></pre>
 </details>
 </li>
 <li>
-<p>Re-design the pod that was created in  Multicontainer section: Exercise 2, such that the written files will be mounted on Persistent Volume.
+<p>Re-design the pod that was created in  Multicontainer section: Exercise 3, such that the written files will be mounted on Persistent Volume.
 Create required Persistent Volume and Persistent Volume Claim. Storage capacity of Persistent Volume shoud not exceed 500M</p>
 <details>
-<summary class="title">Click to see solution</summary>
+<summary class="title">Click to see Notes</summary>
 <div class="content">
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/volumes/pod-2.yaml</code></p>
+<p>Create  <code>~/workspace/kubernetes-manifests/competencies/volumes/pod-2.yaml</code> file with the below content and <strong>modify the manifest to use PV &amp; PVC</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">

@@ -78,10 +78,10 @@ kubectl delete po alpine
 ====
 
 
-. Create a pod that defines an application container which writes the process to a file every five seconds. Create a adapter container that stores the top 3 processes consuming maximum memory in a report file.
+. Create a pod that defines an application container which writes the process to a file every 10 seconds. Create a adapter container that writes the datetime and the top 3 processes consuming maximum memory in a report file.
 
 +
-HINT: `ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem` . The output format may slightly vary based on the OS kernel.
+HINT: Use the command`ps aux` and sort it based on memory usage . The output format may slightly vary based on the OS kernel.
 
 +
 Sample Output
@@ -89,6 +89,7 @@ Sample Output
 +
 [source, textmate]
 -------------
+Sat Nov 7 11:18:11 UTC 2020
 USER     COMMAND           PID %CPU %MEM  VSZ   RSS   STARTED     TIME
 student  java            16213  2.7  3.7  5900  2976  07:34:42 00:06:47
 student  gnome-shell      2373 21.7  1.7  2612  1565  Feb 22 2-04:02:42
@@ -118,14 +119,14 @@ spec:
     - image: ubuntu
       name: ubuntu
       command: ["/bin/sh"]
-      args: ["-c", "while true; do ps -ao "user,comm,pid,pcpu,pmem,start,time" --sort=pmem > /logs/output.txt; sleep 10; done"]
+      args: ["-c", "while true; do ps aux --sort=-pmem > /logs/output.txt; sleep 10; done"]
       volumeMounts:
         - name: shared-vol
           mountPath: /logs
     - image: alpine
       name: alpine
       command: ["/bin/sh"]
-      args: ["-c", "while true; do cat output.txt | head -1 && cat output.txt | tail -3 > /logs/report.txt; sleep 10; done"]
+      args: ["-c", "while true; do date > /logs/report.txt; cat /logs/output.txt | head -4 >> /logs/report.txt; sleep 10; done"]
       volumeMounts:
         - name: shared-vol
           mountPath: /logs

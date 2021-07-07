@@ -314,10 +314,7 @@ kubectl get deployment pages
 ------------------
 kubectl get po
 ------------------
-[source, shell script]
-------------------
-kubectl delete deploy pages
-------------------
+
 ====
 
 . Verify the second version of deployment has been deployed and rolled out
@@ -372,6 +369,10 @@ kubectl scale deployment pages --replicas=5
 [source, shell script]
 ------------------
 kubectl scale deployment pages --replicas=1
+------------------
+[source, shell script]
+------------------
+kubectl delete deploy pages
 ------------------
 ====
 
@@ -590,6 +591,7 @@ docker push [docker-username]/nginx:green
 
 [source, shell script]
 ------------------
+mkdir ~/workspace/kubernetes-manifests/competencies/services/blue
 cd ~/workspace/kubernetes-manifests/competencies/services/blue
 ------------------
 
@@ -651,6 +653,10 @@ kubectl get all
 ------------------
 kubectl get svc nginx
 ------------------
+
+**The next set of instructions are provided for minikube. But if you want to run it on production cluster
+you will have to provide appropriate security policies for inbound access on the node port**
+
 **Copy the 5 digit NODEPORT under the column PORT(S)**
 
 [source, shell script]
@@ -852,15 +858,15 @@ kubectl delete pv log-pv-[student-name]
 ------------------
 ====
 
-. Re-design the pod that was created in  Multicontainer section: Exercise 2, such that the written files will be mounted on Persistent Volume.
+. Re-design the pod that was created in  Multicontainer section: Exercise 3, such that the written files will be mounted on Persistent Volume.
 Create required Persistent Volume and Persistent Volume Claim. Storage capacity of Persistent Volume shoud not exceed 500M
 
 +
 
-.Click to see solution
+.Click to see Notes
 [%collapsible]
 ====
-`~/workspace/kubernetes-manifests/competencies/volumes/pod-2.yaml`
+Create  `~/workspace/kubernetes-manifests/competencies/volumes/pod-2.yaml` file with the below content and **modify the manifest to use PV & PVC**
 [source, yaml]
 ------------------
 apiVersion: v1
