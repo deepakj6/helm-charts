@@ -173,6 +173,7 @@ helm template pages
 helm upgrade api pages
 helm list
 kubectl get deploy pages
+kubectl get pods
 ------------------
 
 . You can notice that the deployment fails. What could be the reason?
