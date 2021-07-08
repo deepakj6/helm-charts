@@ -80,7 +80,7 @@ appVersion: "1.0"
 . Create the manifest files for pages api service
 
 +
-`pages/api/templates/config.yaml`
+`pages/charts/api/templates/config.yaml`
 +
 
 [source, yaml]
@@ -95,7 +95,7 @@ metadata:
 
 ------------------
 +
-`pages/api/templates/deployment.yaml`
+`pages/charts/api/templates/deployment.yaml`
 +
 [source, yaml]
 ------------------
@@ -172,7 +172,7 @@ spec:
 ------------------
 
 +
-`pages/api/templates/service.yaml`
+`pages/charts/api/templates/service.yaml`
 +
 
 [source, yaml]
@@ -198,7 +198,7 @@ spec:
 
 . Create the manifest files for mysql service
 +
-`pages/mysql/templates/config.yaml`
+`pages/charts/mysql/templates/config.yaml`
 +
 [source, yaml]
 ------------------
@@ -224,7 +224,7 @@ data:
 
 ------------------
 +
-`pages/mysql/templates/secret.yaml`
+`pages/charts/mysql/templates/secret.yaml`
 +
 [source, yaml]
 ------------------
@@ -239,7 +239,7 @@ metadata:
   namespace: [replace-this-with-your-namespace]
 ------------------
 +
-`pages/mysql/templates/service.yaml`
+`pages/charts/mysql/templates/service.yaml`
 +
 [source, yaml]
 ------------------
@@ -260,7 +260,7 @@ spec:
   type: ClusterIP
 ------------------
 +
-`pages/mysql/templates/pv.yaml`
+`pages/charts/mysql/templates/pv.yaml`
 +
 [source, yaml]
 ------------------
@@ -280,7 +280,7 @@ spec:
     path: "/var/lib/mysql/[replace-this-with-your-namespace]"
 ------------------
 +
-`pages/mysql/templates/pvc.yaml`
+`pages/charts/mysql/templates/pvc.yaml`
 +
 [source, yaml]
 ------------------
@@ -298,7 +298,7 @@ spec:
       storage: 1Gi
 ------------------
 +
-`pages/mysql/templates/storage-class.yaml`
+`pages/charts/mysql/templates/storage-class.yaml`
 +
 [source, yaml]
 ------------------
@@ -313,7 +313,7 @@ reclaimPolicy: Retain
 volumeBindingMode: Immediate
 ------------------
 +
-`pages/mysql/templates/deployment.yaml`
+`pages/charts/mysql/templates/deployment.yaml`
 +
 [source, yaml]
 ------------------
@@ -365,7 +365,7 @@ spec:
             claimName: mysql-pvc-[replace-this-with-your-namespace]
 ------------------
 +
-`pages/mysql/templates/flyway-job.yaml`
+`pages/charts/mysql/templates/flyway-job.yaml`
 +
 [source, yaml]
 ------------------
