@@ -55,13 +55,14 @@ kubectl get pv
 kubectl get pvc
 --------
 
-.  Create configmaps and secrets
+.  Create configmaps,secrets and rbac
 +
 [source,shell script]
 --------
 kubectl apply -f ~/workspace/kubernetes-manifests/mysql/configmap.yaml
 kubectl apply -f ~/workspace/kubernetes-manifests/mysql/secret.yaml
 kubectl apply -f ~/workspace/kubernetes-manifests/pages/config.yaml
+kubectl apply -f ~/workspace/kubernetes-manifests/pages/rbac.yaml
 --------
 
 .  Create all the services
@@ -79,3 +80,6 @@ kubectl apply -f ~/workspace/kubernetes-manifests/mysql/deployment.yaml
 kubectl apply -f ~/workspace/kubernetes-manifests/mysql/flyway-job.yaml
 kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml
 --------
+
+. We successfully deployed `pages` microservice application to K8s cluster.
+But, does it work as exppected? Test it using basic curl commands.

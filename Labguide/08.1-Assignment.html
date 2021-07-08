@@ -479,12 +479,13 @@ kubectl get pvc</code></pre>
 </div>
 </li>
 <li>
-<p>Create configmaps and secrets</p>
+<p>Create configmaps,secrets and rbac</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/mysql/configmap.yaml
 kubectl apply -f ~/workspace/kubernetes-manifests/mysql/secret.yaml
-kubectl apply -f ~/workspace/kubernetes-manifests/pages/config.yaml</code></pre>
+kubectl apply -f ~/workspace/kubernetes-manifests/pages/config.yaml
+kubectl apply -f ~/workspace/kubernetes-manifests/pages/rbac.yaml</code></pre>
 </div>
 </div>
 </li>
@@ -506,6 +507,10 @@ kubectl apply -f ~/workspace/kubernetes-manifests/mysql/flyway-job.yaml
 kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml</code></pre>
 </div>
 </div>
+</li>
+<li>
+<p>We successfully deployed <code>pages</code> microservice application to K8s cluster.
+But, does it work as exppected? Test it using basic curl commands.</p>
 </li>
 </ol>
 </div>
