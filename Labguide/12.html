@@ -509,7 +509,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <p>Config map remains the same for pages api, since we want to ensure the configmap name to be the same as chart name, which is needed by the application.</p>
 </li>
 <li>
-<p>Patch the name field for <code>pages/api/templates/secret.yaml</code></p>
+<p>Patch the name field for <code>pages/charts/api/templates/secret.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;api.fullname&quot; . }}</span></span></code></pre>
@@ -517,7 +517,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/api/templates/service.yaml</code></p>
+<p>Update <code>pages/charts/api/templates/service.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
@@ -538,7 +538,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/api/templates/deployment.yaml</code></p>
+<p>Update <code>pages/charts/api/templates/deployment.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">apps/v1</span></span>
@@ -628,7 +628,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Patch the name field for <code>pages/mysql/templates/config.yaml</code></p>
+<p>Patch the name field for <code>pages/charts/mysql/templates/config.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
@@ -636,7 +636,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Patch the name field for <code>pages/mysql/templates/secret.yaml</code></p>
+<p>Patch the name field for <code>pages/charts/mysql/templates/secret.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
@@ -644,7 +644,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/mysql/templates/service.yaml</code></p>
+<p>Update <code>pages/charts/mysql/templates/service.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
@@ -663,7 +663,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Patch the name field for <code>pages/mysql/templates/storage-class.yaml</code></p>
+<p>Patch the name field for <code>pages/charts/mysql/templates/storage-class.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span></code></pre>
@@ -671,7 +671,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/mysql/templates/pv.yaml</code></p>
+<p>Update <code>pages/charts/mysql/templates/pv.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
@@ -692,7 +692,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/mysql/templates/pvc.yaml</code></p>
+<p>Update <code>pages/charts/mysql/templates/pvc.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
@@ -710,7 +710,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/mysql/templates/flyway-job.yaml</code></p>
+<p>Update <code>pages/charts/mysql/templates/flyway-job.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">batch/v1</span></span>
@@ -763,7 +763,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 </div>
 </li>
 <li>
-<p>Update <code>pages/mysql/templates/deployment.yaml</code></p>
+<p>Update <code>pages/charts/mysql/templates/deployment.yaml</code></p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">apps/v1</span></span>

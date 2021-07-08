@@ -102,7 +102,7 @@ mysql_svc_name: mysql
 . Config map remains the same for pages api, since we want to ensure the configmap name to be the same as chart name, which is needed by the application.
 
 +
-. Patch the name field for `pages/api/templates/secret.yaml`
+. Patch the name field for `pages/charts/api/templates/secret.yaml`
 +
 
 [source, yaml]
@@ -110,7 +110,7 @@ mysql_svc_name: mysql
 name: {{ include "api.fullname" . }}
 ------------------
 +
-. Update `pages/api/templates/service.yaml`
+. Update `pages/charts/api/templates/service.yaml`
 +
 
 [source, yaml]
@@ -132,7 +132,7 @@ spec:
 ------------------
 
 +
-. Update `pages/api/templates/deployment.yaml`
+. Update `pages/charts/api/templates/deployment.yaml`
 +
 
 [source, yaml]
@@ -218,7 +218,7 @@ spec:
 === Update the manifest files for mysql
 
 
-. Patch the name field for `pages/mysql/templates/config.yaml`
+. Patch the name field for `pages/charts/mysql/templates/config.yaml`
 +
 
 [source, yaml]
@@ -227,7 +227,7 @@ name: {{ include "mysql.fullname" . }}
 ------------------
 
 
-. Patch the name field for `pages/mysql/templates/secret.yaml`
+. Patch the name field for `pages/charts/mysql/templates/secret.yaml`
 +
 
 [source, yaml]
@@ -235,7 +235,7 @@ name: {{ include "mysql.fullname" . }}
 name: {{ include "mysql.fullname" . }}
 ------------------
 
-. Update `pages/mysql/templates/service.yaml`
+. Update `pages/charts/mysql/templates/service.yaml`
 +
 
 [source, yaml]
@@ -254,7 +254,7 @@ spec:
   type: {{ .Values.service.type }}
 ------------------
 
-. Patch the name field for `pages/mysql/templates/storage-class.yaml`
+. Patch the name field for `pages/charts/mysql/templates/storage-class.yaml`
 
 +
 [source, yaml]
@@ -263,7 +263,7 @@ name: {{ include "mysql.fullname" . }}
 ------------------
 
 
-. Update `pages/mysql/templates/pv.yaml`
+. Update `pages/charts/mysql/templates/pv.yaml`
 +
 
 [source, yaml]
@@ -286,7 +286,7 @@ spec:
 ------------------
 
 +
-. Update `pages/mysql/templates/pvc.yaml`
+. Update `pages/charts/mysql/templates/pvc.yaml`
 +
 
 [source, yaml]
@@ -305,7 +305,7 @@ spec:
 ------------------
 
 +
-. Update `pages/mysql/templates/flyway-job.yaml`
+. Update `pages/charts/mysql/templates/flyway-job.yaml`
 +
 
 [source, yaml]
@@ -359,7 +359,7 @@ spec:
 ------------------
 
 
-. Update `pages/mysql/templates/deployment.yaml`
+. Update `pages/charts/mysql/templates/deployment.yaml`
 +
 
 [source, yaml]

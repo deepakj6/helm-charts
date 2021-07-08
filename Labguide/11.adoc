@@ -146,7 +146,7 @@ storageClass:
 . Create the manifest files for pages api service
 
 +
-`pages/api/templates/config.yaml`
+`pages/charts/api/templates/config.yaml`
 +
 
 [source, yaml]
@@ -159,7 +159,7 @@ metadata:
   name: {{ .Chart.Name }}
 ------------------
 +
-`pages/api/templates/secret.yaml`
+`pages/charts/api/templates/secret.yaml`
 +
 
 [source, yaml]
@@ -172,7 +172,7 @@ metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}
 ------------------
 +
-`pages/api/templates/service.yaml`
+`pages/charts/api/templates/service.yaml`
 +
 
 [source, yaml]
@@ -194,7 +194,7 @@ spec:
 ------------------
 
 +
-`pages/api/templates/deployment.yaml`
+`pages/charts/api/templates/deployment.yaml`
 +
 
 [source, yaml]
@@ -269,7 +269,7 @@ spec:
 ------------------
 
 +
-`pages/mysql/templates/config.yaml`
+`pages/charts/mysql/templates/config.yaml`
 +
 
 [source, yaml]
@@ -296,7 +296,7 @@ data:
 ------------------
 
 +
-`pages/mysql/templates/secret.yaml`
+`pages/charts/mysql/templates/secret.yaml`
 +
 
 [source, yaml]
@@ -310,7 +310,7 @@ metadata:
 ------------------
 
 +
-`pages/mysql/templates/service.yaml`
+`pages/charts/mysql/templates/service.yaml`
 +
 
 [source, yaml]
@@ -330,7 +330,7 @@ spec:
 ------------------
 
 +
-`pages/mysql/templates/storage-class.yaml`
+`pages/charts/mysql/templates/storage-class.yaml`
 +
 
 [source, yaml]
@@ -348,7 +348,7 @@ volumeBindingMode: {{ .Values.storageClass.volumeBindingMode }}
 ------------------
 
 +
-`pages/mysql/templates/pv.yaml`
+`pages/charts/mysql/templates/pv.yaml`
 +
 
 [source, yaml]
@@ -371,7 +371,7 @@ spec:
 ------------------
 
 +
-`pages/mysql/templates/pvc.yaml`
+`pages/charts/mysql/templates/pvc.yaml`
 +
 
 [source, yaml]
@@ -391,7 +391,7 @@ spec:
 ------------------
 
 +
-`pages/mysql/templates/flyway-job.yaml`
+`pages/charts/mysql/templates/flyway-job.yaml`
 +
 
 [source, yaml]
@@ -446,7 +446,7 @@ spec:
 ------------------
 
 +
-`pages/mysql/templates/deployment.yaml`
+`pages/charts/mysql/templates/deployment.yaml`
 +
 
 [source, yaml]
