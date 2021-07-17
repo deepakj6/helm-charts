@@ -6,11 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <title>Resource Quotas</title>
-    <script src="clipboard.min.js"></script>
-    <script src="jquery-3.5.1.min.js"></script>
-    <script src="clipboard.min.js"></script>
-    <script src="velocity.min.js"></script>
-    <link rel="stylesheet" href="font-awesome.min.css" />
+  <script src="clipboard.min.js"></script>
+  <script src="jquery-3.5.1.min.js"></script>
+  <script src="clipboard.min.js"></script>
+  <script src="velocity.min.js"></script>
+  <link rel="stylesheet" href="font-awesome.min.css" />
 <style>
 /* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
 @import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
@@ -433,55 +433,66 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a namespace called alpha imperatively</p>
+<p>Create a namespace called <code>[student-name]-test</code> either imperatively or declaratively.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create namespace alpha</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create namespace [student-name]-test</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete namespace alpha</code></pre>
-</div>
-</div>
-</div>
-</details>
-</li>
-<li>
-<p>Create a namespace called angel declaratively</p>
-<details>
-<summary class="title">Click to see solution</summary>
-<div class="content">
 <div class="paragraph">
-<p><code>~/workspace/kubernetes-manifests/competencies/namespace/ns-1.yaml</code></p>
+<p><em>After creating it, when you try to create k8s resources inside the cluster, which namespace will it get created in?
+Lets create an <code>nginx</code> pod</em></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
-<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Namespace</span></span>
-<span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">angel</span></span></code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/namespace/ns-1.yaml
-kubectl get ns</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete ns angel</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get pods</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Do you see the pod?</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get pods --all-namespaces</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Was there an issue?  Discuss with your pair.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete namespace [student-name]-test</code></pre>
+</div>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>What did you understand? Everytime you create a new namespace, you have to point the <code>kubectl context</code> to that particular namespace.
+Without doing that, you might end up creating it in a difference namespace.</p>
+</li>
+<li>
+<p>What is the workaround? You can pass <code>--namespace</code> or <code>-n</code> argument while creating the resource by explicitly specifying the namespace.</p>
+</li>
+</ol>
 </div>
 </div>
 </details>
 </li>
 <li>
-<p>Create a resource quota in the namespace alpha with the below requirement. After creating the quota, Create an nginx pod within alpha and should you get an error, try to troubleshoot and solve it</p>
+<p>Create a resource quota in the namespace <code>[student-name]</code> with the below requirement.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#F00;background-color:#FAA">pods:5</span>
@@ -506,9 +517,11 @@ kubectl get ns</code></pre>
   <span style="color:#606">namespace</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[student-name]</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">hard</span>:
-    <span style="color:#606">cpu</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">2</span></span>
-    <span style="color:#606">memory</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">2Gi</span></span>
-    <span style="color:#606">pods</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">5</span></span></code></pre>
+    <span style="color:#F00;background-color:#FAA">pods:5</span>
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>requests.cpu</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">2</span><span style="color:#710">&quot;</span></span>
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>requests.memory</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1024m</span></span>
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>limits.cpu</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">4</span><span style="color:#710">&quot;</span></span>
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>limits.memory</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">2048m</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -517,9 +530,74 @@ kubectl get ns</code></pre>
 kubectl get resourcequota</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Create an <code>nginx</code> pod within <code>[student-name]</code></p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete quota resource-quota</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Do you see an error while trying to create the pod? <br></p>
+</div>
+<div class="paragraph">
+<p><strong>Error from server (Forbidden): pods "nginx" is forbidden: failed quota: resource-quota: must specify cpu,memory</strong></p>
+</div>
+<div class="paragraph">
+<p>This time try to create the pod using the manifest file.
+Take the help of <code>kubectl explain</code> command to see the options for specifying <em>resource requests &amp; limits</em> for a pod.
+Modify the manifest accordingly and create the pod.</p>
+</div>
+<div class="paragraph">
+<p><code>~/workspace/kubernetes-manifests/competencies/pod-with-resource-quota.yaml</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
+<span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
+<span style="color:#606">metadata</span>:
+  <span style="color:#606">labels</span>:
+    <span style="color:#606">run</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+  <span style="color:#606">namespace</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[student-name]</span></span>
+<span style="color:#606">spec</span>:
+  <span style="color:#606">containers</span>:
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+    <span style="color:#606">resources</span>:
+      <span style="color:#606">requests</span>:
+        <span style="color:#606">memory</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">256Mi</span></span>
+        <span style="color:#606">cpu</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">0.5</span><span style="color:#710">&quot;</span></span>
+      <span style="color:#606">limits</span>:
+        <span style="color:#606">memory</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1024Mi</span></span>
+        <span style="color:#606">cpu</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">1</span><span style="color:#710">&quot;</span></span>
+  <span style="color:#606">restartPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Always</span></span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-with-resource-quota.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Inspect the status of the pod and the resource quota</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po
+kubectl get quota
+kubectl describe quota resource-quota</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Clean up!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx
+kubectl delete quota resource-quota</code></pre>
 </div>
 </div>
 </div>

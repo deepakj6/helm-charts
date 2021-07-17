@@ -10,7 +10,6 @@
  <script src="jquery-3.5.1.min.js"></script>
  <script src="clipboard.min.js"></script>
  <script src="velocity.min.js"></script>
- <link rel="stylesheet" href="font-awesome.min.css" />
 <style>
 /* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
 @import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
@@ -426,7 +425,7 @@ table {
 <p>Create the Pod to host the container</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">kubectl run pages --image=[docker-username]/pages:<span style="color:#60E">1.0</span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">kubectl run pages --image=[docker-username]/pages:<span style="color:#60E">1.0</span> --image-pull-policy=IfNotPresent</code></pre>
 </div>
 </div>
 </li>

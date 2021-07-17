@@ -456,7 +456,8 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+    - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span></code></pre>
 </div>
 </div>
@@ -498,7 +499,8 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
-      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span></code></pre>
+      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -567,7 +569,8 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
-      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span></code></pre>
+      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -612,7 +615,7 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create deployment pages --image=[docker-username]/pages:1.0</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create deployment pages --image=dellcloud/pages:1.0 --image-pull-policy=IfNotPresent</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -666,8 +669,9 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
         <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
-        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span></code></pre>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -729,8 +733,9 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
         <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:latest</span></span>
-        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span></code></pre>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:2.5</span></span>
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -845,7 +850,8 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
-      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span></code></pre>
+      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -925,7 +931,8 @@ kubectl get po nginx --show-labels</code></pre>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: nginx</span></span>
-      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span></code></pre>
+      <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1053,8 +1060,8 @@ RUN echo Green &gt; /usr/share/nginx/html/index.html</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t [docker-username]/nginx:green .
-docker push [docker-username]/nginx:green</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t dellcloud/nginx:green .
+docker push dellcloud/nginx:green</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1074,8 +1081,8 @@ RUN echo Blue &gt; /usr/share/nginx/html/index.html</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t [docker-username]/nginx:blue .
-docker push [docker-username]/nginx:blue</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t dellcloud/nginx:blue .
+docker push dellcloud/nginx:blue</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1091,8 +1098,9 @@ docker push [docker-username]/nginx:blue</code></pre>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx-green</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/nginx:green</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx-green</span></span></code></pre>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/nginx:green</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx-green</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1108,8 +1116,9 @@ docker push [docker-username]/nginx:blue</code></pre>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx-blue</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/nginx:blue</span></span>
-    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx-blue</span></span></code></pre>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/nginx:blue</span></span>
+    <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx-blue</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1191,8 +1200,9 @@ Create the service, which will forward network requests to any pod with the labe
         <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">colorful</span></span>
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/nginx:green</span></span>
-        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span></code></pre>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/nginx:green</span></span>
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1217,8 +1227,9 @@ Create the service, which will forward network requests to any pod with the labe
         <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">colorful</span></span>
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/nginx:green</span></span>
-        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span></code></pre>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/nginx:blue</span></span>
+        <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">nginx</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1333,6 +1344,7 @@ kubectl get svc nginx</code></pre>
   <span style="color:#606">containers</span>:
   - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: alpine</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">alpine</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
     <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do date &gt;&gt; /etc/kal-directory/date-file.txt; sleep 5; done&quot;]</span></span>
     <span style="color:#606">volumeMounts</span>:
@@ -1391,6 +1403,7 @@ Create required Persistent Volume and Persistent Volume Claim. Storage capacity 
   <span style="color:#606">containers</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: ubuntu</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ubuntu</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
       <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do date &gt; /logs/output.txt; free -tw --giga &gt;&gt; /logs/output.txt; sleep 10; done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:
@@ -1398,6 +1411,7 @@ Create required Persistent Volume and Persistent Volume Claim. Storage capacity 
           <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/logs</span></span>
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: alpine</span></span>
       <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">alpine</span></span>
+      <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
       <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
       <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;while true; do echo  'Date: ' $(cat /logs/output.txt |  head -1) &gt; /logs/report.txt; echo 'Total Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 2) GB &gt;&gt; /logs/report.txt; echo 'Free Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 3) GB &gt;&gt; /logs/report.txt; sleep 10; done&quot;]</span></span>
       <span style="color:#606">volumeMounts</span>:

@@ -449,10 +449,11 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">configMapKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
@@ -514,10 +515,11 @@ kubectl exec -it pages -- env</code></pre>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">configMapKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
@@ -595,8 +597,9 @@ Mount this configmap as a volume while creating pod for <code>pages</code> appli
       <span style="color:#606">configMap</span>:
         <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">volumeMounts</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: config-vol</span></span>
         <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/etc/config</span></span></code></pre>
@@ -653,10 +656,11 @@ kubectl get secret pages-secret</code></pre>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: password</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">secretKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>
@@ -713,10 +717,11 @@ kubectl exec -it pages -- env</code></pre>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: password</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">secretKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>
@@ -778,8 +783,9 @@ kubectl exec -it pages -- env</code></pre>
       <span style="color:#606">secret</span>:
         <span style="color:#606">secretName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>
   <span style="color:#606">containers</span>:
-  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [docker-username]/pages:1.0</span></span>
+  - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">volumeMounts</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: secret-vol</span></span>
         <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/etc/config</span></span></code></pre>

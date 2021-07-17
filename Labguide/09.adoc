@@ -14,7 +14,7 @@ After completing the lab, you will be able to understand
 . Chart structure
 . Helm concepts – Release, Revision, Chart Version
 . Helm commands
-. Install, Upgrade, Rollback and Delete application `[CR-1]`
+. Install, Upgrade, Rollback and Delete application
 
 === Creating helm directory structure
 
@@ -86,6 +86,7 @@ spec:
       containers:
         - image: [image-from-Lab 01 - Dockerize an Application]/pages:1.0
           name: pages
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
 ------------------

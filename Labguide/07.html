@@ -448,6 +448,7 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
       <span style="color:#606">containers</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: busybox</span></span>
         <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">busybox</span></span>
+        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
         <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;,&quot;date&quot;]</span></span>
       <span style="color:#606">restartPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">OnFailure</span></span></code></pre>
@@ -457,8 +458,12 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/jobs/job-1.yaml
 kubectl get job busybox
-kubectl get pods
-kubectl logs &lt;job-pod-name&gt;</code></pre>
+kubectl get pods -w</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl logs &lt;job-pod-name&gt;</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -494,6 +499,7 @@ kubectl logs &lt;job-pod-name&gt;</code></pre>
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: job-3</span></span>
           <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">alpine</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
           <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
           <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;, &quot;if [ \&quot;$(shuf -i 1-6 -n 1)\&quot; = \&quot;6\&quot; ]; then exit 0; else exit 1; fi&quot;]</span></span></code></pre>
 </div>
@@ -537,6 +543,7 @@ kubectl get job job-3</code></pre>
           <span style="color:#606">containers</span>:
           - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: busybox</span></span>
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">job-5</span></span>
+            <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
             <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
             <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;,&quot;date&quot;]</span></span>
           <span style="color:#606">restartPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">OnFailure</span></span>
@@ -592,6 +599,7 @@ kubectl get pods</code></pre>
           <span style="color:#606">containers</span>:
           - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: busybox</span></span>
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">job-6</span></span>
+            <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
             <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;/bin/sh&quot;]</span></span>
             <span style="color:#606">args</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[&quot;-c&quot;,&quot;Time: 3.30 pm. It is break time. Lets stretch out a bit or have a coffee!&quot;]</span></span>
             <span style="color:#606">volumeMounts</span>:

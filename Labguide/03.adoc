@@ -56,6 +56,7 @@ spec:
   containers:
     - image: busybox
       name: busybox
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","echo Hello from pages Yellow Pages"]
 ------------------
@@ -91,6 +92,7 @@ spec:
   containers:
     - image: busybox
       name: busybox
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","while true;do echo 'Hello from pages Yellow Pages';sleep 10;done"]
 ------------------
@@ -126,6 +128,7 @@ spec:
   containers:
   - image: nginx
     name: nginx
+    imagePullPolicy: IfNotPresent
 
 ------------------
 [source, shell script]
@@ -201,8 +204,10 @@ spec:
   containers:
     - image: busybox
       name: busybox
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","date"]
+
 ------------------
 ====
 . Create a busybox pod which prints `current date` on the console, for every 10 seconds infinitely
@@ -223,6 +228,7 @@ spec:
   containers:
     - image: busybox
       name: busybox
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","while true;do date;sleep 10;done"]
 ------------------
@@ -252,6 +258,7 @@ spec:
   containers:
     - image: busybox
       name: busybox
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","while true;do echo 'Hello!';sleep 10;done"]
       env:
@@ -292,8 +299,9 @@ metadata:
   name: pages
 spec:
   containers:
-    - image: [docker-username]/pages:1.0
+    - image: dellcloud/pages:1.0
       name: pages
+      imagePullPolicy: IfNotPresent
       env:
         - name: PAGE_CONTENT
           value: Hello from pages environment
@@ -337,6 +345,7 @@ spec:
   containers:
   - image: nginx
     name: nginx
+    imagePullPolicy: IfNotPresent
     readinessProbe:
       tcpSocket:
         port: 80
@@ -376,6 +385,7 @@ spec:
   containers:
   - image: nginx
     name: nginx
+    imagePullPolicy: IfNotPresent
     readinessProbe:
       tcpSocket:
         port: 80
@@ -418,8 +428,9 @@ metadata:
   name: pages
 spec:
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     readinessProbe:
       tcpSocket:
         port: 8080
@@ -471,6 +482,7 @@ spec:
   containers:
     - image: busybox
       name: busybox-1
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","while true; do date > /var/output/log.txt; sleep 5;done"]
       volumeMounts:
@@ -520,6 +532,7 @@ spec:
   containers:
     - image: busybox
       name: busybox-2
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c","while true; do date >> /var/output/log.txt; sleep 5;done"]
       volumeMounts:
@@ -542,7 +555,7 @@ kubectl exec -it busybox-2 -- cat /var/output/log.txt
 kubectl delete po busybox-1
 kubectl delete po busybox-2
 ------------------
-+
+
 Check the content of `log.txt`. If working in minikube you can use `minikube ssh` to connect into the node.
 If working in production cluster on eks, ssh might be disabled.
 
@@ -581,6 +594,7 @@ spec:
   containers:
   - image: alpine
     name: alpine
+    imagePullPolicy: IfNotPresent
     command: ["/bin/sh"]
     args: ["-c", "while true; do date >> /etc/kal-directory/date-file.txt; sleep 5; done"]
     volumeMounts:

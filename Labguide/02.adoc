@@ -33,7 +33,7 @@ Before starting the lab, verify the pages image created in the previous lab exis
 +
 [source, java]
 -------------
-kubectl run pages --image=[docker-username]/pages:1.0 
+kubectl run pages --image=[docker-username]/pages:1.0 --image-pull-policy=IfNotPresent
 -------------
 
 . Verify the created objects

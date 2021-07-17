@@ -228,27 +228,3 @@ docker push [docker-username]/pages:1.0
 docker run -p 8080:8080 [docker-username]/pages:1.0
 
 ---------------------------------------------------------------------
-
-== Setting up the codebase
-
-
-. Create a repository called `pages` in your GitHub account. You will need to initialize the local codebase as a git repo & add your remote repository url prior to executing any commits on it
-
-+
-[source,java]
----------------------------------------------------------------------
-git init
-git remote add origin https://github.com/[your-github-user-name]/pages.git
----------------------------------------------------------------------
-
-. Commit code to your github repository
-
-+
-[source,java]
----------------------------------------------------------------------
-git add .
-git config --global user.name "your-team-name"
-git config --global user.email "your-git-email-address"
-git commit -m "Spring Boot - Lab 1"
-git push -u origin master
----------------------------------------------------------------------

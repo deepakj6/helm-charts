@@ -12,6 +12,7 @@
     <script src="velocity.min.js"></script>
     <link rel="stylesheet" href="font-awesome.min.css" />
 <style>
+
 /* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
 @import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
 
@@ -373,7 +374,10 @@ table {
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this lab we will look into an existing brown field pages microservice and deploy it to the K8s cluster.</p>
+<p>In this lab we will look into an existing brown field pages microservice and deploy it to the K8s cluster.
+DevOps team has been be approached by the development team after completing their sprint to deploy their code to production.
+How will you deploy? What information do you need? What files do you expect to have in place in order to deploy the application?
+Think through all these pointers before attacking the problem.</p>
 </div>
 </div>
 </div>
@@ -510,7 +514,19 @@ kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml</code></
 </li>
 <li>
 <p>We successfully deployed <code>pages</code> microservice application to K8s cluster.
-But, does it work as exppected? Test it using basic curl commands.</p>
+But, does it work as expected? Test it using basic curl commands or <code>postman</code></p>
+</li>
+<li>
+<p>Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Curl Guide</a> for curl testing guide</p>
+</li>
+<li>
+<p>Does GET request work?</p>
+</li>
+<li>
+<p>Does POST request work?</p>
+</li>
+<li>
+<p>Were you able to find any defects in this version of the deployment? Note down any problems that you might encounter and discuss them with your pairs to find suitable solutions</p>
 </li>
 </ol>
 </div>

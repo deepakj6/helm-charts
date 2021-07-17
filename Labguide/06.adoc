@@ -54,10 +54,11 @@ metadata:
   name: pages
 spec:
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
     env:
       - name: PAGE_CONTENT
+        imagePullPolicy: IfNotPresent
         valueFrom:
           configMapKeyRef:
             name: pages-config
@@ -110,10 +111,11 @@ metadata:
   name: pages
 spec:
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
     env:
       - name: PAGE_CONTENT
+        imagePullPolicy: IfNotPresent
         valueFrom:
           configMapKeyRef:
             name: pages-config
@@ -183,8 +185,9 @@ spec:
       configMap:
         name: pages-config
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     volumeMounts:
       - name: config-vol
         mountPath: /etc/config
@@ -236,10 +239,11 @@ metadata:
   name: pages
 spec:
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
     env:
       - name: password
+        imagePullPolicy: IfNotPresent
         valueFrom:
           secretKeyRef:
             name: pages-secret
@@ -290,10 +294,11 @@ metadata:
   name: pages
 spec:
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
     env:
       - name: password
+        imagePullPolicy: IfNotPresent
         valueFrom:
           secretKeyRef:
             name: pages-secret
@@ -350,8 +355,9 @@ spec:
       secret:
         secretName: pages-secret
   containers:
-  - image: [docker-username]/pages:1.0
+  - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     volumeMounts:
       - name: secret-vol
         mountPath: /etc/config

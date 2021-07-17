@@ -54,7 +54,8 @@ metadata:
   name: pages
 spec:
   containers:
-    - image: [docker-username]/pages:1.0
+    - image: dellcloud/pages:1.0
+      imagePullPolicy: IfNotPresent
       name: pages
 ------------------
 
@@ -93,6 +94,7 @@ spec:
   containers:
     - image: nginx
       name: nginx
+      imagePullPolicy: IfNotPresent
 ------------------
 
 [source, shell script]
@@ -157,6 +159,7 @@ spec:
   containers:
     - image: nginx
       name: nginx
+      imagePullPolicy: IfNotPresent
 ------------------
 
 [source, shell script]
@@ -193,7 +196,7 @@ kubectl delete po nginx
 
 [source, shell script]
 ------------------
-kubectl create deployment pages --image=[docker-username]/pages:1.0
+kubectl create deployment pages --image=dellcloud/pages:1.0 --image-pull-policy=IfNotPresent
 ------------------
 [source, shell script]
 ------------------
@@ -240,8 +243,9 @@ spec:
         app: pages
     spec:
       containers:
-      - image: [docker-username]/pages:1.0
+      - image: dellcloud/pages:1.0
         name: pages
+        imagePullPolicy: IfNotPresent
 ------------------
 
 [source, shell script]
@@ -298,8 +302,9 @@ spec:
         app: pages
     spec:
       containers:
-      - image: [docker-username]/pages:latest
+      - image: dellcloud/pages:2.5
         name: pages
+        imagePullPolicy: IfNotPresent
 ------------------
 
 [source, shell script]
@@ -398,6 +403,7 @@ spec:
   containers:
     - image: nginx
       name: nginx
+      imagePullPolicy: IfNotPresent
 ------------------
 `~/workspace/kubernetes-manifests/competencies/services/1.yaml`
 [source, yaml]
@@ -468,6 +474,7 @@ spec:
   containers:
     - image: nginx
       name: nginx
+      imagePullPolicy: IfNotPresent
 ------------------
 `~/workspace/kubernetes-manifests/competencies/services/2.yaml`
 [source, yaml]
@@ -584,8 +591,8 @@ RUN echo Green > /usr/share/nginx/html/index.html
 
 [source, shell script]
 ------------------
-docker build -t [docker-username]/nginx:green .
-docker push [docker-username]/nginx:green
+docker build -t dellcloud/nginx:green .
+docker push dellcloud/nginx:green
 ------------------
 
 
@@ -604,8 +611,8 @@ RUN echo Blue > /usr/share/nginx/html/index.html
 
 [source, shell script]
 ------------------
-docker build -t [docker-username]/nginx:blue .
-docker push [docker-username]/nginx:blue
+docker build -t dellcloud/nginx:blue .
+docker push dellcloud/nginx:blue
 ------------------
 
 
@@ -620,8 +627,9 @@ metadata:
   name: nginx-green
 spec:
   containers:
-  - image: [docker-username]/nginx:green
+  - image: dellcloud/nginx:green
     name: nginx-green
+    imagePullPolicy: IfNotPresent
 ------------------
 
 
@@ -636,8 +644,9 @@ metadata:
   name: nginx-blue
 spec:
   containers:
-  - image: [docker-username]/nginx:blue
+  - image: dellcloud/nginx:blue
     name: nginx-blue
+    imagePullPolicy: IfNotPresent
 ------------------
 
 
@@ -710,8 +719,9 @@ spec:
         app: colorful
     spec:
       containers:
-      - image: [docker-username]/nginx:green
+      - image: dellcloud/nginx:green
         name: nginx
+        imagePullPolicy: IfNotPresent
 ------------------
 `~/workspace/kubernetes-manifests/competencies/services/blue/deployment.yaml`
 [source, yaml]
@@ -733,8 +743,9 @@ spec:
         app: colorful
     spec:
       containers:
-      - image: [docker-username]/nginx:green
+      - image: dellcloud/nginx:blue
         name: nginx
+        imagePullPolicy: IfNotPresent
 ------------------
 [source, shell script]
 ------------------
@@ -829,6 +840,7 @@ spec:
   containers:
   - image: alpine
     name: alpine
+    imagePullPolicy: IfNotPresent
     command: ["/bin/sh"]
     args: ["-c", "while true; do date >> /etc/kal-directory/date-file.txt; sleep 5; done"]
     volumeMounts:
@@ -882,6 +894,7 @@ spec:
   containers:
     - image: ubuntu
       name: ubuntu
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c", "while true; do date > /logs/output.txt; free -tw --giga >> /logs/output.txt; sleep 10; done"]
       volumeMounts:
@@ -889,6 +902,7 @@ spec:
           mountPath: /logs
     - image: alpine
       name: alpine
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c", "while true; do echo  'Date: ' $(cat /logs/output.txt |  head -1) > /logs/report.txt; echo 'Total Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 2) GB >> /logs/report.txt; echo 'Free Memory:' $(cat /logs/output.txt |  grep Total: | tr -s ' ' | cut -d ' ' -f 3) GB >> /logs/report.txt; sleep 10; done"]
       volumeMounts:

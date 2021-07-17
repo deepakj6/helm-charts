@@ -396,7 +396,7 @@ can be easily deployed to a kubernetes cluster.</p>
 <p>Helm commands</p>
 </li>
 <li>
-<p>Install, Upgrade, Rollback and Delete application <code>[CR-1]</code></p>
+<p>Install, Upgrade, Rollback and Delete application</p>
 </li>
 </ol>
 </div>
@@ -485,6 +485,7 @@ Copy from the earlier lab or refer below</p>
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: [image-from-Lab 01 - Dockerize an Application]/pages:1.0</span></span>
           <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
           <span style="color:#606">ports</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">containerPort: 8080</span></span></code></pre>
 </div>

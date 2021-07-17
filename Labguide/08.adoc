@@ -34,7 +34,7 @@ Create all manifest resources in the directory `~/workspace/kubernetes-manifests
 
 **All the exercises in this section has to be completed in minikube & not on production cluster**
 
-. Create a namespace called alpha imperatively
+. Create a namespace called `[student-name]-test` either imperatively or declaratively.
 
 +
 
@@ -44,45 +44,50 @@ Create all manifest resources in the directory `~/workspace/kubernetes-manifests
 
 [source, shell script]
 ------------------
-kubectl create namespace alpha
+kubectl create namespace [student-name]-test
+------------------
+
+__After creating it, when you try to create k8s resources inside the cluster, which namespace will it get created in?
+Lets create an `nginx` pod__
+
+[source, shell script]
+------------------
+kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent
 ------------------
 
 [source, shell script]
 ------------------
-kubectl delete namespace alpha
+kubectl get pods
 ------------------
-====
 
+Do you see the pod?
 
-. Create a namespace called angel declaratively
-
-+
-
-.Click to see solution
-[%collapsible]
-====
-`~/workspace/kubernetes-manifests/competencies/namespace/ns-1.yaml`
-[source, yaml]
+[source, shell script]
 ------------------
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: angel
+kubectl get pods --all-namespaces
+------------------
+
+Was there an issue?  Discuss with your pair.
+
+[source, shell script]
+------------------
+kubectl delete po nginx
 ------------------
 
 [source, shell script]
 ------------------
-kubectl apply -f ~/workspace/kubernetes-manifests/competencies/namespace/ns-1.yaml
-kubectl get ns
+kubectl delete namespace [student-name]-test
 ------------------
 
-[source, shell script]
-------------------
-kubectl delete ns angel
-------------------
+.. What did you understand? Everytime you create a new namespace, you have to point the `kubectl context` to that particular namespace.
+Without doing that, you might end up creating it in a difference namespace.
+
+.. What is the workaround? You can pass `--namespace` or `-n` argument while creating the resource by explicitly specifying the namespace.
 ====
 
-. Create a resource quota in the namespace alpha with the below requirement. After creating the quota, Create an nginx pod within alpha and should you get an error, try to troubleshoot and solve it
+
+
+. Create a resource quota in the namespace `[student-name]` with the below requirement.
 
 +
 [source, yaml]
@@ -110,9 +115,11 @@ metadata:
   namespace: [student-name]
 spec:
   hard:
-    cpu: 2
-    memory: 2Gi
-    pods: 5
+    pods:5
+    "requests.cpu": "2"
+    "requests.memory": 1024m
+    "limits.cpu": "4"
+    "limits.memory": 2048m
 ------------------
 
 [source, shell script]
@@ -121,10 +128,70 @@ kubectl apply -f ~/workspace/kubernetes-manifests/competencies/resource-quota.ya
 kubectl get resourcequota
 ------------------
 
+Create an `nginx` pod within `[student-name]`
+
+
 [source, shell script]
 ------------------
+kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent
+------------------
+
+Do you see an error while trying to create the pod?  +
+
+
+**Error from server (Forbidden): pods "nginx" is forbidden: failed quota: resource-quota: must specify cpu,memory**
+
+This time try to create the pod using the manifest file.
+Take the help of `kubectl explain` command to see the options for specifying __resource requests & limits__ for a pod.
+Modify the manifest accordingly and create the pod.
+
+`~/workspace/kubernetes-manifests/competencies/pod-with-resource-quota.yaml`
+[source,yaml]
+------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx
+  namespace: [student-name]
+spec:
+  containers:
+  - image: nginx
+    imagePullPolicy: IfNotPresent
+    name: nginx
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: "0.5"
+      limits:
+        memory: 1024Mi
+        cpu: "1"
+  restartPolicy: Always
+------------------
+
+[source, shell script]
+------------------
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-with-resource-quota.yaml
+------------------
+
+Inspect the status of the pod and the resource quota
+
+[source, shell script]
+------------------
+kubectl get po
+kubectl get quota
+kubectl describe quota resource-quota
+------------------
+
+Clean up!
+
+[source, shell script]
+------------------
+kubectl delete po nginx
 kubectl delete quota resource-quota
 ------------------
+
 ====
 
 === ServiceAccount

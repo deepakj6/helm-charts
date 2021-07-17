@@ -426,6 +426,17 @@ namespace Controllers
 </div>
 </div>
 </li>
+<li>
+<p>Update the server port to 8080</p>
+<div class="paragraph">
+<p><code>~/workspace/Pages/Properties/launchSettings.json</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">&quot;applicationUrl&quot; : &quot;http://localhost:8080&quot;</code></pre>
+</div>
+</div>
+</li>
 </ol>
 </div>
 </div>
@@ -455,11 +466,11 @@ namespace Controllers
 <p>Access your application</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">Browse to http://localhost:5000</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">Browse to http://localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Note the port being exposed here in the example is 5000, which might be different in some cases.
+<p>Note the port being exposed here in the example is 8080, which might be different in some cases.
 After verifying, stop the running instance in the terminal and proceed to the next step.</p>
 </div>
 </li>
@@ -483,7 +494,7 @@ After verifying, stop the running instance in the terminal and proceed to the ne
 <li>
 <p>Create a new file named <code>Dockerfile</code> inside root project folder &amp; add instructions to download the base image.
 In order to run the application, use the image- <code>mcr.microsoft.com/dotnet/aspnet:5.0</code>.
-Add instructions to copy the dependencies &amp; build artifacts(dll) from the local directory into the docker image. Expose port 5000 and update the ASPNETCORE_URLS environment variable to <code><a href="http://+:5000" class="bare">http://+:5000</a></code>
+Add instructions to copy the dependencies &amp; build artifacts(dll) from the local directory into the docker image. Expose port 8080 and update the ASPNETCORE_URLS environment variable to <code><a href="http://+:8080" class="bare">http://+:8080</a></code>
 Finally, Provide a command or an entrypoint to start the application within the docker container</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -491,7 +502,7 @@ Finally, Provide a command or an entrypoint to start the application within the 
 <p>Create Dockerfile</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">cd ~/workspace/pages
+<pre class="CodeRay highlight"><code data-lang="java">cd ~/workspace/Pages
 
 touch Dockerfile</code></pre>
 </div>
@@ -504,8 +515,8 @@ touch Dockerfile</code></pre>
 <pre class="CodeRay highlight"><code data-lang="java">FROM mcr.microsoft.com/dotnet/aspnet:<span style="color:#60E">5.0</span>
 COPY bin/Release/net5<span style="color:#60E">.0</span>/publish App/
 WORKDIR /App
-EXPOSE <span style="color:#00D">5000</span>
-ENV ASPNETCORE_URLS=http:<span style="color:#777">//+:5000</span>
+EXPOSE <span style="color:#00D">8080</span>
+ENV ASPNETCORE_URLS=http:<span style="color:#777">//+:8080</span>
 ENTRYPOINT [<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">dotnet</span><span style="color:#710">&quot;</span></span>, <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Pages.dll</span><span style="color:#710">&quot;</span></span>]</code></pre>
 </div>
 </div>
@@ -546,14 +557,14 @@ If you get an error containing <code>Permission Denied while trying to connect t
 <p>Run the image as a container</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">docker run -p <span style="color:#00D">5000</span>:<span style="color:#00D">5000</span> pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">docker run -p <span style="color:#00D">8080</span>:<span style="color:#00D">8080</span> pages</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>In the run command, we have specified that the port 5000 on the container should be mapped to the port 5000 on the Host OS.</p>
+<p>In the run command, we have specified that the port 8080 on the container should be mapped to the port 8080 on the Host OS.</p>
 </div>
 <div class="paragraph">
-<p>Once the application is started, you should be able to access it at <a href="http://localhost:5000" target="_blank" rel="noopener">http://localhost:5000</a></p>
+<p>Once the application is started, you should be able to access it at <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></p>
 </div>
 <div class="paragraph">
 <p>The container runs in the foreground. You can run the  container in the background using -d option.</p>
@@ -625,37 +636,7 @@ Pressing <code>CTRL + C</code> sometimes might not stop the process. You will ne
 <p>Pull the image from docker hub and test it on local machine. Stop the process after you test it.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">docker run -p <span style="color:#00D">5000</span>:<span style="color:#00D">5000</span> [docker-username]/pages:<span style="color:#60E">1.0</span></code></pre>
-</div>
-</div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_setting_up_the_codebase">Setting up the codebase</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create a repository called <code>pages</code> in your GitHub account. You will need to initialize the local codebase as a git repo &amp; add your remote repository url prior to executing any commits on it</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">git init
-git remote add origin https:<span style="color:#777">//github.com/[your-github-user-name]/pages.git</span></code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Commit code to your github repository</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">git add .
-git config --global user.name <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">your-team-name</span><span style="color:#710">&quot;</span></span>
-git config --global user.email <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">your-git-email-address</span><span style="color:#710">&quot;</span></span>
-git commit -m <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Spring Boot - Lab 1</span><span style="color:#710">&quot;</span></span>
-git push -u origin master</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">docker run -p <span style="color:#00D">8080</span>:<span style="color:#00D">8080</span> [docker-username]/pages:<span style="color:#60E">1.0</span></code></pre>
 </div>
 </div>
 </li>

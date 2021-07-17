@@ -6,6 +6,9 @@
 :linkattrs:
 
 In this lab we will look into an existing brown field pages microservice and deploy it to the K8s cluster.
+DevOps team has been be approached by the development team after completing their sprint to deploy their code to production.
+How will you deploy? What information do you need? What files do you expect to have in place in order to deploy the application?
+Think through all these pointers before attacking the problem.
 
 == Learning Outcomes
 After completing the lab, you will be able to understand
@@ -82,4 +85,15 @@ kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml
 --------
 
 . We successfully deployed `pages` microservice application to K8s cluster.
-But, does it work as exppected? Test it using basic curl commands.
+But, does it work as expected? Test it using basic curl commands or `postman`
+
+
++
+. Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Curl Guide>> for curl testing guide
+
+
+. Does GET request work?
+. Does POST request work?
+. Were you able to find any defects in this version of the deployment? Note down any problems that you might encounter and discuss them with your pairs to find suitable solutions
+
+
