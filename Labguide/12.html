@@ -723,6 +723,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
     <span style="color:#606"><span style="color:#404">&quot;</span><span>helm.sh/hook</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">post-install</span></span>
     <span style="color:#606"><span style="color:#404">&quot;</span><span>helm.sh/hook-delete-policy</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">hook-succeeded</span></span>
 <span style="color:#606">spec</span>:
+  <span style="color:#606">backoffLimit</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">16</span></span>
   <span style="color:#606">template</span>:
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:

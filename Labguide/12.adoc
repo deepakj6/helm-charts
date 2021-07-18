@@ -320,6 +320,7 @@ metadata:
     "helm.sh/hook": post-install
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
+  backoffLimit: 16
   template:
     spec:
       containers:
