@@ -259,7 +259,7 @@ spec:
 +
 [source, yaml]
 ------------------
-name: {{ include "mysql.fullname" . }}
+name: {{ include "mysql.fullname" . }}-{{ .Release.Namespace }}
 ------------------
 
 
