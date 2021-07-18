@@ -275,7 +275,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: {{ include "mysql.fullname" . }}
+  storageClassName: {{ include "mysql.fullname" . }}-{{ .Release.Namespace }}
   capacity:
     storage: {{ .Values.pv.capacity.storage }}
   accessModes:
@@ -296,7 +296,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ include "mysql.fullname" . }}
 spec:
-  storageClassName: {{ include "mysql.fullname" . }}
+  storageClassName: {{ include "mysql.fullname" . }}-{{ .Release.Namespace }}
   accessModes:
     - {{ .Values.pv.accessMode }}
   resources:
@@ -316,12 +316,16 @@ metadata:
   name: {{ include "mysql.fullname" . }}
   labels:
     app: {{ include "mysql.fullname" . }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           args:
             - info
             - migrate
@@ -384,6 +388,7 @@ spec:
       containers:
         - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           name: {{ .Chart.Name }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:

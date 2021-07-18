@@ -30,10 +30,8 @@ image::lab11-tree.png[]
 deployment:
   containerPort: 8080
 
-
 secrets:
   SDP: cGFzc3dvcmQ=
-
 
 service:
   port: 8080
@@ -41,10 +39,7 @@ service:
   protocol: TCP
   targetPort: 8080
 
-
-imagePullPolicy: Always
-
-
+imagePullPolicy: IfNotPresent
 image:
   repository: dellcloud/pages
   tag: monitor
@@ -93,27 +88,24 @@ deployment:
 secrets:
   SDP: cGFzc3dvcmQ=
 
-
 service:
   port: 3306
   type: ClusterIP
   protocol: TCP
   targetPort: 3306
 
+imagePullPolicy: IfNotPresent
 image:
   repository: mysql
   tag: "8.0"
-
 
 env:
   MYSQL_SERVICE_HOST: mysql
   MYSQL_SERVICE_PORT: 3306
   MYSQL_DATABASE: pages
 
-
 volumeMounts:
   mountPath: /var/lib/mysql
-
 
 job:
   image:
@@ -338,7 +330,7 @@ spec:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-{{ .Release.Namespace }}
   labels:
     addonmanager.kubernetes.io/mode: EnsureExists
 provisioner: {{ .Values.storageClass.provisioner }}
@@ -360,7 +352,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: {{ .Release.Name }}-{{ .Chart.Name }}
+  storageClassName: {{ .Release.Name }}-{{ .Chart.Name }}-{{ .Release.Namespace }}
   capacity:
     storage: {{ .Values.pv.capacity.storage }}
   accessModes:
@@ -381,7 +373,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
-  storageClassName: {{ .Release.Name }}-{{ .Chart.Name }}
+  storageClassName: {{ .Release.Name }}-{{ .Chart.Name }}-{{ .Release.Namespace }}
   accessModes:
     - {{ .Values.pv.accessMode }}
   resources:
@@ -408,6 +400,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           args:
             - info
             - migrate
@@ -471,6 +464,7 @@ spec:
       containers:
         - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           name: {{ .Chart.Name }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:

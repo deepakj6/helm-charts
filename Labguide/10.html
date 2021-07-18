@@ -525,7 +525,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:monitor</span></span>
           <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
-          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Always</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
           <span style="color:#606">ports</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">containerPort: 8080</span></span>
           <span style="color:#606">env</span>:
@@ -676,7 +676,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
   <span style="color:#606">labels</span>:
     <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">local</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">database</span></span>
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">database-[replace-this-with-your-namespace]</span></span>
   <span style="color:#606">capacity</span>:
     <span style="color:#606">storage</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">3Gi</span></span>
   <span style="color:#606">accessModes</span>:
@@ -696,7 +696,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql-pvc-[replace-this-with-your-namespace]</span></span>
   <span style="color:#606">namespace</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[replace-this-with-your-namespace]</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">database</span></span>
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">database-[replace-this-with-your-namespace]</span></span>
   <span style="color:#606">accessModes</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ReadWriteMany</span></span>
   <span style="color:#606">resources</span>:
@@ -712,7 +712,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">StorageClass</span></span>
 <span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">storage.k8s.io/v1</span></span>
 <span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">database</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">database-[replace-this-with-your-namespace]</span></span>
   <span style="color:#606">labels</span>:
     <span style="color:#606">addonmanager.kubernetes.io/mode</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">EnsureExists</span></span>
 <span style="color:#606">provisioner</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">k8s.io/minikube-hostpath</span></span>
@@ -749,6 +749,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: mysql:8.0</span></span>
           <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
           <span style="color:#606">env</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_ROOT_PASSWORD</span></span>
               <span style="color:#606">valueFrom</span>:
@@ -791,6 +792,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: flyway</span></span>
           <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">flyway/flyway:6.4.4</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
           <span style="color:#606">args</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">info</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">migrate</span></span>

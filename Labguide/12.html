@@ -681,7 +681,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
   <span style="color:#606">labels</span>:
     <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">local</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}-{{ .Release.Namespace }}</span></span>
   <span style="color:#606">capacity</span>:
     <span style="color:#606">storage</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.capacity.storage }}</span></span>
   <span style="color:#606">accessModes</span>:
@@ -700,7 +700,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <span style="color:#606">metadata</span>:
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}-{{ .Release.Namespace }}</span></span>
   <span style="color:#606">accessModes</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.accessMode }}</span></span>
   <span style="color:#606">resources</span>:
@@ -719,12 +719,16 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
   <span style="color:#606">labels</span>:
     <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ include &quot;mysql.fullname&quot; . }}</span></span>
+  <span style="color:#606">annotations</span>:
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>helm.sh/hook</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">post-install</span></span>
+    <span style="color:#606"><span style="color:#404">&quot;</span><span>helm.sh/hook-delete-policy</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">hook-succeeded</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">template</span>:
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: {{ .Chart.Name }}</span></span>
           <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.imagePullPolicy }}</span></span>
           <span style="color:#606">args</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">info</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">migrate</span></span>
@@ -786,6 +790,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: {{ .Values.image.repository }}:{{ .Values.image.tag }}</span></span>
           <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.imagePullPolicy }}</span></span>
           <span style="color:#606">env</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_ROOT_PASSWORD</span></span>
               <span style="color:#606">valueFrom</span>:

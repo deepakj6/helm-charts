@@ -415,10 +415,8 @@ table {
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">deployment</span>:
   <span style="color:#606">containerPort</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">8080</span></span>
 
-
 <span style="color:#606">secrets</span>:
   <span style="color:#606">SDP</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">cGFzc3dvcmQ=</span></span>
-
 
 <span style="color:#606">service</span>:
   <span style="color:#606">port</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">8080</span></span>
@@ -426,10 +424,7 @@ table {
   <span style="color:#606">protocol</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">TCP</span></span>
   <span style="color:#606">targetPort</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">8080</span></span>
 
-
-<span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Always</span></span>
-
-
+<span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
 <span style="color:#606">image</span>:
   <span style="color:#606">repository</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">dellcloud/pages</span></span>
   <span style="color:#606">tag</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">monitor</span></span>
@@ -478,27 +473,24 @@ table {
 <span style="color:#606">secrets</span>:
   <span style="color:#606">SDP</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">cGFzc3dvcmQ=</span></span>
 
-
 <span style="color:#606">service</span>:
   <span style="color:#606">port</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">3306</span></span>
   <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">ClusterIP</span></span>
   <span style="color:#606">protocol</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">TCP</span></span>
   <span style="color:#606">targetPort</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">3306</span></span>
 
+<span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
 <span style="color:#606">image</span>:
   <span style="color:#606">repository</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql</span></span>
   <span style="color:#606">tag</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">8.0</span><span style="color:#710">&quot;</span></span>
-
 
 <span style="color:#606">env</span>:
   <span style="color:#606">MYSQL_SERVICE_HOST</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">mysql</span></span>
   <span style="color:#606">MYSQL_SERVICE_PORT</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">3306</span></span>
   <span style="color:#606">MYSQL_DATABASE</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
 
-
 <span style="color:#606">volumeMounts</span>:
   <span style="color:#606">mountPath</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">/var/lib/mysql</span></span>
-
 
 <span style="color:#606">job</span>:
   <span style="color:#606">image</span>:
@@ -724,7 +716,7 @@ table {
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">StorageClass</span></span>
 <span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">storage.k8s.io/v1</span></span>
 <span style="color:#606">metadata</span>:
-  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}</span></span>
+  <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}-{{ .Release.Namespace }}</span></span>
   <span style="color:#606">labels</span>:
     <span style="color:#606">addonmanager.kubernetes.io/mode</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">EnsureExists</span></span>
 <span style="color:#606">provisioner</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.storageClass.provisioner }}</span></span>
@@ -744,7 +736,7 @@ table {
   <span style="color:#606">labels</span>:
     <span style="color:#606">type</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">local</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}</span></span>
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}-{{ .Release.Namespace }}</span></span>
   <span style="color:#606">capacity</span>:
     <span style="color:#606">storage</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.capacity.storage }}</span></span>
   <span style="color:#606">accessModes</span>:
@@ -763,7 +755,7 @@ table {
 <span style="color:#606">metadata</span>:
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}</span></span>
 <span style="color:#606">spec</span>:
-  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}</span></span>
+  <span style="color:#606">storageClassName</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Release.Name }}-{{ .Chart.Name }}-{{ .Release.Namespace }}</span></span>
   <span style="color:#606">accessModes</span>:
     - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.pv.accessMode }}</span></span>
   <span style="color:#606">resources</span>:
@@ -788,6 +780,7 @@ table {
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: {{ .Chart.Name }}</span></span>
           <span style="color:#606">image</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.imagePullPolicy }}</span></span>
           <span style="color:#606">args</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">info</span></span>
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">migrate</span></span>
@@ -849,6 +842,7 @@ table {
       <span style="color:#606">containers</span>:
         - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: {{ .Values.image.repository }}:{{ .Values.image.tag }}</span></span>
           <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Chart.Name }}</span></span>
+          <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">{{ .Values.imagePullPolicy }}</span></span>
           <span style="color:#606">env</span>:
             - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: MYSQL_ROOT_PASSWORD</span></span>
               <span style="color:#606">valueFrom</span>:

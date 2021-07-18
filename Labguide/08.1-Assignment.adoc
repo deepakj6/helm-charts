@@ -5,7 +5,7 @@
 :icons: font
 :linkattrs:
 
-In this lab we will look into an existing brown field pages microservice and deploy it to the K8s cluster.
+In this lab we will look into an existing brown field `pages microservice` and deploy it to the K8s cluster.
 DevOps team has been be approached by the development team after completing their sprint to deploy their code to production.
 How will you deploy? What information do you need? What files do you expect to have in place in order to deploy the application?
 Think through all these pointers before attacking the problem.
@@ -17,9 +17,15 @@ After completing the lab, you will be able to understand
 . Design for deployment
 . Deploy 2 tier application
 
-== Develop the pages microservice
+== Understanding the high-level distributed architecture
 
-.  Docker image of pages microservice is available in the image registry. We will be focusing on designing the deployment architecture.
+image::distributed.png[]
+
+**We will be focusing on the pages microservice in this lab. In the next lab we will deploy the category microservice **
+
+== Development of the pages microservice
+
+.  Docker image of pages microservice is available in the image registry. How do we tackle designing the deployment architecture? Discuss this with your pairs? What inputs do you need?
 .  It is necessary to understand the configuration requirements and dependencies, if any, in order for the application to work properly once deployed.
 . Let us examine the deployment architecture. The microservice is composed of a 2 tier architecture.
  In order to complete the design:

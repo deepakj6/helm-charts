@@ -123,7 +123,7 @@ spec:
       containers:
         - image: dellcloud/pages:monitor
           name: pages
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
@@ -271,7 +271,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: database
+  storageClassName: database-[replace-this-with-your-namespace]
   capacity:
     storage: 3Gi
   accessModes:
@@ -290,7 +290,7 @@ metadata:
   name: mysql-pvc-[replace-this-with-your-namespace]
   namespace: [replace-this-with-your-namespace]
 spec:
-  storageClassName: database
+  storageClassName: database-[replace-this-with-your-namespace]
   accessModes:
     - ReadWriteMany
   resources:
@@ -305,7 +305,7 @@ spec:
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: database
+  name: database-[replace-this-with-your-namespace]
   labels:
     addonmanager.kubernetes.io/mode: EnsureExists
 provisioner: k8s.io/minikube-hostpath
@@ -341,6 +341,7 @@ spec:
       containers:
         - image: mysql:8.0
           name: mysql
+          imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -382,6 +383,7 @@ spec:
       containers:
         - name: flyway
           image: flyway/flyway:6.4.4
+          imagePullPolicy: IfNotPresent
           args:
             - info
             - migrate
