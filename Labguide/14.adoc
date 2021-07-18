@@ -17,10 +17,27 @@ After completing the lab, you will be able to understand
 • Deploying to multiple environments
 • Continuously deploy to target kubernetes cluster
 
+== Setting up the codebase
+
+. Create a repository called `helm-charts` in your GitHub account. You will need to initialize the local codebase as a git repo & add your remote repository url prior to executing any commits on it
+
++
+[source,java]
+----------------
+git init
+git remote add origin https://github.com/[your-github-user-name]/helm-charts.git
+----------------
+
 === Directory Structure
 
 . Pipeline design is the most important factor to consider before implementing CI/CD as it is highly dependent on the deployment strategy and cluster envinronment which tends to vary from one project to another.
-. DevOps team would like to have a pipeline designed as follows:
+. DevOps team would like to have a pipeline designed with the following tasks/jobs:
+
+.. Test the chart syntax
+.. Test the application
+.. Install the necessary softwares such as `kubectl`, `helm`
+.. Setup `kubeconfig` to point to `staging` environment cluster
+.. Deploy to the staging environment
 
 . Create the directory structure required for github actions inside `helm-charts` directory
 
@@ -35,7 +52,7 @@ mkdir ~/workspace/helm-charts/scripts
 
 === Automation Scripts
 
-. Create the script files for installing kubectl cli, installing helm, and deploying the chart to the cluster.
+. Create the script files for installing `kubect`l cli, installing `helm`, and deploying the chart to the cluster.
 +
 [source, shell script]
 -------------
