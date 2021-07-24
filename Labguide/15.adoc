@@ -31,15 +31,17 @@ touch ~/workspace/helm-charts/pages/charts/api/templates/test-dbconnect-positive
 touch ~/workspace/helm-charts/pages/charts/api/templates/test-message-get.yaml
 -------------
 . Write the test cases
+
 +
 `helm-charts/charts/api/templates/test-api-contracts.yaml`
-[source, yaml]
+
 +
+[source, yaml]
 -------------
 apiVersion: v1
 kind: Pod
 metadata:
-    labels:
+  labels:
     app: contracts-pages-api
     helm: test
   name: contract-test
@@ -55,6 +57,7 @@ spec:
         - BASE_URL={{ .Release.Name }}-{{ .Chart.Name }}.{{ .Release.Namespace }}.svc.cluster.local:8080
   restartPolicy: Never
 -------------
+
 +
 `helm-charts/charts/api/templates/test-dbconnect-positive.yaml`
 +
@@ -176,7 +179,7 @@ jobs:
         with:
           command: lint
       - name: Create kind cluster
-        uses: helm/kind-action@v1.0.0-alpha.3
+        uses: helm/kind-action@v1.2.0
         with:
           install_local_path_provisioner: true
       - name: Install Kubectl

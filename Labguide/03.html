@@ -572,7 +572,7 @@ localhost:8080 {from the browser}</code></pre>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl run busybox --image=busybox  sh -- -c 'echo &quot;Hello from pages Yellow Pages&quot;'</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl run busybox --image=busybox --image-pull-policy=IfNotPresent  sh -- -c 'echo &quot;Hello from pages Yellow Pages&quot;'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -590,7 +590,7 @@ localhost:8080 {from the browser}</code></pre>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl run nginx --image=nginx
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent
 
 kubectl port-forward pod/nginx 8080:80</code></pre>
 </div>

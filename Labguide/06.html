@@ -451,9 +451,9 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
   <span style="color:#606">containers</span>:
   - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
-        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">configMapKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
@@ -517,9 +517,9 @@ kubectl exec -it pages -- env</code></pre>
   <span style="color:#606">containers</span>:
   - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: PAGE_CONTENT</span></span>
-        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">configMapKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-config</span></span>
@@ -658,9 +658,9 @@ kubectl get secret pages-secret</code></pre>
   <span style="color:#606">containers</span>:
   - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: password</span></span>
-        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">secretKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>
@@ -719,9 +719,9 @@ kubectl exec -it pages -- env</code></pre>
   <span style="color:#606">containers</span>:
   - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:1.0</span></span>
     <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
+    <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
     <span style="color:#606">env</span>:
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: password</span></span>
-        <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span>
         <span style="color:#606">valueFrom</span>:
           <span style="color:#606">secretKeyRef</span>:
             <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages-secret</span></span>

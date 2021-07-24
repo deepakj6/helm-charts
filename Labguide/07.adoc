@@ -201,7 +201,7 @@ spec:
             name: job-6
             imagePullPolicy: IfNotPresent
             command: ["/bin/sh"]
-            args: ["-c","Time: 3.30 pm. It is break time. Lets stretch out a bit or have a coffee!"]
+            args: ["-c","echo Time: 3.30 pm. It is break time. Lets stretch out a bit or have a coffee!"]
             volumeMounts:
               - name: tz-config
                 mountPath: /etc/localtime

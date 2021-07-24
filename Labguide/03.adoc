@@ -156,7 +156,7 @@ kubectl delete po nginx
 ====
 [source, shell script]
 ------------------
-kubectl run busybox --image=busybox  sh -- -c 'echo "Hello from pages Yellow Pages"'
+kubectl run busybox --image=busybox --image-pull-policy=IfNotPresent  sh -- -c 'echo "Hello from pages Yellow Pages"'
 ------------------
 
 [source, shell script]
@@ -173,7 +173,7 @@ kubectl delete po busybox
 ====
 [source, shell script]
 ------------------
-kubectl run nginx --image=nginx
+kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent
 
 kubectl port-forward pod/nginx 8080:80
 ------------------

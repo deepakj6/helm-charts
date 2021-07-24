@@ -435,7 +435,7 @@ touch ~/workspace/helm-charts/pages/charts/api/templates/test-message-get.yaml</
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">apiVersion</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">v1</span></span>
 <span style="color:#606">kind</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">Pod</span></span>
 <span style="color:#606">metadata</span>:
-    <span style="color:#606">labels</span>:
+  <span style="color:#606">labels</span>:
     <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">contracts-pages-api</span></span>
     <span style="color:#606">helm</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">test</span></span>
   <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">contract-test</span></span>
@@ -580,7 +580,7 @@ kubectl delete ns &quot;$NAMESPACE&quot;</code></pre>
         <span style="color:#606">with</span>:
           <span style="color:#606">command</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">lint</span></span>
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: Create kind cluster</span></span>
-        <span style="color:#606">uses</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">helm/kind-action@v1.0.0-alpha.3</span></span>
+        <span style="color:#606">uses</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">helm/kind-action@v1.2.0</span></span>
         <span style="color:#606">with</span>:
           <span style="color:#606">install_local_path_provisioner</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">true</span></span>
       - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">name: Install Kubectl</span></span>

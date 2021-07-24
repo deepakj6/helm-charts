@@ -56,9 +56,9 @@ spec:
   containers:
   - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     env:
       - name: PAGE_CONTENT
-        imagePullPolicy: IfNotPresent
         valueFrom:
           configMapKeyRef:
             name: pages-config
@@ -113,9 +113,9 @@ spec:
   containers:
   - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     env:
       - name: PAGE_CONTENT
-        imagePullPolicy: IfNotPresent
         valueFrom:
           configMapKeyRef:
             name: pages-config
@@ -241,9 +241,9 @@ spec:
   containers:
   - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     env:
       - name: password
-        imagePullPolicy: IfNotPresent
         valueFrom:
           secretKeyRef:
             name: pages-secret
@@ -296,9 +296,9 @@ spec:
   containers:
   - image: dellcloud/pages:1.0
     name: pages
+    imagePullPolicy: IfNotPresent
     env:
       - name: password
-        imagePullPolicy: IfNotPresent
         valueFrom:
           secretKeyRef:
             name: pages-secret

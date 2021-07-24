@@ -117,9 +117,9 @@ spec:
   hard:
     pods:5
     "requests.cpu": "2"
-    "requests.memory": 1024m
+    "requests.memory": 1024Mi
     "limits.cpu": "4"
-    "limits.memory": 2048m
+    "limits.memory": 2048Mi
 ------------------
 
 [source, shell script]
