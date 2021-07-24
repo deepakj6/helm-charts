@@ -26,12 +26,28 @@ After completing the lab, you will be able to understand and use Kubernetes conc
 
 . Verify the kubectl context `kubectl config get-contexts` is set to minikube. If not, set it to minikube `kubectl config use-context minikube`
 
-[NOTE]
-====
-Create all manifest resources in the directory `~/workspace/kubernetes-manifests/competencies`. Watch out for the right file names in the solution section.
-====
+
+=== Setup the working directory
+
+* Create all manifest resources in the directory `~/workspace/kubernetes-manifests/competencies`. Watch out for the right file names in the solution section.
+
++
+[source, shell script]
+------------------
+mkdir -p ~/workspace/kubernetes-manifests/competencies
+cd ~/workspace/kubernetes-manifests
+------------------
+
 
 === Advanced Configuration & Custom Commands
+
+. Create the directory `pods` inside `competencies`
+
++
+[source, shell script]
+------------------
+mkdir ~/workspace/kubernetes-manifests/competencies/pods
+------------------
 
 . Create a busybox pod which prints "Hello from pages Yellow Pages" on the console using manifest file.
 
@@ -158,56 +174,14 @@ kubectl delete po nginx
 ------------------
 kubectl run busybox --image=busybox --image-pull-policy=IfNotPresent  sh -- -c 'echo "Hello from pages Yellow Pages"'
 ------------------
+[source, shell script]
+------------------
+kubectl logs busybox -f
+------------------
 
 [source, shell script]
 ------------------
 kubectl delete po busybox
-------------------
-====
-
-. Create an nginx pod imperatively and test it in the browser or using curl command
-
-+
-.Click to see solution
-[%collapsible]
-====
-[source, shell script]
-------------------
-kubectl run nginx --image=nginx --image-pull-policy=IfNotPresent
-
-kubectl port-forward pod/nginx 8080:80
-------------------
-[source, shell script]
-------------------
-curl localhost:8080
-------------------
-[source, shell script]
-------------------
-kubectl delete po nginx
-------------------
-====
-. Create a busybox pod which prints the `current date` on the console
-+
-.Click to see solution
-[%collapsible]
-====
-`~/workspace/kubernetes-manifests/competencies/pods/6.yaml`
-[source, yaml]
-------------------
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    run: busybox
-  name: busybox
-spec:
-  containers:
-    - image: busybox
-      name: busybox
-      imagePullPolicy: IfNotPresent
-      command: ["/bin/sh"]
-      args: ["-c","date"]
-
 ------------------
 ====
 . Create a busybox pod which prints `current date` on the console, for every 10 seconds infinitely
@@ -232,6 +206,21 @@ spec:
       command: ["/bin/sh"]
       args: ["-c","while true;do date;sleep 10;done"]
 ------------------
+[source, shell script]
+------------------
+kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pods/7.yaml
+
+kubectl get po busybox
+------------------
+[source, shell script]
+------------------
+kubectl logs busybox -f
+------------------
+[source, shell script]
+------------------
+kubectl delete po busybox
+------------------
+
 ====
 
 
@@ -362,6 +351,10 @@ kubectl get po nginx -w
 ------------------
 [source, shell script]
 ------------------
+kubectl describe po nginx | grep -i readiness
+------------------
+[source, shell script]
+------------------
 kubectl delete po nginx
 ------------------
 ====
@@ -405,6 +398,10 @@ kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pods/11.yaml
 [source, shell script]
 ------------------
 kubectl get po nginx -w
+------------------
+[source, shell script]
+------------------
+kubectl describe po nginx | grep -i ness
 ------------------
 [source, shell script]
 ------------------
@@ -452,11 +449,23 @@ kubectl get po pages -w
 ------------------
 [source, shell script]
 ------------------
+kubectl describe po pages | grep -i ness
+------------------
+[source, shell script]
+------------------
 kubectl delete po pages
 ------------------
 ====
 
 == Volumes
+
+. Create the directory `volumes` inside `competencies`
+
++
+[source, shell script]
+------------------
+mkdir ~/workspace/kubernetes-manifests/competencies/volumes
+------------------
 
 . Mount a directory `/var/output` to the container which writes the current date to a file called `log.txt` inside the mounted directory `/var/output` for every `5 seconds`. The directory should reside inside the pod and should cease to exist once the pod terminates.
 HINT:: Use `EmptyDir` type of volume
