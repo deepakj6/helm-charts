@@ -67,10 +67,6 @@ kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-design/1.yaml
 ------------------
 kubectl get po pages --show-labels
 ------------------
-[source, shell script]
-------------------
-kubectl delete po pages
-------------------
 ====
 
 . Create a pod nginx and add a label `tier=frontend`
@@ -105,10 +101,7 @@ kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-design/2.yaml
 ------------------
 kubectl get po nginx --show-labels
 ------------------
-[source, shell script]
-------------------
-kubectl delete po nginx
-------------------
+
 ====
 
 . Get all the pods with label `tier=frontend`
@@ -123,7 +116,7 @@ kubectl delete po nginx
 kubectl get po -l tier=frontend --show-labels
 ------------------
 ====
-. Get all the pods which has label tier set to any value
+. Fetch and delete all the pods which has label tier set to any value
 
 +
 
@@ -133,6 +126,7 @@ kubectl get po -l tier=frontend --show-labels
 [source, shell script]
 ------------------
 kubectl get po -l tier --show-labels
+kubectl delete po -l tier
 ------------------
 ====
 
@@ -165,19 +159,15 @@ spec:
 [source, shell script]
 ------------------
 kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-design/3.yaml
+kubectl describe po nginx
 ------------------
-[source, shell script]
-------------------
-kubectl describe po nginx | grep -i annotations
-------------------
+
 [source, shell script]
 ------------------
 kubectl get po nginx -o jsonpath='{.metadata.annotations.course}'
-------------------
-[source, shell script]
-------------------
 kubectl get po nginx -o jsonpath='{.metadata.annotations.team}'
 ------------------
+
 [source, shell script]
 ------------------
 kubectl delete po nginx
@@ -186,35 +176,6 @@ kubectl delete po nginx
 
 === Deployments
 
-. Create pages deployment with 2 replicas imperatively
-
-+
-
-.Click to see solution
-[%collapsible]
-====
-
-[source, shell script]
-------------------
-kubectl create deployment pages --image=dellcloud/pages:1.0 --image-pull-policy=IfNotPresent
-------------------
-[source, shell script]
-------------------
-kubectl scale deployment pages --replicas=2
-------------------
-[source, shell script]
-------------------
-kubectl get deployment pages
-------------------
-[source, shell script]
-------------------
-kubectl get po
-------------------
-[source, shell script]
-------------------
-kubectl delete deployment pages
-------------------
-====
 . Create pages deployment with 2 replicas using yaml manifest file
 
 +
@@ -274,7 +235,7 @@ kubectl rollout status deployment pages
 ------------------
 ====
 
-. Update the manifest to use 3 replicas and image to use the latest version. Check the latest version with the instructor.
+. Update the manifest to use 3 replicas and set the image to `dellcloud/pages:service`
 
 +
 
@@ -302,7 +263,7 @@ spec:
         app: pages
     spec:
       containers:
-      - image: dellcloud/pages:2.5
+      - image: dellcloud/pages:service
         name: pages
         imagePullPolicy: IfNotPresent
 ------------------
@@ -341,7 +302,7 @@ kubectl rollout history deployment pages
 kubectl rollout history deployment pages --revision=2
 ------------------
 ====
-. Rollback to the previous version
+. Rollback to the previous version. Notice the change by inspecting the deployment & the revision number
 
 +
 
@@ -350,10 +311,13 @@ kubectl rollout history deployment pages --revision=2
 ====
 [source, shell script]
 ------------------
+kubectl describe deployment pages | grep -i image
 kubectl rollout undo deployment pages
+kubectl describe deployment pages | grep -i image
+kubectl rollout history deployment pages
 ------------------
 ====
-. Manually scale to use 5 replicas
+. Manually scale out/up to use 5 replicas and inspect the number of pods.
 
 +
 
@@ -363,9 +327,10 @@ kubectl rollout undo deployment pages
 [source, shell script]
 ------------------
 kubectl scale deployment pages --replicas=5
+kubectl get po -w
 ------------------
 ====
-. Manually scale to use 1 replicas
+. Manually scale in/down to use 1 replicas and inspect the number of pods.
 +
 
 .Click to see solution
@@ -374,6 +339,7 @@ kubectl scale deployment pages --replicas=5
 [source, shell script]
 ------------------
 kubectl scale deployment pages --replicas=1
+kubectl get po -w
 ------------------
 [source, shell script]
 ------------------
@@ -382,7 +348,15 @@ kubectl delete deploy pages
 ====
 
 === Services
-. Create a service which routes the request to nginx pod using selectors in the yaml file
+. Before starting the next set of exercises, create the directory `services` inside `competencies`
+
++
+[source, shell script]
+------------------
+mkdir ~/workspace/kubernetes-manifests/competencies/services
+------------------
+
+. Create a service which routes the request to `nginx` pod using selectors in the yaml file.
 
 +
 
@@ -454,7 +428,7 @@ kubectl delete svc nginx
 ------------------
 ====
 
-. Create a service (color) of type nodeport and expose port 8080 and target port 80, with the selector app=colorful. Create appropriate nginx pod to be accessible by the service.
+. Create a service (color) of type `nodeport` and expose `port 8080` and `target port 80`, with the selector app=colorful. Create appropriate `nginx` pod to be accessible by the service.
 
 +
 
@@ -523,7 +497,7 @@ kubectl delete po nginx
 kubectl delete svc color
 ------------------
 ====
-. Create a service named `nginx` of type `NodePort` which routes the traffic to any pod which has the label `app=colorful` exposing target port `80` on port `80`.
+. Create a service named `nginx` of type `NodePort` which routes the traffic to any pod which has the label `app=colorful` exposing `target port 80` on `port 80`.
 The service  does not route traffic to any pods yet. We shall use it in later exercises.
 
 +
@@ -534,10 +508,7 @@ The service  does not route traffic to any pods yet. We shall use it in later ex
 
 [source, shell script]
 ------------------
-cd ~/workspace/kubernetes-manifests/competencies/services
-mkdir green
-cd green
-
+mkdir -p ~/workspace/kubernetes-manifests/competencies/services/green
 ------------------
 
 `~/workspace/kubernetes-manifests/competencies/services/green/service.yaml`
@@ -591,10 +562,9 @@ RUN echo Green > /usr/share/nginx/html/index.html
 
 [source, shell script]
 ------------------
-docker build -t dellcloud/nginx:green .
-docker push dellcloud/nginx:green
+docker build -t [docker-username]/nginx:green .
+docker push [docker-username]/nginx:green
 ------------------
-
 
 [source, shell script]
 ------------------
@@ -611,8 +581,8 @@ RUN echo Blue > /usr/share/nginx/html/index.html
 
 [source, shell script]
 ------------------
-docker build -t dellcloud/nginx:blue .
-docker push dellcloud/nginx:blue
+docker build -t [docker-username]/nginx:blue .
+docker push [docker-username]/nginx:blue
 ------------------
 
 

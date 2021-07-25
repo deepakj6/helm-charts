@@ -471,11 +471,6 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po pages --show-labels</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po pages</code></pre>
-</div>
-</div>
 </div>
 </details>
 </li>
@@ -513,11 +508,6 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx --show-labels</code></pre>
 </div>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete po nginx</code></pre>
-</div>
-</div>
 </div>
 </details>
 </li>
@@ -535,13 +525,14 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 </details>
 </li>
 <li>
-<p>Get all the pods which has label tier set to any value</p>
+<p>Fetch and delete all the pods which has label tier set to any value</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po -l tier --show-labels</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po -l tier --show-labels
+kubectl delete po -l tier</code></pre>
 </div>
 </div>
 </div>
@@ -575,22 +566,14 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-design/3.yaml</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl apply -f ~/workspace/kubernetes-manifests/competencies/pod-design/3.yaml
+kubectl describe po nginx</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl describe po nginx | grep -i annotations</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx -o jsonpath='{.metadata.annotations.course}'</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx -o jsonpath='{.metadata.annotations.team}'</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po nginx -o jsonpath='{.metadata.annotations.course}'
+kubectl get po nginx -o jsonpath='{.metadata.annotations.team}'</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -608,39 +591,6 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <h3 id="_deployments">Deployments</h3>
 <div class="olist arabic">
 <ol class="arabic">
-<li>
-<p>Create pages deployment with 2 replicas imperatively</p>
-<details>
-<summary class="title">Click to see solution</summary>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create deployment pages --image=dellcloud/pages:1.0 --image-pull-policy=IfNotPresent</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl scale deployment pages --replicas=2</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get deployment pages</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get po</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete deployment pages</code></pre>
-</div>
-</div>
-</div>
-</details>
-</li>
 <li>
 <p>Create pages deployment with 2 replicas using yaml manifest file</p>
 <details>
@@ -706,7 +656,7 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 </details>
 </li>
 <li>
-<p>Update the manifest to use 3 replicas and image to use the latest version. Check the latest version with the instructor.</p>
+<p>Update the manifest to use 3 replicas and set the image to <code>dellcloud/pages:service</code></p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -733,7 +683,7 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
         <span style="color:#606">app</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
     <span style="color:#606">spec</span>:
       <span style="color:#606">containers</span>:
-      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:2.5</span></span>
+      - <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">image: dellcloud/pages:service</span></span>
         <span style="color:#606">name</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">pages</span></span>
         <span style="color:#606">imagePullPolicy</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">IfNotPresent</span></span></code></pre>
 </div>
@@ -780,39 +730,44 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 </details>
 </li>
 <li>
-<p>Rollback to the previous version</p>
+<p>Rollback to the previous version. Notice the change by inspecting the deployment &amp; the revision number</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl rollout undo deployment pages</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl describe deployment pages | grep -i image
+kubectl rollout undo deployment pages
+kubectl describe deployment pages | grep -i image
+kubectl rollout history deployment pages</code></pre>
 </div>
 </div>
 </div>
 </details>
 </li>
 <li>
-<p>Manually scale to use 5 replicas</p>
+<p>Manually scale out/up to use 5 replicas and inspect the number of pods.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl scale deployment pages --replicas=5</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl scale deployment pages --replicas=5
+kubectl get po -w</code></pre>
 </div>
 </div>
 </div>
 </details>
 </li>
 <li>
-<p>Manually scale to use 1 replicas</p>
+<p>Manually scale in/down to use 1 replicas and inspect the number of pods.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl scale deployment pages --replicas=1</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl scale deployment pages --replicas=1
+kubectl get po -w</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -831,7 +786,15 @@ the most commonly used kubernetes commands and concepts to ramp up your kubernet
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Create a service which routes the request to nginx pod using selectors in the yaml file</p>
+<p>Before starting the next set of exercises, create the directory <code>services</code> inside <code>competencies</code></p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/workspace/kubernetes-manifests/competencies/services</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create a service which routes the request to <code>nginx</code> pod using selectors in the yaml file.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -913,7 +876,7 @@ kubectl get po nginx --show-labels</code></pre>
 </details>
 </li>
 <li>
-<p>Create a service (color) of type nodeport and expose port 8080 and target port 80, with the selector app=colorful. Create appropriate nginx pod to be accessible by the service.</p>
+<p>Create a service (color) of type <code>nodeport</code> and expose <code>port 8080</code> and <code>target port 80</code>, with the selector app=colorful. Create appropriate <code>nginx</code> pod to be accessible by the service.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
@@ -993,16 +956,14 @@ kubectl get po nginx --show-labels</code></pre>
 </details>
 </li>
 <li>
-<p>Create a service named <code>nginx</code> of type <code>NodePort</code> which routes the traffic to any pod which has the label <code>app=colorful</code> exposing target port <code>80</code> on port <code>80</code>.
+<p>Create a service named <code>nginx</code> of type <code>NodePort</code> which routes the traffic to any pod which has the label <code>app=colorful</code> exposing <code>target port 80</code> on <code>port 80</code>.
 The service  does not route traffic to any pods yet. We shall use it in later exercises.</p>
 <details>
 <summary class="title">Click to see solution</summary>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/kubernetes-manifests/competencies/services
-mkdir green
-cd green</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">mkdir -p ~/workspace/kubernetes-manifests/competencies/services/green</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1060,8 +1021,8 @@ RUN echo Green &gt; /usr/share/nginx/html/index.html</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t dellcloud/nginx:green .
-docker push dellcloud/nginx:green</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t [docker-username]/nginx:green .
+docker push [docker-username]/nginx:green</code></pre>
 </div>
 </div>
 <div class="listingblock">
@@ -1081,8 +1042,8 @@ RUN echo Blue &gt; /usr/share/nginx/html/index.html</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t dellcloud/nginx:blue .
-docker push dellcloud/nginx:blue</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">docker build -t [docker-username]/nginx:blue .
+docker push [docker-username]/nginx:blue</code></pre>
 </div>
 </div>
 <div class="paragraph">
