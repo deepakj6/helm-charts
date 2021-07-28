@@ -54,3 +54,11 @@ curl localhost:8080
 -------------------
 
 . Stop the port-forward by pressing `CTRL-C`
+
+. Delete the created object
+
++
+[source,java]
+-------------------
+kubectl delete po pages
+-------------------

@@ -10,6 +10,7 @@
  <script src="jquery-3.5.1.min.js"></script>
  <script src="clipboard.min.js"></script>
  <script src="velocity.min.js"></script>
+ <link rel="stylesheet" href="font-awesome.min.css" />
 <style>
 /* Based on Flatly from Bootswatch (https://bootswatch.com/flatly/) */
 @import url("//fonts.googleapis.com/css?family=Lato:400,700,400italic");
@@ -449,6 +450,14 @@ curl localhost:<span style="color:#00D">8080</span></code></pre>
 </li>
 <li>
 <p>Stop the port-forward by pressing <code>CTRL-C</code></p>
+</li>
+<li>
+<p>Delete the created object</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">kubectl delete po pages</code></pre>
+</div>
+</div>
 </li>
 </ol>
 </div>

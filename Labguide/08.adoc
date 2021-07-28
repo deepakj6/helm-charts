@@ -92,7 +92,7 @@ Without doing that, you might end up creating it in a difference namespace.
 +
 [source, yaml]
 -------------
-pods:5
+pods: 5
 "requests.cpu": "2"
 "requests.memory": 1024m
 "limits.cpu": "4"
@@ -115,7 +115,7 @@ metadata:
   namespace: [student-name]
 spec:
   hard:
-    pods:5
+    pods: 5
     "requests.cpu": "2"
     "requests.memory": 1024Mi
     "limits.cpu": "4"

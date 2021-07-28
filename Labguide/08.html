@@ -495,7 +495,7 @@ Without doing that, you might end up creating it in a difference namespace.</p>
 <p>Create a resource quota in the namespace <code>[student-name]</code> with the below requirement.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#F00;background-color:#FAA">pods:5</span>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">pods</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">5</span></span>
 <span style="color:#606"><span style="color:#404">&quot;</span><span>requests.cpu</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">2</span><span style="color:#710">&quot;</span></span>
 <span style="color:#606"><span style="color:#404">&quot;</span><span>requests.memory</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1024m</span></span>
 <span style="color:#606"><span style="color:#404">&quot;</span><span>limits.cpu</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">4</span><span style="color:#710">&quot;</span></span>
@@ -517,7 +517,7 @@ Without doing that, you might end up creating it in a difference namespace.</p>
   <span style="color:#606">namespace</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">[student-name]</span></span>
 <span style="color:#606">spec</span>:
   <span style="color:#606">hard</span>:
-    <span style="color:#F00;background-color:#FAA">pods:5</span>
+    <span style="color:#606">pods</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">5</span></span>
     <span style="color:#606"><span style="color:#404">&quot;</span><span>requests.cpu</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">2</span><span style="color:#710">&quot;</span></span>
     <span style="color:#606"><span style="color:#404">&quot;</span><span>requests.memory</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1024Mi</span></span>
     <span style="color:#606"><span style="color:#404">&quot;</span><span>limits.cpu</span><span style="color:#404">&quot;</span></span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">4</span><span style="color:#710">&quot;</span></span>
