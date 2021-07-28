@@ -19,6 +19,7 @@ image::distributed.png[]
 **We will be focusing on the category microservice in this lab. In the next lab we will deploy the pages microservice **
 
 == Deploying category microservice to K8s
+. Delete the contents of `~/workspace/kubernetes-manifests` directory
 . Download link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/J21/tailorlabguide/category.zip[category microservice manifest files, window="_blank"] and extract to `~/workspace/kubernetes-manifests/category`
 . Download link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/J21/tailorlabguide/mongo.zip[mongodb manifest files, window="_blank"] and extract to `~/workspace/kubernetes-manifests/mongo`
 . Walkthrough the manifest files & understand the solution to the deployment architecture.

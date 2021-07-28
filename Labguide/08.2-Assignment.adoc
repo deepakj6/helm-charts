@@ -30,9 +30,6 @@ After completing the lab, you will be able to understand
 
 image::deployment-architecture-with-storage.png[]
 
-
-
-. Delete the contents of `~/workspace/kubernetes-manifests` directory
 . Download link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/J21/tailorlabguide/pages.zip[pages microservice manifest files, window="_blank"] and extract to `~/workspace/kubernetes-manifests/pages`
 . Download link:https://cloud-native-labs.s3.ap-south-1.amazonaws.com/J21/tailorlabguide/mysql.zip[mysql manifest files, window="_blank"] and extract to `~/workspace/kubernetes-manifests/mysql`
 . Walkthrough the manifest files & understand the solution to the deployment architecture.
