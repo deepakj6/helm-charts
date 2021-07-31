@@ -52,7 +52,7 @@ mkdir ~/workspace/helm-charts/scripts
 
 === Automation Scripts
 
-. Create the script files for installing `kubect`l cli, installing `helm`, and deploying the chart to the cluster.
+. Create the script files for installing `kubectl cli`, installing `helm`, and deploying the chart to the cluster.
 +
 [source, shell script]
 -------------

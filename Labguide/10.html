@@ -842,7 +842,7 @@ The team uses an <code>umbrella chart</code> to helmify.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get  ns
 kubectl config get-contexts
-kubectl config set-context --current --namespace [name-of-your-team]-dev</code></pre>
+kubectl config set-context --current --namespace [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>
@@ -852,7 +852,7 @@ kubectl config set-context --current --namespace [name-of-your-team]-dev</code><
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">helm template pages
 helm install pagesapp pages --dry-run --debug
-helm install pagesapp pages -n [name-of-your-team]-dev</code></pre>
+helm install pagesapp pages -n [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>

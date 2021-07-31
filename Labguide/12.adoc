@@ -73,7 +73,8 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl
 == Template and helper functions
 
 
-. Update `values.yaml` for both charts to externalize service and database names
+. Append/Merge the details of `mysql service name` , `database name` & `deployment` details, inside `values.yaml` for the chart `api`
+Also remove duplicate `key-value` pairs, like `containerPort`, if any.
 
 +
 `pages/charts/api/values.yaml`
@@ -88,6 +89,7 @@ deployment:
   replicaCount: 1
 -------------
 
+. Append/Merge the details of `mysql service name` inside `values.yaml` for the chart `mysql`
 +
 `pages/charts/mysql/values.yaml`
 +
@@ -422,7 +424,7 @@ spec:
 ------------------
 kubectl get  ns
 kubectl config get-contexts
-kubectl config set-context --current --namespace [name-of-your-team]-dev
+kubectl config set-context --current --namespace [name-of-your-team]
 ------------------
 
 . Uninstall the previous app as we cannot upgrade
@@ -434,7 +436,7 @@ kubectl config set-context --current --namespace [name-of-your-team]-dev
 helm template pages
 helm uninstall pagesapp
 helm install pagesapp pages --dry-run --debug
-helm install pagesapp pages -n [name-of-your-team]-dev
+helm install pagesapp pages -n [name-of-your-team]
 ------------------
 
 . Verify the installation and deployment

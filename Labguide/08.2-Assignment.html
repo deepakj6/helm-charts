@@ -510,21 +510,62 @@ kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml</code></
 </li>
 <li>
 <p>We successfully deployed <code>pages</code> microservice application to K8s cluster.
-But, does it work as expected? Test it using basic curl commands or <code>postman</code></p>
+Test it using basic curl commands or <code>postman</code></p>
 </li>
 <li>
 <p>Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Curl Guide</a> for curl testing guide</p>
 </li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_kubernetes_ressources_cleanup">Kubernetes ressources cleanup</h3>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>Does GET request work?</p>
+<p>Delete all the resources before heading towards the next modules</p>
 </li>
 <li>
-<p>Does POST request work?</p>
+<p>First you need to delete the deployments, services and their configuration settings
+Next you will have to delete the pvc. Once pvc is deleted, you can delete the pv</p>
 </li>
 <li>
-<p>Were you able to find any defects in this version of the deployment? Note down any problems that you might encounter and discuss them with your pairs to find suitable solutions</p>
+<p>Finally delete the namespace</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get deploy
+kubectl get jobs
+kubectl delete -f ~/workspace/kubernetes-manifests/mysql/deployment.yaml
+kubectl delete -f ~/workspace/kubernetes-manifests/mysql/flyway-job.yaml
+kubectl delete -f ~/workspace/kubernetes-manifests/pages/deployment.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete -f ~/workspace/kubernetes-manifests/mysql/service.yaml
+kubectl delete -f ~/workspace/kubernetes-manifests/pages/service.yaml
+kubectl delete -f ~/workspace/kubernetes-manifests/mysql/configmap.yaml
+kubectl delete -f ~/workspace/kubernetes-manifests/mysql/secret.yaml
+kubectl delete -f ~/workspace/kubernetes-manifests/pages/config.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get pvc
+kubectl get pv
+kubectl apply -f ~/workspace/kubernetes-manifests/mysql/pvc.yaml
+kubectl apply -f ~/workspace/kubernetes-manifests/mysql/pv.yaml
+kubectl get pvc
+kubectl get pv</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete ns `[student-name]`</code></pre>
+</div>
+</div>
 </li>
 </ol>
+</div>
 </div>
 </div>
 </div>

@@ -476,7 +476,8 @@ rm *.tgz</code></pre>
 <p>Package the pages umbrella chart and create index file</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">helm package pages
+<pre class="CodeRay highlight"><code data-lang="shell script">helm dependency update pages
+helm package pages
 helm repo index .
 cat index.yaml</code></pre>
 </div>
@@ -552,7 +553,7 @@ helm repo update</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">helm search repo pages
-helm install pagesapp artifacthub/pages -n [name-of-your-team]-dev</code></pre>
+helm install pagesapp artifacthub/pages -n [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>

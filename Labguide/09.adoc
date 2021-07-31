@@ -124,8 +124,8 @@ and set the kubectl context to point to the right namespace.
 
 [source, shell script]
 ------------------
-kubectl create ns [name-of-your-team]-dev
-kubectl config set-context --current --namespace [name-of-your-team]-dev
+kubectl create ns [name-of-your-team]
+kubectl config set-context --current --namespace [name-of-your-team]
 ------------------
 
 
@@ -138,7 +138,7 @@ Once you are satisfied with the the manifest, go ahead and install the chart in 
 ------------------
 helm template pages
 helm install api pages --dry-run --debug
-helm install api pages -n [name-of-your-team]-dev
+helm install api pages -n [name-of-your-team]
 ------------------
 
 . Verify the installation and deployment
@@ -177,7 +177,7 @@ kubectl get deploy pages
 kubectl get pods
 ------------------
 
-. You can notice that the deployment fails. What could be the reason?
+. Verify the `pages` deployment has updated the container image in its pods
 
 === Rollback
 
@@ -192,6 +192,8 @@ helm rollback api
 helm status api
 kubectl get deploy pages
 ------------------
+
+. Verify the `pages` deployment has updated the container image in its pods
 
 === Un-install the application
 

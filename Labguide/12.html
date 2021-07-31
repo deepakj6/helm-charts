@@ -476,7 +476,8 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Update <code>values.yaml</code> for both charts to externalize service and database names</p>
+<p>Append/Merge the details of <code>mysql service name</code> , <code>database name</code> &amp; <code>deployment</code> details, inside <code>values.yaml</code> for the chart <code>api</code>
+Also remove duplicate <code>key-value</code> pairs, like <code>containerPort</code>, if any.</p>
 <div class="paragraph">
 <p><code>pages/charts/api/values.yaml</code></p>
 </div>
@@ -490,6 +491,9 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
   <span style="color:#606">replicaCount</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">1</span></span></code></pre>
 </div>
 </div>
+</li>
+<li>
+<p>Append/Merge the details of <code>mysql service name</code> inside <code>values.yaml</code> for the chart <code>mysql</code></p>
 <div class="paragraph">
 <p><code>pages/charts/mysql/values.yaml</code></p>
 </div>
@@ -829,7 +833,7 @@ touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get  ns
 kubectl config get-contexts
-kubectl config set-context --current --namespace [name-of-your-team]-dev</code></pre>
+kubectl config set-context --current --namespace [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>
@@ -843,7 +847,7 @@ kubectl config set-context --current --namespace [name-of-your-team]-dev</code><
 <pre class="CodeRay highlight"><code data-lang="shell script">helm template pages
 helm uninstall pagesapp
 helm install pagesapp pages --dry-run --debug
-helm install pagesapp pages -n [name-of-your-team]-dev</code></pre>
+helm install pagesapp pages -n [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>

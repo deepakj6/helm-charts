@@ -111,10 +111,11 @@ dependencies:
 +
 [source, shell script]
 --------------
-helm dependency update pages
+cd ~/workspace/helm-charts/pages-package
+helm dependency update .
 ls
-helm dependency list pages
-helm dependency build pages
+helm dependency list .
+helm dependency build .
 --------------
 
 

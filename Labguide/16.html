@@ -520,10 +520,11 @@ touch Chart.yaml</code></pre>
 <p>Downloading published charts from the repo</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">helm dependency update pages
+<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/helm-charts/pages-package
+helm dependency update .
 ls
-helm dependency list pages
-helm dependency build pages</code></pre>
+helm dependency list .
+helm dependency build .</code></pre>
 </div>
 </div>
 </li>

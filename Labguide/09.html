@@ -523,8 +523,8 @@ Copy from the earlier lab or refer below</p>
 and set the kubectl context to point to the right namespace.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create ns [name-of-your-team]-dev
-kubectl config set-context --current --namespace [name-of-your-team]-dev</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl create ns [name-of-your-team]
+kubectl config set-context --current --namespace [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>
@@ -535,7 +535,7 @@ Once you are satisfied with the the manifest, go ahead and install the chart in 
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">helm template pages
 helm install api pages --dry-run --debug
-helm install api pages -n [name-of-your-team]-dev</code></pre>
+helm install api pages -n [name-of-your-team]</code></pre>
 </div>
 </div>
 </li>
@@ -578,7 +578,7 @@ kubectl get pods</code></pre>
 </div>
 </li>
 <li>
-<p>You can notice that the deployment fails. What could be the reason?</p>
+<p>Verify the <code>pages</code> deployment has updated the container image in its pods</p>
 </li>
 </ol>
 </div>
@@ -598,6 +598,9 @@ helm status api
 kubectl get deploy pages</code></pre>
 </div>
 </div>
+</li>
+<li>
+<p>Verify the <code>pages</code> deployment has updated the container image in its pods</p>
 </li>
 </ol>
 </div>

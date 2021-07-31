@@ -71,6 +71,7 @@ rm *.tgz
 +
 [source, shell script]
 --------------
+helm dependency update pages
 helm package pages
 helm repo index .
 cat index.yaml
@@ -134,7 +135,7 @@ helm uninstall pagesapp
 [source, shell script]
 --------------
 helm search repo pages
-helm install pagesapp artifacthub/pages -n [name-of-your-team]-dev
+helm install pagesapp artifacthub/pages -n [name-of-your-team]
 --------------
 
 . Test the pages application by performing CRUD operations using curl/postman.

@@ -121,7 +121,7 @@ name: {{ include "mysql.getdbservicename" . }}
 ------------------
 kubectl get  ns
 kubectl config get-contexts
-kubectl config set-context --current --namespace [name-of-your-team]-dev
+kubectl config set-context --current --namespace [name-of-your-team]
 ------------------
 
 . Uninstall the previous app as we cannot upgrade
@@ -133,7 +133,7 @@ kubectl config set-context --current --namespace [name-of-your-team]-dev
 helm template pages
 helm uninstall pagesapp
 helm install pagesapp pages --dry-run --debug
-helm install pagesapp pages -n [name-of-your-team]-dev
+helm install pagesapp pages -n [name-of-your-team]
 ------------------
 
 . Verify the installation and deployment
