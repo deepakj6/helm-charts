@@ -34,6 +34,33 @@ rm -rf ~/workspace/helm-charts/pages/
 +
 image::lab10-tree.png[]
 
+
++
+[source, shell script]
+---------------
+cd ~/workspace/helm-charts
+mkdir -p pages/charts/api/templates
+mkdir -p pages/charts/mysql/templates
+
+touch pages/Chart.yaml
+
+touch pages/charts/api/Chart.yaml
+touch pages/charts/mysql/Chart.yaml
+
+touch pages/charts/api/templates/config.yaml
+touch pages/charts/api/templates/deployment.yaml
+touch pages/charts/api/templates/service.yaml
+
+touch pages/charts/mysql/templates/service.yaml
+touch pages/charts/mysql/templates/secret.yaml
+touch pages/charts/mysql/templates/deployment.yaml
+touch pages/charts/mysql/templates/config.yaml
+touch pages/charts/mysql/templates/flyway-job.yaml
+touch pages/charts/mysql/templates/pv.yaml
+touch pages/charts/mysql/templates/pvc.yaml
+touch pages/charts/mysql/templates/storage-class.yaml
+---------------
+
 . Update `Chart.yaml` files with the name of the chart containing a short description, chart version and application version
 
 +

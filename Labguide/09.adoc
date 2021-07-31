@@ -84,7 +84,7 @@ spec:
         app: pages
     spec:
       containers:
-        - image: [image-from-Lab 01 - Dockerize an Application]/pages:1.0
+        - image: dellcloud/pages:1.0
           name: pages
           imagePullPolicy: IfNotPresent
           ports:

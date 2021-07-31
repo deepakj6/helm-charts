@@ -19,6 +19,14 @@ After completing the lab, you will be able to understand
 +
 image::lab11-tree.png[]
 
++
+[source, shell script]
+-------------------
+cd ~/workspace/helm-charts
+touch pages/charts/api/values.yaml
+touch pages/charts/mysql/values.yaml
+-------------------
+
 . Update `values.yaml` files with the properties to be reused in kubernetes manifest files.
 
 +
