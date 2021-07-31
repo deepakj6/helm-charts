@@ -418,7 +418,8 @@ Also, the name of the kubernetes service, deployment &amp; other objects can be 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">touch ~/workspace/helm-charts/pages/charts/api/templates/_helpers.tpl
+<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/helm-charts
+touch ~/workspace/helm-charts/pages/charts/api/templates/_helpers.tpl
 touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl</code></pre>
 </div>
 </div>
@@ -885,20 +886,21 @@ Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Pages Curl Guide<
 This file is customizable as per the chart user needs.</p>
 </li>
 <li>
-<p>Before adding the notes, add a label to the api service <code>access=external</code> for easy accessibility of the service.</p>
+<p>Before adding the notes, add a label <code>access=external</code> to the <code>pages api service</code> for easy accessibility of the service.</p>
 </li>
 <li>
 <p>Create <code>NOTES.txt</code> file in the templates directory of the parent chart</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">touch ~/workspace/helm-charts/pages/charts/api/templates/NOTES.txt</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/workspace/helm-charts/pages/templates
+touch ~/workspace/helm-charts/pages/templates/NOTES.txt</code></pre>
 </div>
 </div>
 </li>
 <li>
 <p>Below is a sample text for our <code>NOTES.txt</code>, which is customizable according to application usability</p>
 <div class="paragraph">
-<p><code>~/workspace/helm-charts/pages/charts/api/templates/NOTES.txt</code></p>
+<p><code>~/workspace/helm-charts/pages/templates/NOTES.txt</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -923,7 +925,8 @@ kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080</co
 <p>Re-install/update the umbrella chart for pages app</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">helm upgrade api pages -n dev</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/helm-charts
+helm upgrade pagesapp pages</code></pre>
 </div>
 </div>
 </li>

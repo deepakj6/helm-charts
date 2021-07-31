@@ -28,6 +28,7 @@ After completing the lab, you will be able to understand
 +
 [source, shell script]
 -------------
+cd ~/workspace/helm-charts
 touch ~/workspace/helm-charts/pages/charts/api/templates/_helpers.tpl
 touch ~/workspace/helm-charts/pages/charts/mysql/templates/_helpers.tpl
 -------------
@@ -462,19 +463,20 @@ Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Pages Curl Guide>> for t
 . It is a recommended best practice to add a `NOTES.txt` containing instructions for accessing the installed application.
 This file is customizable as per the chart user needs.
 
-. Before adding the notes, add a label to the api service `access=external` for easy accessibility of the service.
+. Before adding the notes, add a label `access=external` to the `pages api service` for easy accessibility of the service.
 
 . Create `NOTES.txt` file in the templates directory of the parent chart
 +
 [source, shell script]
 ---------------
-touch ~/workspace/helm-charts/pages/charts/api/templates/NOTES.txt
+mkdir ~/workspace/helm-charts/pages/templates
+touch ~/workspace/helm-charts/pages/templates/NOTES.txt
 ---------------
 
 . Below is a sample text for our `NOTES.txt`, which is customizable according to application usability
 
 +
-`~/workspace/helm-charts/pages/charts/api/templates/NOTES.txt`
+`~/workspace/helm-charts/pages/templates/NOTES.txt`
 +
 [source, shell script]
 ---------------
@@ -500,7 +502,8 @@ kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080
 +
 [source, shell script]
 ---------------
-helm upgrade api pages -n dev
+cd ~/workspace/helm-charts
+helm upgrade pagesapp pages
 ---------------
 
 === Task Accomplished
