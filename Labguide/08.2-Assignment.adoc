@@ -87,44 +87,61 @@ Test it using basic curl commands or `postman`
 +
 . Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Curl Guide>> for curl testing guide
 
-=== Kubernetes ressources cleanup
+=== Cleanup
 . Delete all the resources before heading towards the next modules
 . First you need to delete the deployments, services and their configuration settings
   Next you will have to delete the pvc. Once pvc is deleted, you can delete the pv
 . Finally delete the namespace
+. Refer to the commands below
 
 +
 [source,shell script]
 --------
 kubectl get deploy
 kubectl get jobs
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/deployment.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/flyway-job.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/pages/deployment.yaml
+kubectl get cm
+kubectl get secret
+kubectl get svc
+kubectl get pvc
+kubectl get pv
 --------
 
 +
 [source,shell script]
 --------
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/service.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/pages/service.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/configmap.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/secret.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/pages/config.yaml
+kubectl delete deploy -l app
 --------
 
 +
 [source,shell script]
 --------
-kubectl get pvc
-kubectl get pv
-kubectl apply -f ~/workspace/kubernetes-manifests/mysql/pvc.yaml
-kubectl apply -f ~/workspace/kubernetes-manifests/mysql/pv.yaml
-kubectl get pvc
-kubectl get pv
+kubectl delete jobs -l app
 --------
 +
 [source,shell script]
 --------
-kubectl delete ns `[student-name]`
+kubectl delete svc -l app
+--------
++
+[source,shell script]
+--------
+kubectl delete cm mysql
+kubectl delete cm pages
+kubectl delete secret mysql
+--------
+
++
+
+WARNING: **WARNING: Do not pass the argument `--all` if you using shared k8s cluster. Use it only on your local dev/test cluster**
+
++
+[source,shell script]
+--------
+kubectl delete pvc --all
+kubectl delete pv --all
+--------
++
+[source,shell script]
+--------
+kubectl delete ns [student-name]
 --------

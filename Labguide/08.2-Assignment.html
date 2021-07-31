@@ -518,7 +518,7 @@ Test it using basic curl commands or <code>postman</code></p>
 </ol>
 </div>
 <div class="sect2">
-<h3 id="_kubernetes_ressources_cleanup">Kubernetes ressources cleanup</h3>
+<h3 id="_cleanup">Cleanup</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -530,37 +530,63 @@ Next you will have to delete the pvc. Once pvc is deleted, you can delete the pv
 </li>
 <li>
 <p>Finally delete the namespace</p>
+</li>
+<li>
+<p>Refer to the commands below</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">kubectl get deploy
 kubectl get jobs
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/deployment.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/flyway-job.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/pages/deployment.yaml</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete -f ~/workspace/kubernetes-manifests/mysql/service.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/pages/service.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/configmap.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/mysql/secret.yaml
-kubectl delete -f ~/workspace/kubernetes-manifests/pages/config.yaml</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl get pvc
-kubectl get pv
-kubectl apply -f ~/workspace/kubernetes-manifests/mysql/pvc.yaml
-kubectl apply -f ~/workspace/kubernetes-manifests/mysql/pv.yaml
+kubectl get cm
+kubectl get secret
+kubectl get svc
 kubectl get pvc
 kubectl get pv</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete ns `[student-name]`</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete deploy -l app</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete jobs -l app</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete svc -l app</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete cm mysql
+kubectl delete cm pages
+kubectl delete secret mysql</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<strong>WARNING: Do not pass the argument <code>--all</code> if you using shared k8s cluster. Use it only on your local dev/test cluster</strong>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete pvc --all
+kubectl delete pv --all</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl delete ns [student-name]</code></pre>
 </div>
 </div>
 </li>
