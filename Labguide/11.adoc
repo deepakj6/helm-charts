@@ -25,6 +25,7 @@ image::lab11-tree.png[]
 cd ~/workspace/helm-charts
 touch pages/charts/api/values.yaml
 touch pages/charts/mysql/values.yaml
+touch pages/charts/api/templates/secret.yaml
 -------------------
 
 . Update `values.yaml` files with the properties to be reused in kubernetes manifest files.
@@ -512,6 +513,8 @@ kubectl config set-context --current --namespace [name-of-your-team]
 ------------------
 
 . Uninstall the previous app as we cannot upgrade
+
+. Before installing, find & replace all occurrences of `[replace-this-with-your-namespace]` with your namespace
 
 . Install the umbrella chart for pages app
 +

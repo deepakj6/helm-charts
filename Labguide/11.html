@@ -408,7 +408,8 @@ table {
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/helm-charts
 touch pages/charts/api/values.yaml
-touch pages/charts/mysql/values.yaml</code></pre>
+touch pages/charts/mysql/values.yaml
+touch pages/charts/api/templates/secret.yaml</code></pre>
 </div>
 </div>
 </li>
@@ -892,6 +893,9 @@ kubectl config set-context --current --namespace [name-of-your-team]</code></pre
 </li>
 <li>
 <p>Uninstall the previous app as we cannot upgrade</p>
+</li>
+<li>
+<p>Before installing, find &amp; replace all occurrences of <code>[replace-this-with-your-namespace]</code> with your namespace</p>
 </li>
 <li>
 <p>Install the umbrella chart for pages app</p>
