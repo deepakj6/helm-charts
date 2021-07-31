@@ -509,8 +509,12 @@ kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml</code></
 </div>
 </li>
 <li>
-<p>We successfully deployed <code>pages</code> microservice application to K8s cluster.
-Test it using basic curl commands or <code>postman</code></p>
+<p>Access the category application</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">kubectl port-forward svc/category 8080:8080</code></pre>
+</div>
+</div>
 </li>
 <li>
 <p>Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Curl Guide</a> for curl testing guide</p>
