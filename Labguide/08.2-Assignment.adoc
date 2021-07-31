@@ -82,11 +82,11 @@ kubectl apply -f ~/workspace/kubernetes-manifests/pages/deployment.yaml
 --------
 
 
-.   Access the category application
+.   Access the pages application
 +
 [source, shell script]
 -------------------
-kubectl port-forward svc/category 8080:8080
+kubectl port-forward svc/pages 8080:8080
 -------------------
 
 
