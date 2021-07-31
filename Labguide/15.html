@@ -640,6 +640,16 @@ git push -u origin master</code></pre>
 </div>
 </li>
 <li>
+<p>Port forward to connect to pages service running inside K8s from the local machine</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">SVC=$(kubectl get svc -l access=external --namespace {{ .Release.Namespace }} -l access=external | awk 'NR==2{print $1}')
+
+kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080</code></pre>
+</div>
+</div>
+</li>
+<li>
 <p>Test the pages application by performing CRUD operations using curl/postman.
 Refer <a href="07-Pages-Curl-Commands.html#pages-curl-section">Pages Curl Guide</a> for testing.</p>
 </li>

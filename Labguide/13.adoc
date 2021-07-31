@@ -72,7 +72,16 @@ appVersion: "1.0"
 
 . Remove `mysql_svc_name` key-value pair from `api/values.yaml` and `mysql/values.yaml`
 
-. Add global data to `pages/values.yaml` parent chart
+. Add global data to `~/workspace/helm-charts/pages/values.yaml` parent chart
+
++
+[source, shell script]
+-------------
+touch ~/workspace/helm-charts/pages/values.yaml
+-------------
++
+
+`~/workspace/helm-charts/pages/values.yaml`
 +
 [source, yaml]
 -------------
@@ -149,7 +158,9 @@ kubectl get svc pagesapp-api
 +
 [source, shell script]
 ------------------
-kubectl port-forward svc/pagesapp-api 8080:8080
+SVC=$(kubectl get svc -l access=external --namespace {{ .Release.Namespace }} -l access=external | awk 'NR==2{print $1}')
+
+kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080
 ------------------
 
 . Test the pages application by performing CRUD operations using curl/postman.

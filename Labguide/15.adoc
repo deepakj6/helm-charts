@@ -232,5 +232,15 @@ git commit -m "Adding Test Suite 1.0"
 git push -u origin master
 -------------
 
+
+. Port forward to connect to pages service running inside K8s from the local machine
++
+[source, shell script]
+------------------
+SVC=$(kubectl get svc -l access=external --namespace {{ .Release.Namespace }} -l access=external | awk 'NR==2{print $1}')
+
+kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080
+------------------
+
 . Test the pages application by performing CRUD operations using curl/postman.
 Refer <<07-Pages-Curl-Commands.adoc#pages-curl-section, Pages Curl Guide>> for testing.

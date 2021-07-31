@@ -467,7 +467,15 @@ table {
 <p>Remove <code>mysql_svc_name</code> key-value pair from <code>api/values.yaml</code> and <code>mysql/values.yaml</code></p>
 </li>
 <li>
-<p>Add global data to <code>pages/values.yaml</code> parent chart</p>
+<p>Add global data to <code>~/workspace/helm-charts/pages/values.yaml</code> parent chart</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="shell script">touch ~/workspace/helm-charts/pages/values.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>~/workspace/helm-charts/pages/values.yaml</code></p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">global</span>:
@@ -553,7 +561,9 @@ kubectl get svc pagesapp-api</code></pre>
 <p>Port forward to connect to pages service running inside K8s from the local machine</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">kubectl port-forward svc/pagesapp-api 8080:8080</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">SVC=$(kubectl get svc -l access=external --namespace {{ .Release.Namespace }} -l access=external | awk 'NR==2{print $1}')
+
+kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080</code></pre>
 </div>
 </div>
 </li>
