@@ -176,7 +176,7 @@ jobs:
           bash ./scripts/install-helm.sh
       - name: Deploy to staging
         run: |
-          bash ./scripts/deploy.sh ${{ secrets.STAGING_NAMESPACE }} ${{ secrets.RELEASE_NAME }}
+          bash ./scripts/deploy.sh   ${{ secrets.STAGING_NAMESPACE }}  ${{ secrets.RELEASE_NAME }}
 -------------
 
 === Code Commit
@@ -191,13 +191,16 @@ git commit -m "Pipeline 1.0"
 git push -u origin master
 -------------
 
+. Before testing, point the kubectl context to the right cluster and namespace
+
 . Port forward to connect to pages service running inside K8s from the local machine
 +
 [source, shell script]
 ------------------
-SVC=$(kubectl get svc -l access=external --namespace {{ .Release.Namespace }} -l access=external | awk 'NR==2{print $1}')
 
-kubectl --namespace {{ .Release.Namespace }} port-forward svc/$SVC 8080:8080
+SVC=$(kubectl get svc -l access=external | awk 'NR==2{print $1}')
+
+kubectl port-forward svc/$SVC 8080:8080
 ------------------
 
 . Test the pages application by performing CRUD operations using curl/postman.
