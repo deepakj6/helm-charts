@@ -28,7 +28,7 @@ After completing the lab, you will be able to understand
 +
 [source, shell script]
 --------------
-mkdir ~/workspace/yourgituserid.github.io
+git clone https://github.com/yourgituserid/yourgituserid.github.io
 --------------
 
 +
@@ -37,13 +37,6 @@ mkdir ~/workspace/yourgituserid.github.io
 cd ~/workspace/yourgituserid.github.io
 --------------
 
-+
-[source, shell script]
---------------
-git clone https://github.com/yourgituserid/yourgituserid.github.io
---------------
-
-
 NOTE:: Replace yourgituserid with your github user name or id. This is not the same as your email address.
 
 . Copy the pages directory inside helm-charts to directory created in the above step
@@ -51,7 +44,7 @@ NOTE:: Replace yourgituserid with your github user name or id. This is not the s
 +
 [source, shell script]
 --------------
-cp ~/workspace/helm-charts/pages ~/workspace/yourgituserid.github.io
+cp -r ~/workspace/helm-charts/pages ~/workspace/yourgituserid.github.io
 cd ~/workspace/yourgituserid.github.io
 --------------
 
@@ -71,7 +64,6 @@ rm *.tgz
 +
 [source, shell script]
 --------------
-helm dependency update pages
 helm package pages
 helm repo index .
 cat index.yaml

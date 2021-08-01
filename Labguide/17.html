@@ -426,17 +426,12 @@ table {
 <p>Create a new directory on your local machine pointing to the github repo</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">mkdir ~/workspace/yourgituserid.github.io</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell script">git clone https://github.com/yourgituserid/yourgituserid.github.io</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell script">cd ~/workspace/yourgituserid.github.io</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">git clone https://github.com/yourgituserid/yourgituserid.github.io</code></pre>
 </div>
 </div>
 <div class="dlist">
@@ -452,7 +447,7 @@ table {
 <p>Copy the pages directory inside helm-charts to directory created in the above step</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">cp ~/workspace/helm-charts/pages ~/workspace/yourgituserid.github.io
+<pre class="CodeRay highlight"><code data-lang="shell script">cp -r ~/workspace/helm-charts/pages ~/workspace/yourgituserid.github.io
 cd ~/workspace/yourgituserid.github.io</code></pre>
 </div>
 </div>
@@ -476,8 +471,7 @@ rm *.tgz</code></pre>
 <p>Package the pages umbrella chart and create index file</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell script">helm dependency update pages
-helm package pages
+<pre class="CodeRay highlight"><code data-lang="shell script">helm package pages
 helm repo index .
 cat index.yaml</code></pre>
 </div>
